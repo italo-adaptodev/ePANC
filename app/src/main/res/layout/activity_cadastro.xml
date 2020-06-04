@@ -146,13 +146,6 @@
 
             </com.google.android.material.button.MaterialButton>
 
-            <ImageView
-                android:id="@+id/imageView2"
-                android:layout_width="97dp"
-                android:layout_height="97dp"
-                tools:layout_editor_absoluteX="93dp"
-                tools:layout_editor_absoluteY="16dp"
-                tools:srcCompat="@tools:sample/avatars" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
