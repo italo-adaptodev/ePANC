@@ -4,20 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".LoginActivity">
+    tools:context=".LoginActivity"
+    android:background="@drawable/background"
+    >
 
 
-    <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="427dp"
-        android:layout_height="783dp"
-        android:src="@drawable/background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.795">
-
-    </androidx.appcompat.widget.AppCompatImageView>
 
     <com.google.android.material.card.MaterialCardView
         android:id="@+id/cardviewLogin"
@@ -50,7 +41,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.318">
+                app:layout_constraintVertical_bias="0.39">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="246dp"
@@ -64,15 +55,15 @@
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/emailCadastro"
+                android:id="@+id/numeroCadastro"
                 style="@style/TextBoxOutlinedBoxGreen"
                 android:layout_width="246dp"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:focusableInTouchMode="true"
                 android:textColorHint="@color/colorAccent"
-                app:boxStrokeWidth="2dp"
-                android:layout_marginTop="20dp"
                 app:hintTextColor="@color/colorAccent"
+                app:boxStrokeWidth="2dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -82,46 +73,10 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="246dp"
                     android:layout_height="wrap_content"
-                    android:hint="Email"
-                    android:inputType="textEmailAddress"
+                    android:hint="Numero"
+                    android:inputType="text"
                     android:textColor="@color/colorAccent"
                     android:textCursorDrawable="@drawable/color_cursor">
-
-                </com.google.android.material.textfield.TextInputEditText>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/senhaCadastro"
-                style="@style/TextBoxOutlinedBoxGreen"                android:layout_marginTop="20dp"
-
-                android:layout_width="246dp"
-                android:layout_height="51dp"
-                android:layout_marginBottom="168dp"
-                android:focusableInTouchMode="true"
-                android:textColorHint="@color/colorAccent"
-                app:boxStrokeWidth="2dp"
-                app:endIconMode="password_toggle"
-                app:endIconTint="@color/colorAccent"
-                app:hintTextColor="@color/colorAccent"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/emailCadastro"
-                app:layout_constraintVertical_bias="0.0"
-                app:passwordToggleTint="@color/colorAccent">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="246dp"
-                    android:layout_height="wrap_content"
-                    android:hint="Senha"
-                    android:inputType="textPassword"
-                    android:textColor="@color/colorAccent"
-                    android:textCursorDrawable="@drawable/color_cursor"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.371">
 
                 </com.google.android.material.textfield.TextInputEditText>
             </com.google.android.material.textfield.TextInputLayout>
@@ -134,13 +89,10 @@
                 android:layout_marginBottom="88dp"
                 android:text="Cadastrar"
                 android:textColor="@color/colorAccent"
-                android:layout_marginTop="20dp"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/senhaCadastro"
-                app:layout_constraintVertical_bias="0.0"
                 app:strokeColor="@color/colorPrimary"
                 app:strokeWidth="2dp">
 

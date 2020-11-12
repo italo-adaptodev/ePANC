@@ -11,5 +11,6 @@
 
     <style name="TextBoxOutlinedBoxGreen" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
         <item name="boxStrokeColor">@color/textboxgreen</item>
+        <item name="helperTextEnabled">true</item>
     </style>
 </resources>

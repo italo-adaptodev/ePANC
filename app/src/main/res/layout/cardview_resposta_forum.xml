@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:backgroundTint="#F4F2F2"
+    android:layout_gravity="center"
+    android:layout_marginTop="10dp"
+    android:layout_marginLeft="10dp"
+    android:layout_marginStart="10dp"
+    android:elevation="5dp"
+    android:outlineSpotShadowColor="@color/colorAccent"
+    android:outlineAmbientShadowColor="@color/colorAccent"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
+            android:layout_gravity="top">
+
+            <TextView
+                android:id="@+id/comentarioForumNome"
+                android:layout_width="326dp"
+                android:layout_height="20dp"
+                android:layout_marginStart="2dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="0dp"
+                android:background="#00635A5A"
+                android:gravity="start"
+                android:inputType="none"
+                android:maxLines="2"
+                android:minLines="1"
+                android:singleLine="false"
+                android:text="Nome"
+                android:textColor="#94A668"
+                android:textSize="15sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginStart="3dp"
+            android:layout_marginEnd="3dp"
+            android:gravity="start"
+            >
+
+            <TextView
+                android:id="@+id/comentarioForumTexto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="3dp"
+                android:layout_marginLeft="2dp"
+                android:layout_marginTop="0dp"
+                android:paddingLeft="2dp"
+                android:paddingBottom="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="0dp"
+                android:text="Texto"
+                android:textColor="#000"
+                android:textSize="15sp"
+                android:autoSizeTextType="uniform"
+                />
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</com.google.android.material.card.MaterialCardView>

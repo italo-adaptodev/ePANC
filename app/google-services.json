@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "563522727567",
+    "firebase_url": "https://panc-b9f7b.firebaseio.com",
+    "project_id": "panc-b9f7b",
+    "storage_bucket": "panc-b9f7b.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:563522727567:android:e5d510858c5fdd2f184afa",
+        "android_client_info": {
+          "package_name": "com.adapto.panc"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "563522727567-gug6fhtgdj20t4e2v1n4ubnf5gtcrd15.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.adapto.panc",
+            "certificate_hash": "53b0443ac6f780b2f21f20bccafa4b59d54dce36"
+          }
+        },
+        {
+          "client_id": "563522727567-i1tqg98gi0a1k19h2nkgbm5g5fkchck1.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCsNtjdgSPVwFTfnfXZp9yImpdZJyO4HUc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "563522727567-i1tqg98gi0a1k19h2nkgbm5g5fkchck1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

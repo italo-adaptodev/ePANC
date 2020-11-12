@@ -9,7 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CadastroActivity"></activity>
+        <activity android:name=".CriarPostagemDuvidaActivity"></activity>
+        <activity android:name=".WebViewConfig" />
+        <activity android:name=".TelaInicialActivity" />
+        <activity android:name=".DetalharPostagemForumActivity" />
+        <activity android:name=".CadastroActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".MainActivity">
             <intent-filter>
