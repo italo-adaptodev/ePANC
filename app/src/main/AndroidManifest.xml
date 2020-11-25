@@ -4,18 +4,24 @@
 
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".CriarPostagemDuvidaActivity"></activity>
+        <activity android:name=".Activities.ListarEquipeActivity"></activity>
+        <activity
+            android:name=".Activities.ConvidarActivity"
+            android:screenOrientation="portrait"
+            android:windowSoftInputMode="adjustPan"></activity>
+        <activity android:name=".Activities.CriarPostagemDuvidaActivity" />
         <activity android:name=".WebViewConfig" />
-        <activity android:name=".TelaInicialActivity" />
-        <activity android:name=".DetalharPostagemForumActivity" />
-        <activity android:name=".CadastroActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".Activities.TelaInicialActivity" />
+        <activity android:name=".Activities.DetalharPostagemForumActivity" />
+        <activity android:name=".Activities.CadastroActivity" />
+        <activity android:name=".Activities.LoginActivity" />
+        <activity android:name=".Activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

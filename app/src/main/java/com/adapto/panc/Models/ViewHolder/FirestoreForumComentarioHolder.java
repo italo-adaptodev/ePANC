@@ -1,4 +1,4 @@
-package com.adapto.panc;
+package com.adapto.panc.Models.ViewHolder;
 
 import android.view.View;
 import android.widget.ImageView;
@@ -6,6 +6,8 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.adapto.panc.R;
 
 public class FirestoreForumComentarioHolder extends RecyclerView.ViewHolder{
 
