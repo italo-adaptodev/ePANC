@@ -1,10 +1,12 @@
-package com.adapto.panc;
+package com.adapto.panc.Activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+
+import com.adapto.panc.R;
 
 public class MainActivity extends AppCompatActivity {
 
