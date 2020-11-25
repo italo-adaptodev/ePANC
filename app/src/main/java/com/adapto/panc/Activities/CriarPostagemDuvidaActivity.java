@@ -1,4 +1,4 @@
-package com.adapto.panc;
+package com.adapto.panc.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -16,7 +16,10 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.adapto.panc.Models.Database.PostagemForum;
+import com.adapto.panc.R;
+import com.adapto.panc.Repository.LoginSharedPreferences;
 import com.adapto.panc.Repository.ReferenciaDatabase;
+import com.adapto.panc.SnackBarPersonalizada;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
@@ -153,7 +156,6 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
                                 public void onSuccess(Uri uri) {
                                     imagens.add(uri.toString());
                                     uploadPostagem(imagens);
-                                    Log.i("IMAGEM TESTE", uri.toString());
                                 }
                             });
 
@@ -185,18 +187,18 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
     }
 
     private void uploadPostagem(List<String> imagens) {
-        PostagemForum postagemForum = new PostagemForum(textoPostagemForum.getEditText().getText().toString(), null, imagens, Timestamp.now());
+        PostagemForum postagemForum = new PostagemForum(textoPostagemForum.getEditText().getText().toString(), new LoginSharedPreferences(getApplicationContext()).getKEYUSER(), imagens, Timestamp.now());
         FirebaseFirestore.getInstance().collection("PostagensForumPANC")
                 .add(postagemForum)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
-                        snackBarPersonalizada.showMensagemLonga(v, documentReference.getId());
                         documentReference
                                 .update("postagemID", documentReference.getId())
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
+                                        onBackPressed();
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {

@@ -2,22 +2,19 @@ package com.adapto.panc;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.os.Bundle;
 import android.view.View;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 import android.widget.Toast;
-import androidx.appcompat.app.AppCompatActivity;
 
-
+import com.adapto.panc.Activities.TelaInicialActivity;
 
 public class WebViewConfig extends AppCompatActivity {
     private Context mContext;
@@ -72,10 +69,8 @@ public class WebViewConfig extends AppCompatActivity {
     }
 
 
-
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
         Intent intent = new Intent(this, TelaInicialActivity.class);
         startActivity(intent);
     }

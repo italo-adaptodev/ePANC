@@ -2,7 +2,6 @@ package com.adapto.panc.Models.Database;
 
 import androidx.annotation.Keep;
 
-import com.adapto.panc.FirestoreForumComentario;
 import com.google.firebase.Timestamp;
 
 import java.util.ArrayList;
