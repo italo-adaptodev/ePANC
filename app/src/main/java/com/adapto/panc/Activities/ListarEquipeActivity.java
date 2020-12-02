@@ -27,6 +27,7 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -49,8 +50,12 @@ public class ListarEquipeActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewEquipe);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         db = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
+                .build();
+        db.setFirestoreSettings(settings);
         Query query = db
-                .collection("EQUIPE").orderBy("timestamp", Query.Direction.ASCENDING);
+                .collection("EQUIPE").orderBy("cargosAdministrativos", Query.Direction.ASCENDING).orderBy("timestamp", Query.Direction.ASCENDING);
 
         FirestoreRecyclerOptions<MembroEquipe> options = new FirestoreRecyclerOptions.Builder<MembroEquipe>()
                 .setQuery(query, MembroEquipe.class)

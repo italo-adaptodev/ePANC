@@ -1,5 +1,6 @@
 package com.adapto.panc.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -14,11 +15,14 @@ import com.adapto.panc.Models.Database.Usuario;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
 import com.adapto.panc.SnackBarPersonalizada;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -52,13 +56,15 @@ public class ConvidarActivity extends AppCompatActivity {
         snackBarPersonalizada = new SnackBarPersonalizada();
         loginSharedPreferences = new LoginSharedPreferences(this);
 
+
         btn_send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View v) {
 
                 if(!CBadministrador.isChecked() && !CBmoderador.isChecked()){
                     snackBarPersonalizada.showMensagemLonga(v, "Marque alguma das opções!");
-                }else {
+                }else
+                    {
                     final List<String> cargos = new ArrayList<>();
                     if (CBadministrador.isChecked()) {
                         cargos.add("ADMINISTRADOR");
@@ -67,8 +73,9 @@ public class ConvidarActivity extends AppCompatActivity {
                         cargos.add("MODERADOR");
                     }
 
+                    final String identificadorConvidado = ConvidarActivity.this.identificadorConvidado.getEditText().getText().toString();
                     db.collection("Usuarios")
-                            .whereEqualTo("identificador", identificadorConvidado.getEditText().getText().toString())
+                            .whereEqualTo("identificador", identificadorConvidado)
                             .get()
                             .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                                 @Override
@@ -76,17 +83,39 @@ public class ConvidarActivity extends AppCompatActivity {
                                     if(queryDocumentSnapshots.size() == 0){
                                         snackBarPersonalizada.showMensagemLonga(v, "Usuário não encontrado ou identificador incorreto");
                                     }else {
-                                        for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
-                                            MembroEquipe membroEquipe = new MembroEquipe(snap.getString("identificador"), loginSharedPreferences.getKEYUSER(),  cargos);
-                                            FirebaseFirestore.getInstance().collection("EQUIPE")
-                                                    .add(membroEquipe)
-                                            .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                                @Override
-                                                public void onSuccess(DocumentReference documentReference) {
-                                                    documentReference.update("timestamp", new Timestamp(new Date()));
-                                                }
-                                            });
-                                        }
+                                        final CollectionReference equipeCollection = db.collection("EQUIPE");
+                                        final DocumentSnapshot snap = queryDocumentSnapshots.getDocuments().get(0);
+                                        equipeCollection.whereEqualTo("usuarioID", identificadorConvidado)
+                                        .get()
+                                                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                                                    @Override
+                                                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                                        if(queryDocumentSnapshots.size() > 0) {
+                                                            DocumentSnapshot snap1 = queryDocumentSnapshots.getDocuments().get(0);
+                                                            snap1.getReference().update("cargosAdministrativos", cargos);
+                                                            snackBarPersonalizada.showMensagemLonga(v, "Cargos atualizados com sucesso" );
+                                                        }else{
+                                                            MembroEquipe membroEquipe = new MembroEquipe(snap.getString("identificador"), loginSharedPreferences.getKEYUSER(),  cargos);
+                                                            FirebaseFirestore.getInstance().collection("EQUIPE")
+                                                                    .add(membroEquipe)
+                                                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                                                        @Override
+                                                                        public void onSuccess(DocumentReference documentReference) {
+                                                                            documentReference.update("timestamp", new Timestamp(new Date()));
+                                                                            snackBarPersonalizada.showMensagemLonga(v, "O usuario foi cadastrado como membro da Equipe Administrativa" );
+                                                                        }
+                                                                    });
+                                                        }
+
+                                                    }
+                                                }).addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Log.i("doc", "no");
+                                            }
+                                        });
+
+
                                     }
                                 }
                             });
@@ -94,6 +123,8 @@ public class ConvidarActivity extends AppCompatActivity {
             }
         });
     }
+
+
 
 
 }
