@@ -8,21 +8,34 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.adapto.panc.Models.Database.MembroEquipe;
 import com.adapto.panc.Models.Database.PostagemForum;
 import com.adapto.panc.Models.ViewHolder.PostagemForumHolder;
 import com.adapto.panc.R;
+import com.adapto.panc.Repository.LoginSharedPreferences;
+import com.adapto.panc.SnackBarPersonalizada;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.Timestamp;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.FirebaseFirestoreSettings;
 import com.google.firebase.firestore.Query;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.Date;
+import java.util.List;
 
 public class TelaInicialActivity extends AppCompatActivity {
 
@@ -31,14 +44,17 @@ public class TelaInicialActivity extends AppCompatActivity {
     private Intent criarPostagemIntent, listarEquipeIntent;
     private FirestoreRecyclerAdapter adapter;
     private Toolbar toolbar;
-
+    private FirebaseFirestore db;
+    private boolean isUsuarioAdminstrador = false;
+    private View v;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        db = FirebaseFirestore.getInstance();;
         setContentView(R.layout.activity_tela_inicial);
-
-        recyclerView = (RecyclerView) findViewById(R.id.feedPrincipalRecV);
+        getCargosUsuarioSolicitante();
+        recyclerView = findViewById(R.id.feedPrincipalRecV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         criarPostagemFAB = findViewById(R.id.criarPostagemFAB);
         listarEquipeFAB = findViewById(R.id.listarEquipe);
@@ -48,6 +64,7 @@ public class TelaInicialActivity extends AppCompatActivity {
         toolbar.setTitle("Panc - APP");
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
         setSupportActionBar(toolbar);
+        v = findViewById(android.R.id.content);
         criarPostagemFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -62,7 +79,9 @@ public class TelaInicialActivity extends AppCompatActivity {
         });
 
         //region RECYCLER VIEW POSTAGENS
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
+                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
+                .build();
         Query query = db
                 .collection("PostagensForumPANC").orderBy("timestamp", Query.Direction.DESCENDING);
 
@@ -74,7 +93,6 @@ public class TelaInicialActivity extends AppCompatActivity {
         adapter = new FirestoreRecyclerAdapter<PostagemForum, PostagemForumHolder>(options) {
             @Override
             public void onBindViewHolder(PostagemForumHolder holder, int position, final PostagemForum model) {
-                holder.postagemForumTitulo.setText("TESTE DE TITULO " + position);
                 String imgID = model.getImagensID().get(0);
                 Glide.with(getBaseContext())
                         .load(imgID)
@@ -107,7 +125,9 @@ public class TelaInicialActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         adapter.startListening();
-    }@Override
+    }
+
+    @Override
     protected void onStop() {
         super.onStop();
         adapter.stopListening();
@@ -117,7 +137,15 @@ public class TelaInicialActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the main_menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main_menu, menu);
+
         return true;
+    }
+
+    @Override
+    public boolean onMenuOpened(int featureId, Menu menu) {
+        if(!getCargosUsuarioSolicitante())
+            menu.getItem(2).setVisible(false);
+        return super.onMenuOpened(featureId, menu);
     }
 
     @Override
@@ -133,13 +161,34 @@ public class TelaInicialActivity extends AppCompatActivity {
                 startActivity(new Intent(this, ConvidarActivity.class));
                 break;
             case R.id.item4:
-                /*new LoginSharedPreferences(this).logoutUser();
-                startActivity(new Intent(this, LoginActivity.class));*/
+                new LoginSharedPreferences(this).logoutUser();
+                startActivity(new Intent(this, LoginActivity.class));
                 break;
             default:
                 return super.onOptionsItemSelected(item);
         }
 
         return true;
+    }
+
+    private boolean getCargosUsuarioSolicitante() {
+        db.collection("EQUIPE")
+                .whereEqualTo("usuarioID",   new LoginSharedPreferences(this).getKEYUSER())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if(queryDocumentSnapshots.size() > 0) {
+                            for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
+                                String cargos = snap.get("cargosAdministrativos").toString();
+                                if(cargos.contains("ADMINISTRADOR")) {
+                                    isUsuarioAdminstrador = true;
+
+                                }
+                            }
+                        }
+                    }
+                });
+        return isUsuarioAdminstrador;
     }
 }
