@@ -123,7 +123,7 @@ public class CadastroActivity extends AppCompatActivity {
                 query.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override
                 public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                    for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
+                    for (final QueryDocumentSnapshot snap : queryDocumentSnapshots) {
                         if (snap.getString("identificador").equals(novoUsuario.getIdentificador()))
                             snackbar.showMensagemLonga(v, "Identificador em uso ou inválido");
                         else
@@ -137,7 +137,7 @@ public class CadastroActivity extends AppCompatActivity {
                                                     .addOnSuccessListener(new OnSuccessListener<Void>() {
                                                         @Override
                                                         public void onSuccess(Void aVoid) {
-                                                            loginSessionManager.createLoginSession(documentReference.getId());
+                                                            loginSessionManager.createLoginSession(novoUsuario.getIdentificador());
                                                             if(cargo.equals("PRODUTOR"))
                                                                 startIntentQuestionario(URL_PRODUTOR);
                                                             else

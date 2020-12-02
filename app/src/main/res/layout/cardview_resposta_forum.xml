@@ -2,14 +2,12 @@
 <com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:backgroundTint="#F4F2F2"
     android:layout_gravity="center"
     android:layout_marginTop="10dp"
     android:layout_marginLeft="10dp"
     android:layout_marginStart="10dp"
     android:elevation="5dp"
-    android:outlineSpotShadowColor="@color/colorAccent"
-    android:outlineAmbientShadowColor="@color/colorAccent"
+    android:background="@drawable/borda"
     >
 
     <LinearLayout
