@@ -49,15 +49,12 @@ public class WebViewConfig extends AppCompatActivity {
             @Override
             public void onPageStarted(WebView view, String url, Bitmap favicon) {
                 super.onPageStarted(view, url, favicon);
-                Toast.makeText(WebViewConfig.this,"Carregando tela", Toast.LENGTH_SHORT).show();
             }
 
             @Override
             public void onPageFinished(WebView view, String url) {
                 super.onPageFinished(view, url);
                 mWebView.setVisibility(View.VISIBLE);
-                Toast.makeText(WebViewConfig.this, "Tela carregada com sucesso", Toast.LENGTH_SHORT).show();
-
             }
         });
 

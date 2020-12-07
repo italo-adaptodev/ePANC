@@ -78,6 +78,7 @@ public class CadastroActivity extends AppCompatActivity {
                        startIntentQuestionario(URL_PRODUTOR);
                     } else if(selectedId == radioConsumidor.getId()) {
                         createUsuario("CONSUMIDOR");
+                        startIntentQuestionario(URL_CONSUMIDOR);
                     }
                 }
             }
