@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.os.Handler;
 
 import com.adapto.panc.R;
+import com.adapto.panc.Repository.LoginSharedPreferences;
 
 public class MainActivity extends AppCompatActivity {
 

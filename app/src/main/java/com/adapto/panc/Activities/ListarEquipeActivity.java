@@ -50,10 +50,6 @@ public class ListarEquipeActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recyclerViewEquipe);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
-                .build();
-        db.setFirestoreSettings(settings);
         Query query = db
                 .collection("EQUIPE").orderBy("cargosAdministrativos", Query.Direction.ASCENDING).orderBy("timestamp", Query.Direction.ASCENDING);
 

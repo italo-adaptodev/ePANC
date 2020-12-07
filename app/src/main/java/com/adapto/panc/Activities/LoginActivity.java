@@ -28,7 +28,6 @@ public class LoginActivity extends AppCompatActivity {
     private MaterialButton loginButton;
     Intent cadastroIntent;
     Intent telaInicialIntent;
-    private FirebaseAuth mAuth;
     private TextInputLayout loginTextField;
     private TextInputLayout senhaTexfield;
     private SnackBarPersonalizada snackbar;
@@ -41,25 +40,18 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        loginSessionManager = new LoginSharedPreferences(getApplicationContext());
+        loginSessionManager.checkLogin();
         loginButton = findViewById(R.id.loginButton);
         cadastrarTextview = findViewById(R.id.cadastrarTextView);
-        mAuth = FirebaseAuth.getInstance();
         loginTextField = findViewById(R.id.loginTextField);
         senhaTexfield = findViewById(R.id.senhaTexfield);
         cadastroIntent = new Intent(this, CadastroActivity.class);
         telaInicialIntent = new Intent(this, TelaInicialActivity.class);
         snackbar = new SnackBarPersonalizada();
         v = findViewById(android.R.id.content);
-        loginSessionManager = new LoginSharedPreferences(getApplicationContext());
         db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
-                .build();
-        db.setFirestoreSettings(settings);
-
         //region LISTENERS
-
         cadastrarTextview.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -95,6 +87,7 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+        //endregion
 
     }
 
@@ -106,15 +99,5 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        //loginSessionManager.checkLogin();
-    }
 
-
-    private void updateUI(@Nullable String mensagem) {
-            startActivity(telaInicialIntent);
-            finish();
-    }
 }

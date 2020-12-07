@@ -79,9 +79,6 @@ public class TelaInicialActivity extends AppCompatActivity {
         });
 
         //region RECYCLER VIEW POSTAGENS
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
-                .build();
         Query query = db
                 .collection("PostagensForumPANC").orderBy("timestamp", Query.Direction.DESCENDING);
 
@@ -190,5 +187,10 @@ public class TelaInicialActivity extends AppCompatActivity {
                     }
                 });
         return isUsuarioAdminstrador;
+    }
+
+    @Override
+    public void onBackPressed() {
+        finishAffinity();
     }
 }

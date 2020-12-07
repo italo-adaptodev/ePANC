@@ -81,10 +81,6 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
         btnEnviarComentario = findViewById(R.id.forum_btn_enviar_comentario);
         v = findViewById(android.R.id.content);
         db = FirebaseFirestore.getInstance();
-        FirebaseFirestoreSettings settings = new FirebaseFirestoreSettings.Builder()
-                .setCacheSizeBytes(FirebaseFirestoreSettings.CACHE_SIZE_UNLIMITED)
-                .build();
-        db.setFirestoreSettings(settings);
         Intent intent = getIntent();
         final String postagemKey = intent.getStringExtra("postagemIDDetalhe");
         ScrollView sv = findViewById(R.id.scrollView);
