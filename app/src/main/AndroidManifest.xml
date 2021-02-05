@@ -10,7 +10,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Activities.ListarEquipeActivity"></activity>
+        <activity android:name=".Activities.Produtor_ListarProdutosActivity"></activity>
+        <activity android:name=".Activities.Produtor_CadastrarProdutosActivity" />
+        <activity android:name=".Activities.ListarEquipeActivity" />
         <activity
             android:name=".Activities.ConvidarActivity"
             android:screenOrientation="portrait"
