@@ -6,33 +6,25 @@
     android:layout_height="match_parent"
     tools:context=".Activities.CriarPostagemDuvidaActivity">
 
-    <!--Button for choosing image from gallery-->
-
-    <!--Button for uploading image-->
-
-
-    <!--Image View for showing image choosen from gallery-->
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChoose"
-        android:layout_width="50dp"
+        android:layout_width="222dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="3dp"
-        android:layout_marginBottom="356dp"
+        android:layout_marginTop="16dp"
         android:layout_weight="1"
-        android:text="+"
+        android:text="Adicionar imagens"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.908"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imgView"
-        app:layout_constraintVertical_bias="0.0" />
+        app:layout_constraintTop_toBottomOf="@+id/postagem_duvida_text"
+        app:layout_constraintVertical_bias="0.046" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnUpload"
         android:layout_width="124dp"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:layout_weight="1"
         android:text="Enviar postagem"
         android:textSize="10dp"
@@ -40,37 +32,113 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/postagem_duvida_text" />
-
-    <ImageView
-        android:id="@+id/imgView"
-        android:layout_width="345dp"
-        android:layout_height="264dp"
-        android:background="#5E221032"
-        app:layout_constraintBottom_toTopOf="@+id/postagem_duvida_text"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/tableLayout"
+        app:layout_constraintVertical_bias="0.554" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/postagem_duvida_text"
         style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="345dp"
         android:layout_height="237dp"
+        android:layout_marginTop="40dp"
         android:ems="10"
         android:gravity="start"
         android:inputType="textMultiLine|textCapSentences"
         app:boxStrokeColor="@color/colorAccent"
-        app:layout_constraintBottom_toTopOf="@+id/btnUpload"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnChoose">
+        app:layout_constraintTop_toTopOf="parent">
 
         <com.google.android.material.textfield.TextInputEditText
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_gravity="start"
-            android:gravity="start" />
+            android:gravity="start"
+            android:hint="Escreva aqui sua dúvida" />
     </com.google.android.material.textfield.TextInputLayout>
+
+    <TableLayout
+        android:id="@+id/tableLayout"
+        android:layout_width="380dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="17dp"
+        android:layout_marginEnd="17dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/btnChoose"
+        app:layout_constraintVertical_bias="0.13">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/forumDuvidaimg1"
+                android:layout_width="120dp"
+                android:layout_marginEnd="5dp"
+                android:adjustViewBounds="true"
+                android:maxHeight="120dp">
+
+            </androidx.appcompat.widget.AppCompatImageView>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/forumDuvidaimg2"
+                android:layout_width="120dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:adjustViewBounds="true"
+                android:maxHeight="120dp">
+
+            </androidx.appcompat.widget.AppCompatImageView>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/forumDuvidaimg3"
+                android:layout_width="120dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:adjustViewBounds="true"
+                android:maxHeight="120dp">
+
+            </androidx.appcompat.widget.AppCompatImageView>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="155dp">
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/forumDuvidaimg4"
+                android:layout_width="120dp"
+                android:layout_marginEnd="5dp"
+                android:adjustViewBounds="true"
+                android:maxHeight="120dp">
+
+            </androidx.appcompat.widget.AppCompatImageView>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/forumDuvidaimg5"
+                android:layout_width="120dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:adjustViewBounds="true"
+                android:maxHeight="120dp">
+
+            </androidx.appcompat.widget.AppCompatImageView>
+
+            <androidx.appcompat.widget.AppCompatImageView
+                android:id="@+id/forumDuvidaimg6"
+                android:layout_width="120dp"
+                android:layout_marginStart="5dp"
+                android:layout_marginEnd="5dp"
+                android:adjustViewBounds="true"
+                android:maxHeight="120dp" />
+
+        </TableRow>
+
+
+    </TableLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

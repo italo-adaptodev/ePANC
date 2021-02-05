@@ -9,45 +9,51 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
-import android.util.Log;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
-import com.adapto.panc.Models.Database.PostagemForum;
+import com.adapto.panc.Adapters.ForumComentarioAdapter;
+import com.adapto.panc.Models.Database.PostagemForumDuvidas;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
 import com.adapto.panc.Repository.ReferenciaDatabase;
 import com.adapto.panc.SnackBarPersonalizada;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 import java.util.UUID;
 
 public class CriarPostagemDuvidaActivity extends AppCompatActivity {
 
     private MaterialButton btnSelect, btnUpload;
-    private ImageView imageView;
-    private Uri filePath;
+    private ImageView forumDuvidaimg1, forumDuvidaimg2, forumDuvidaimg3, forumDuvidaimg4, forumDuvidaimg5, forumDuvidaimg6 ;
     private final int PICK_IMAGE_REQUEST = 22;
     private SnackBarPersonalizada snackBarPersonalizada;
     private ReferenciaDatabase referenciaDatabase;
     private TextInputLayout textoPostagemForum;
     private View v;
     StorageReference storageReference;
+    private List<ImageView> imageViews;
+    private List<Uri> filepaths;
+    private String postagemID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -55,16 +61,16 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_criar_postagem_duvida);
 
-
         // initialise views
         btnSelect = findViewById(R.id.btnChoose);
         btnUpload = findViewById(R.id.btnUpload);
-        imageView = findViewById(R.id.imgView);
+        addImageviews();
         textoPostagemForum =  findViewById(R.id.postagem_duvida_text);
         v = findViewById(android.R.id.content);
         referenciaDatabase = new ReferenciaDatabase();
         storageReference = referenciaDatabase.getFirebaseStorage();
         snackBarPersonalizada = new SnackBarPersonalizada();
+        filepaths = new ArrayList<>();
 
         // on pressing btnSelect SelectImage() is called
         btnSelect.setOnClickListener(new View.OnClickListener() {
@@ -80,9 +86,25 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                uploadImage();
+                uploadImages();
             }
         });
+    }
+
+    private void addImageviews() {
+        imageViews = new ArrayList<>();
+        forumDuvidaimg1 = findViewById(R.id.forumDuvidaimg1);
+        forumDuvidaimg2 = findViewById(R.id.forumDuvidaimg2);
+        forumDuvidaimg3 = findViewById(R.id.forumDuvidaimg3);
+        forumDuvidaimg4 = findViewById(R.id.forumDuvidaimg4);
+        forumDuvidaimg5 = findViewById(R.id.forumDuvidaimg5);
+        forumDuvidaimg6 = findViewById(R.id.forumDuvidaimg6);
+        imageViews.add(forumDuvidaimg1);
+        imageViews.add(forumDuvidaimg2);
+        imageViews.add(forumDuvidaimg3);
+        imageViews.add(forumDuvidaimg4);
+        imageViews.add(forumDuvidaimg5);
+        imageViews.add(forumDuvidaimg6);
     }
 
     // Select Image method
@@ -92,11 +114,12 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
         // Defining Implicit Intent to mobile gallery
         Intent intent = new Intent();
         intent.setType("image/*");
+        intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
         intent.setAction(Intent.ACTION_GET_CONTENT);
         startActivityForResult(
                 Intent.createChooser(
                         intent,
-                        "Selecione a imagem daqui..."),
+                        "Selecione a imagem "),
                 PICK_IMAGE_REQUEST);
     }
 
@@ -110,109 +133,120 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
         // if request code is PICK_IMAGE_REQUEST and
         // resultCode is RESULT_OK
         // then set image in the image view
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getData() != null) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getClipData() != null) {
             // Get the Uri of data
-            filePath = data.getData();
-            try {
-                // Setting image on image view using Bitmap
-                Bitmap bitmap = MediaStore
-                        .Images
-                        .Media
-                        .getBitmap(getContentResolver(), filePath);
-
-                imageView.setImageBitmap(bitmap);
+            int ocunt = data.getClipData().getItemCount();
+            for(int i = ocunt; i < 6; i++){
+                imageViews.get(i).setImageBitmap(null);
             }
+            for(int position = 0;position<ocunt;position++){
+                try {
 
-            catch (IOException e) {
-                e.printStackTrace();
+                    filepaths.add(position, data.getClipData().getItemAt(position).getUri());
+                    // Setting image on image view using Bitmap
+                    Bitmap bitmap = MediaStore
+                            .Images
+                            .Media
+                            .getBitmap(getContentResolver(), filepaths.get(position));
+
+                    imageViews.get(position).setImageBitmap(bitmap);
+                }
+
+                catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
 
     // UploadImage method
-    private void uploadImage()
-    {
-        if (filePath != null) {
-            // Code for showing progressDialog while uploading
-            final ProgressDialog progressDialog
-                    = new ProgressDialog(this);
-            progressDialog.setTitle("Upload da imagem");
-            progressDialog.show();
+    private void uploadImages() {
+        final List<String> imagens = new ArrayList<>();
+        for (int i = 0; i < filepaths.size(); i++){
+                // Code for showing progressDialog while uploading
+                final ProgressDialog progressDialog
+                        = new ProgressDialog(this);
+                progressDialog.setTitle("Upload da imagem");
+                progressDialog.show();
 
-            // Defining the child of storageReference
-            String imageREF = UUID.randomUUID().toString();
-            final List<String> imagens = new ArrayList<>();
-            final StorageReference ref = storageReference.child("images/" + imageREF);
+                // Defining the child of storageReference
+                String imageREF = UUID.randomUUID().toString();
 
-            ref.putFile(filePath).addOnSuccessListener(
-                    new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                final StorageReference ref = storageReference.child("images/" + imageREF);
 
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressDialog.dismiss();
-                            snackBarPersonalizada.showMensagemLonga(v, "Imagem carregada com sucesso!");
-                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    imagens.add(uri.toString());
-                                    uploadPostagem(imagens);
-                                }
-                            });
+                ref.putFile(filepaths.get(i)).addOnSuccessListener(
+                        new OnSuccessListener<UploadTask.TaskSnapshot>() {
 
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                        @Override
-                        public void onFailure(@NonNull Exception e)
-                        {
-
-                            // Error, Image not uploaded
-                            progressDialog.dismiss();
-                            snackBarPersonalizada.showMensagemLonga(v, "Falha ao carregar imagem: " + e.getMessage());
-                        }
-                    })
-                    .addOnProgressListener(
-                            new OnProgressListener<UploadTask.TaskSnapshot>() {
-
-                                // Progress Listener for loading
-                                // percentage on the dialog box
-                                @Override
-                                public void onProgress(
-                                        UploadTask.TaskSnapshot taskSnapshot)
-                                {
-                                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                                    progressDialog.setMessage("Carregamento " + (int)progress + "%");
-                                }
-                            });
-        }
-    }
-
-    private void uploadPostagem(List<String> imagens) {
-        PostagemForum postagemForum = new PostagemForum(textoPostagemForum.getEditText().getText().toString(), new LoginSharedPreferences(getApplicationContext()).getKEYUSER(), imagens, Timestamp.now());
-        FirebaseFirestore.getInstance().collection("PostagensForumPANC")
-                .add(postagemForum)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                    @Override
-                    public void onSuccess(DocumentReference documentReference) {
-                        documentReference
-                                .update("postagemID", documentReference.getId())
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                progressDialog.dismiss();
+                                snackBarPersonalizada.showMensagemLonga(v, "Imagem carregada com sucesso!");
+                                ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                                     @Override
-                                    public void onSuccess(Void aVoid) {
-                                        onBackPressed();
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
+                                    public void onSuccess(Uri uri) {
+                                        imagens.add(uri.toString());
+                                        if(imagens.size() == filepaths.size())
+                                            uploadPostagem(imagens);
                                     }
                                 });
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        snackBarPersonalizada.showMensagemLonga(v,e.getMessage());
-                    }
-                });
+
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e)
+                            {
+
+                                // Error, Image not uploaded
+                                progressDialog.dismiss();
+                                snackBarPersonalizada.showMensagemLonga(v, "Falha ao carregar imagem: " + e.getMessage());
+                            }
+                        })
+                        .addOnProgressListener(
+                                new OnProgressListener<UploadTask.TaskSnapshot>() {
+
+                                    // Progress Listener for loading
+                                    // percentage on the dialog box
+                                    @Override
+                                    public void onProgress(
+                                            UploadTask.TaskSnapshot taskSnapshot)
+                                    {
+                                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                                        progressDialog.setMessage("Carregamento " + (int)progress + "%");
+                                    }
+                                });
+
+        }
+
+    }
+
+    private void uploadPostagem(final List<String> imagens) {
+            PostagemForumDuvidas postagemForumDuvidas = new PostagemForumDuvidas(textoPostagemForum.getEditText().getText().toString(),
+                    new LoginSharedPreferences(getApplicationContext()).getKEYUSER(), imagens, Timestamp.now());
+            FirebaseFirestore.getInstance().collection("PostagensForumPANC")
+                    .add(postagemForumDuvidas)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(DocumentReference documentReference) {
+                            postagemID = documentReference.getId();
+                            documentReference
+                                    .update("postagemID", documentReference.getId())
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                        }
+                                    });
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            snackBarPersonalizada.showMensagemLonga(v, e.getMessage());
+                        }
+                    });
     }
 }

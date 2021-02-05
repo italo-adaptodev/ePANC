@@ -1,15 +1,24 @@
 package com.adapto.panc.Activities;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.graphics.drawable.DrawableWrapper;
+import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Looper;
 import android.text.TextUtils;
-import android.util.Log;
+import android.util.EventLog;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,16 +28,22 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.adapto.panc.Adapters.ForumComentarioAdapter;
 import com.adapto.panc.Models.Database.FirestoreForumComentario;
-import com.adapto.panc.Models.Database.PostagemForum;
-import com.adapto.panc.Models.ViewHolder.FirestoreEquipeAdministrativaViewHolder;
+import com.adapto.panc.Models.Database.PostagemForumDuvidas;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
 import com.adapto.panc.SnackBarPersonalizada;
 import com.bumptech.glide.Glide;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
-import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.CustomTarget;
+import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
+import com.bumptech.glide.request.transition.Transition;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentChange;
 import com.google.firebase.firestore.DocumentReference;
@@ -37,16 +52,21 @@ import com.google.firebase.firestore.EventListener;
 import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.FirebaseFirestoreSettings;
-import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.synnapps.carouselview.CarouselView;
+import com.synnapps.carouselview.ImageListener;
 
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
 
 
 public class DetalharPostagemForumActivity extends AppCompatActivity {
@@ -63,9 +83,15 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
     private DocumentReference postagem;
     private  FirebaseFirestore db;
     private View v;
-    private PostagemForum postagemForum = new PostagemForum();
+    private PostagemForumDuvidas postagemForumDuvidas = new PostagemForumDuvidas();
     private ForumComentarioAdapter forumAdapter;
     private String nomeUsuarioComentario;
+    private CarouselView carouselView;
+    private List<Drawable> sampleImages;
+    private List<String> uris;
+    ExecutorService mExecutor = Executors.newSingleThreadExecutor();
+    Handler mHandler = new Handler(Looper.getMainLooper());
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,12 +99,14 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
         setContentView(R.layout.activity_detalhar_postagem_forum);
         postagemDetalhadaAutor = findViewById(R.id.detalhar_forum_autor);
         postagemDetalhadaData = findViewById(R.id.detalhar_forum_data);
-        postagemForumDetalharImagem = findViewById(R.id.postagemForumDetalharImagem);
         recyclerViewComentarios = findViewById(R.id.recyclerview_detalhar_respostas_forum);
         recyclerViewComentarios.setLayoutManager(new LinearLayoutManager(this));
         postagemDetalhadaTexto = findViewById(R.id.detalhar_forum_texto);
         comentario = findViewById(R.id.forum_detalhar_comentario);
         btnEnviarComentario = findViewById(R.id.forum_btn_enviar_comentario);
+        carouselView = findViewById(R.id.postagemForumDetalharImagens);
+        sampleImages = new ArrayList<>();
+        uris = new ArrayList<>();
         v = findViewById(android.R.id.content);
         db = FirebaseFirestore.getInstance();
         Intent intent = getIntent();
@@ -101,6 +129,8 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
         });
 
         listenToDiffs();
+
+
     }
 
     private void getNomeUsuarioAtual(String identificador) {
@@ -144,24 +174,27 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot DS) {
                getNomeAutorPostagem(DS.getString("usuarioID"));
-                List<String> teste = (List<String>) DS.get("imagensID");
-                Glide.with(getBaseContext())
-                        .load(teste.get(0))
-                        .into(postagemForumDetalharImagem);
+                uris = (List<String>) DS.get("imagensID");
                 Timestamp timestamp = (Timestamp) DS.get("timestamp");
                 Date data = timestamp.toDate();
                 SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_1);
                 dateFormat.setTimeZone(TimeZone.getTimeZone("BRT"));
                 postagemDetalhadaData.setText(dateFormat.format(data));
                 postagemDetalhadaTexto.setText(DS.get("postagemForumTexto").toString());
-                postagemForum = DS.toObject(PostagemForum.class);
-                forumAdapter = new ForumComentarioAdapter(getLayoutInflater(), postagemForum.getComentarios());
+                postagemForumDuvidas = DS.toObject(PostagemForumDuvidas.class);
+                forumAdapter = new ForumComentarioAdapter(getLayoutInflater(), postagemForumDuvidas.getComentarios());
                 recyclerViewComentarios.setAdapter(forumAdapter);
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
                 new SnackBarPersonalizada().showMensagemLonga(v, "Não foi possível recuperar a postagem. ERRO - " + e.getLocalizedMessage());
+            }
+        }).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                if(task.isComplete())
+                    setImagesCarousel(uris);
             }
         });
         return docRef;
@@ -182,7 +215,7 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
     public void listenToDiffs() {
         // [START listen_diffs]
         db.collection("PostagensForumPANC")
-                .whereEqualTo("postagemID", postagemForum.getPostagemID())
+                .whereEqualTo("postagemID", postagemForumDuvidas.getPostagemID())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
                     public void onEvent(@Nullable QuerySnapshot snapshots,
@@ -209,5 +242,35 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
                 });
         // [END listen_diffs]
     }
+
+    public void setImagesCarousel(List<String> images) {
+        final Bitmap[] bitmap = {null};
+        for(String uri: images){
+            Glide.with(getBaseContext()).asBitmap()
+                    .load(uri)
+                    .into(new SimpleTarget<Bitmap>() {
+                        @Override
+                        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
+                            bitmap[0] = resource;
+                        }
+                    });
+            Drawable d = new BitmapDrawable(getResources(), bitmap[0]);
+            sampleImages.add(d);
+        }
+        carouselView.setImageListener(imageListener);
+        carouselView.setPageCount(sampleImages.size());
+    }
+
+    ImageListener imageListener = new ImageListener() {
+        @Override
+        public void setImageForPosition(int position, ImageView imageView) {
+            imageView.setImageDrawable(sampleImages.get(position));
+        }
+    };
+
+
+
+    // Create an interface to respond with the result after processing
+    
 }
 

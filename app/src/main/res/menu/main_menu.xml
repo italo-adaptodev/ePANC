@@ -1,8 +1,25 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item
+        android:id="@+id/exit"
+        android:title="Sair"
+        android:icon="@drawable/ic__quit"
+        android:orderInCategory="1"
+        app:showAsAction="ifRoom"/>
 
-    <item android:title="Sobre o projeto" android:id="@+id/item1"></item>
-    <item android:title="Fale Conosco" android:id="@+id/item2"></item>
-    <item android:title="Convidar" android:id="@+id/item3"></item>
-    <item android:title="Sair" android:id="@+id/item4"></item>
+    <item
+        android:id="@+id/search"
+        android:title="Procurar"
+        android:icon="@drawable/ic_action_name"
+        android:orderInCategory="2"
+        app:showAsAction="ifRoom"/>
+
+    <item
+        android:id="@+id/addProduto"
+        android:title="Produto"
+        android:icon="@drawable/ic_add_button"
+        android:orderInCategory="3"
+        app:showAsAction="ifRoom"/>
+
+
 </menu>

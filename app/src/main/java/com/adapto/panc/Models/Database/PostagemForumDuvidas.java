@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Keep
-public class PostagemForum {
+public class PostagemForumDuvidas {
 
     private String postagemForumTexto;
     private String usuarioID;
@@ -17,7 +17,7 @@ public class PostagemForum {
     private Timestamp timestamp;
     private List<FirestoreForumComentario> comentarios;
 
-    public PostagemForum(String postagemForumTexto, String usuarioID, List<String> imagensID, Timestamp timestamp) {
+    public PostagemForumDuvidas(String postagemForumTexto, String usuarioID, List<String> imagensID, Timestamp timestamp) {
         this.postagemForumTexto = postagemForumTexto;
         this.usuarioID = usuarioID;
         this.imagensID = imagensID;
@@ -25,7 +25,7 @@ public class PostagemForum {
         this.comentarios = new ArrayList<>();
     }
 
-    public PostagemForum(){}
+    public PostagemForumDuvidas(){}
 
     public String getPostagemForumTexto() {
         return postagemForumTexto;

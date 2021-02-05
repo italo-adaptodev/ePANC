@@ -12,7 +12,7 @@
 
     <ScrollView
         android:id="@+id/scrollView"
-        android:layout_width="407dp"
+        android:layout_width="match_parent"
         android:layout_height="675dp"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
@@ -26,29 +26,23 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="40dp">
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/postagemForumDetalharImagem"
-                android:layout_width="326dp"
+            <com.synnapps.carouselview.CarouselView
+                android:id="@+id/postagemForumDetalharImagens"
+                android:layout_width="match_parent"
                 android:layout_height="200dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentLeft="true"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentBottom="true"
-                android:autoSizeTextType="uniform"
-                android:background="#00856C6C"
-                android:gravity="center"
-                android:text="Titulo"
-                android:textColor="@color/colorPrimaryDark"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                app:fillColor="#FFFFFFFF"
+                app:pageColor="#00000000"
+                app:radius="6dp"
+                app:slideInterval="3000"
+                app:strokeColor="#FF777777"
+                app:strokeWidth="1dp"
+                app:autoPlay="false"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.493"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.028" />
+                app:layout_constraintVertical_bias="0.028"/>
 
             <TextView
                 android:id="@+id/detalhar_forum_texto"
@@ -63,7 +57,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.465"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/postagemForumDetalharImagem"
+                app:layout_constraintTop_toBottomOf="@+id/postagemForumDetalharImagens"
                 app:layout_constraintVertical_bias="0.024" />
 
             <RelativeLayout
@@ -143,7 +137,7 @@
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_detalhar_respostas_forum"
-                android:layout_width="354dp"
+                android:layout_width="match_parent"
                 android:layout_height="440dp"
                 android:layout_marginTop="10dp"
                 app:layout_constraintBottom_toBottomOf="@id/ConstraintLayout"

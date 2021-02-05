@@ -2,4 +2,5 @@
     <string name="app_name">PANCApp</string>
     <string name="aviso_convite">INFORME ABAIXO O IDENTIFICADOR DO USUARIO A SER CONVIDADO E O CARGO A SER OCUPADO</string>
     <string name="textoFunção">Escolha uma função que você mais se identifica</string>
+    <string name="comitê">Comitê Científico</string>
 </resources>
