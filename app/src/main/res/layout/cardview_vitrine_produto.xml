@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:elevation="7dp"
+    android:id="@+id/cardviewVitrineProduto"
+    >
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:id="@+id/vitrineProdutoLinearLayoutBtn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone">
+            <ImageButton
+                android:id="@+id/vitrineProdutoDelete"
+                android:layout_width="35dp"
+                android:layout_height="26dp"
+                android:layout_gravity="end"
+                android:background="@null"
+                android:visibility="visible"
+                app:srcCompat="@android:drawable/ic_delete" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:id="@+id/vitrineProdutoLinearLayoutCard"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#D8EEEAEA"
+            android:orientation="vertical"
+            android:padding="16dp"
+            >
+
+            <ImageView
+                android:id="@+id/vitrineProdutoImagem"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:adjustViewBounds="true"
+                android:scaleType="centerCrop"
+                app:srcCompat="@drawable/pancdefault"
+                />
+
+
+            <TextView
+                android:id="@+id/vitrineProdutoNome"
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="12dp"
+                android:ellipsize="end"
+                android:textSize="12sp"
+                android:maxLines="1"
+                android:text="Nome do produto" />
+
+            <TextView
+                style="@style/TextAppearance.AppCompat.Body1"
+                android:layout_marginTop="5dp"
+                android:id="@+id/vitrineProdutoPreco"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="16sp"
+                android:text="Preço" />
+
+        </LinearLayout>
+    </RelativeLayout>
+
+
+</com.google.android.material.card.MaterialCardView>
