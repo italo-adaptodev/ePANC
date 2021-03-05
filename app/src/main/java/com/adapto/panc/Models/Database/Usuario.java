@@ -10,12 +10,10 @@ import java.util.List;
 public class Usuario {
 
     private String identificador, nome, senha, id;
-    private List<String> cargos;
 
     public Usuario(String identificador, String senha, String nome) {
         this.identificador = identificador;
         this.senha = senha;
-        this.cargos = new ArrayList<>();
         this.nome = nome;
     }
 
@@ -43,23 +41,6 @@ public class Usuario {
 
     public void setSenha(String senha) {
         this.senha = senha;
-    }
-
-
-    public List<String> getCargos() {
-        return cargos;
-    }
-
-    public void setCargos(List<String> cargos) {
-        this.cargos = cargos;
-    }
-
-    public void addCargo(String cargo){
-        cargos.add(cargo);
-    }
-
-    public void removeCargo(String cargo){
-        cargos.remove(cargo);
     }
 
     public String getId() {

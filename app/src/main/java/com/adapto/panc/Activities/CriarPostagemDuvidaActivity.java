@@ -4,6 +4,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -12,33 +13,26 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.adapto.panc.Adapters.ForumComentarioAdapter;
+import com.adapto.panc.FirestoreReferences;
 import com.adapto.panc.Models.Database.PostagemForumDuvidas;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
 import com.adapto.panc.Repository.ReferenciaDatabase;
 import com.adapto.panc.SnackBarPersonalizada;
-import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
-import java.lang.reflect.Array;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
-import java.util.TimeZone;
 import java.util.UUID;
 
 public class CriarPostagemDuvidaActivity extends AppCompatActivity {
@@ -54,6 +48,7 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
     private List<ImageView> imageViews;
     private List<Uri> filepaths;
     private String postagemID;
+    private FirestoreReferences firestoreReferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
@@ -71,6 +66,7 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
         storageReference = referenciaDatabase.getFirebaseStorage();
         snackBarPersonalizada = new SnackBarPersonalizada();
         filepaths = new ArrayList<>();
+        firestoreReferences = new FirestoreReferences();
 
         // on pressing btnSelect SelectImage() is called
         btnSelect.setOnClickListener(new View.OnClickListener() {
@@ -110,7 +106,10 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
     // Select Image method
     private void SelectImage()
     {
-
+        for(int i = 0; i < 6; i++){
+            imageViews.get(i).setImageBitmap(null);
+            filepaths.clear();
+        }
         // Defining Implicit Intent to mobile gallery
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -133,28 +132,41 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
         // if request code is PICK_IMAGE_REQUEST and
         // resultCode is RESULT_OK
         // then set image in the image view
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getClipData() != null) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
             // Get the Uri of data
-            int ocunt = data.getClipData().getItemCount();
-            for(int i = ocunt; i < 6; i++){
-                imageViews.get(i).setImageBitmap(null);
-            }
-            for(int position = 0;position<ocunt;position++){
-                try {
+            ClipData mult = data.getClipData();
+            Uri unique = data.getData();
 
-                    filepaths.add(position, data.getClipData().getItemAt(position).getUri());
-                    // Setting image on image view using Bitmap
-                    Bitmap bitmap = MediaStore
+            if(mult != null) {
+                for (int position = 0; position < mult.getItemCount(); position++) {
+                    try {
+
+                        filepaths.add(position, data.getClipData().getItemAt(position).getUri());
+                        // Setting image on image view using Bitmap
+                        Bitmap bitmap = MediaStore
+                                .Images
+                                .Media
+                                .getBitmap(getContentResolver(), filepaths.get(position));
+
+                        imageViews.get(position).setImageBitmap(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }else{
+                filepaths.add(0, unique);
+                // Setting image on image view using Bitmap
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore
                             .Images
                             .Media
-                            .getBitmap(getContentResolver(), filepaths.get(position));
-
-                    imageViews.get(position).setImageBitmap(bitmap);
-                }
-
-                catch (IOException e) {
+                            .getBitmap(getContentResolver(), unique);
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                imageViews.get(0).setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
             }
         }
     }
@@ -221,12 +233,13 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
 
     private void uploadPostagem(final List<String> imagens) {
             PostagemForumDuvidas postagemForumDuvidas = new PostagemForumDuvidas(textoPostagemForum.getEditText().getText().toString(),
-                    new LoginSharedPreferences(getApplicationContext()).getKEYUSER(), imagens, Timestamp.now());
-            FirebaseFirestore.getInstance().collection("PostagensForumPANC")
+                    new LoginSharedPreferences(getApplicationContext()).getIdentifier(), imagens, Timestamp.now());
+            FirebaseFirestore.getInstance().collection(firestoreReferences.getPostagensForumPANCCOLLECTION())
                     .add(postagemForumDuvidas)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
+
                             postagemID = documentReference.getId();
                             documentReference
                                     .update("postagemID", documentReference.getId())

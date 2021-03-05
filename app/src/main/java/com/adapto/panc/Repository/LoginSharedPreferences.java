@@ -90,7 +90,7 @@ public class LoginSharedPreferences {
         return pref.getBoolean(IS_LOGIN, false);
     }
 
-    public String getKEYUSER() {
+    public String getIdentifier() {
         if (this.isLoggedIn())
             return pref.getString(KEY_USER, "");
         return "";
