@@ -30,12 +30,12 @@
             android:layout_height="match_parent">
 
             <com.google.android.material.button.MaterialButton
-                android:id="@+id/cadastroButton"
+                android:id="@+id/prosseguirButton2"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="180dp"
                 android:layout_height="48dp"
                 android:layout_marginBottom="36dp"
-                android:text="Cadastrar"
+                android:text="Prosseguir"
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp"
                 app:layout_constraintBottom_toBottomOf="parent"
@@ -50,7 +50,7 @@
                 android:id="@+id/radioGroup"
                 android:layout_width="214dp"
                 android:layout_height="wrap_content"
-                app:layout_constraintBottom_toTopOf="@+id/cadastroButton"
+                app:layout_constraintBottom_toTopOf="@+id/prosseguirButton2"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.504"
                 app:layout_constraintStart_toStartOf="parent"
@@ -69,15 +69,27 @@
                     android:layout_height="wrap_content"
                     android:text="Consumidor" />
 
+                <RadioButton
+                    android:id="@+id/radioRestaurante"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Restaurante" />
+
+                <RadioButton
+                    android:id="@+id/radioCultivare"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="Cultivare" />
+
             </RadioGroup>
 
             <TextView
+                android:paddingTop="10dp"
                 android:id="@+id/textView"
-                android:layout_width="237dp"
-                android:layout_height="73dp"
+                android:layout_width="241dp"
+                android:layout_height="48dp"
                 android:text="@string/textoFunção"
                 android:textAlignment="center"
-                android:paddingTop="20dp"
                 android:textColor="@color/colorAccent"
                 app:layout_constraintBottom_toTopOf="@+id/radioGroup"
                 app:layout_constraintEnd_toEndOf="parent"

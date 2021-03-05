@@ -7,14 +7,14 @@ import java.util.List;
 
 public class Produtor_Produto {
 
-    private String nome, usuarioID, postagemID, descricao, observacao;
+    private String nome, produtorID, postagemID, descricao, observacao;
     private double preco;
     private List<String> imagensID;
     private Timestamp timestamp;
 
-    public Produtor_Produto(String nome, String usuarioID, String descricao, String observacao, double preco, List<String> imagensID, Timestamp timestamp) {
+    public Produtor_Produto(String nome, String produtorID, String descricao, String observacao, double preco, List<String> imagensID, Timestamp timestamp) {
         this.nome = nome;
-        this.usuarioID = usuarioID;
+        this.produtorID = produtorID;
         this.descricao = descricao;
         this.observacao = observacao;
         this.preco = preco;
@@ -32,12 +32,12 @@ public class Produtor_Produto {
         this.nome = nome;
     }
 
-    public String getUsuarioID() {
-        return usuarioID;
+    public String getProdutorID() {
+        return produtorID;
     }
 
-    public void setUsuarioID(String usuarioID) {
-        this.usuarioID = usuarioID;
+    public void setProdutorID(String produtorID) {
+        this.produtorID = produtorID;
     }
 
     public String getPostagemID() {

@@ -4,16 +4,16 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.ProgressDialog;
+import android.content.ClipData;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.icu.util.Currency;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.adapto.panc.Models.Database.PostagemForumDuvidas;
+import com.adapto.panc.FirestoreReferences;
 import com.adapto.panc.Models.Database.Produtor_Produto;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
@@ -50,6 +50,7 @@ public class Produtor_CadastrarProdutosActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private MaterialButton btnSelect, btnUpload;
     private TextInputLayout nomeProduto, descricaoProduto, observacoesProduto;
+    private FirestoreReferences firestoreReferences =  new FirestoreReferences();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -109,9 +110,13 @@ public class Produtor_CadastrarProdutosActivity extends AppCompatActivity {
         imageViews.add(img6);
     }
 
+    // Select Image method
     private void SelectImage()
     {
-
+        for(int i = 0; i < 6; i++){
+            imageViews.get(i).setImageBitmap(null);
+            filepaths.clear();
+        }
         // Defining Implicit Intent to mobile gallery
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -124,6 +129,7 @@ public class Produtor_CadastrarProdutosActivity extends AppCompatActivity {
                 PICK_IMAGE_REQUEST);
     }
 
+    // Override onActivityResult method
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
@@ -133,28 +139,41 @@ public class Produtor_CadastrarProdutosActivity extends AppCompatActivity {
         // if request code is PICK_IMAGE_REQUEST and
         // resultCode is RESULT_OK
         // then set image in the image view
-        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null && data.getClipData() != null) {
+        if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
             // Get the Uri of data
-            int ocunt = data.getClipData().getItemCount();
-            for(int i = ocunt; i < 6; i++){
-                imageViews.get(i).setImageBitmap(null);
-            }
-            for(int position = 0;position<ocunt;position++){
-                try {
+            ClipData mult = data.getClipData();
+            Uri unique = data.getData();
 
-                    filepaths.add(position, data.getClipData().getItemAt(position).getUri());
-                    // Setting image on image view using Bitmap
-                    Bitmap bitmap = MediaStore
+            if(mult != null) {
+                for (int position = 0; position < mult.getItemCount(); position++) {
+                    try {
+
+                        filepaths.add(position, data.getClipData().getItemAt(position).getUri());
+                        // Setting image on image view using Bitmap
+                        Bitmap bitmap = MediaStore
+                                .Images
+                                .Media
+                                .getBitmap(getContentResolver(), filepaths.get(position));
+
+                        imageViews.get(position).setImageBitmap(bitmap);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+            }else{
+                filepaths.add(0, unique);
+                // Setting image on image view using Bitmap
+                Bitmap bitmap = null;
+                try {
+                    bitmap = MediaStore
                             .Images
                             .Media
-                            .getBitmap(getContentResolver(), filepaths.get(position));
-
-                    imageViews.get(position).setImageBitmap(bitmap);
-                }
-
-                catch (IOException e) {
+                            .getBitmap(getContentResolver(), unique);
+                } catch (IOException e) {
                     e.printStackTrace();
                 }
+
+                imageViews.get(0).setImageBitmap(Bitmap.createScaledBitmap(bitmap, 120, 120, false));
             }
         }
     }
@@ -223,8 +242,8 @@ public class Produtor_CadastrarProdutosActivity extends AppCompatActivity {
         nome = nomeProduto.getEditText().getText().toString();
         desc = descricaoProduto.getEditText().getText().toString();
         obs = observacoesProduto.getEditText().getText().toString();
-        Produtor_Produto produto = new Produtor_Produto(nome, new LoginSharedPreferences(getApplicationContext()).getKEYUSER(),desc, obs, etInput.getCleanDoubleValue(), imagens, Timestamp.now());
-        FirebaseFirestore.getInstance().collection("VitrineProdutos")
+        Produtor_Produto produto = new Produtor_Produto(nome, new LoginSharedPreferences(getApplicationContext()).getIdentifier(),desc, obs, etInput.getCleanDoubleValue(), imagens, Timestamp.now());
+        FirebaseFirestore.getInstance().collection(firestoreReferences.getVitrineProdutosCOLLECTION())
                 .add(produto)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
@@ -234,6 +253,7 @@ public class Produtor_CadastrarProdutosActivity extends AppCompatActivity {
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
+                                        startActivity(new Intent(Produtor_CadastrarProdutosActivity.this, Produtor_ListarProdutosActivity.class));
                                     }
                                 })
                                 .addOnFailureListener(new OnFailureListener() {
