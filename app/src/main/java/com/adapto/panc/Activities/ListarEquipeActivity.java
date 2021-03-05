@@ -9,6 +9,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.adapto.panc.FirestoreReferences;
 import com.adapto.panc.Models.Database.MembroEquipe;
 import com.adapto.panc.Models.ViewHolder.FirestoreEquipeAdministrativaViewHolder;
 import com.adapto.panc.R;
@@ -28,7 +29,7 @@ public class ListarEquipeActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private SnackBarPersonalizada snackBarPersonalizada;
     private View v;
-
+    private FirestoreReferences firestoreReferences = new FirestoreReferences();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,7 +41,7 @@ public class ListarEquipeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         db = FirebaseFirestore.getInstance();
         Query query = db
-                .collection("EQUIPE").orderBy("cargosAdministrativos", Query.Direction.ASCENDING).orderBy("timestamp", Query.Direction.ASCENDING);
+                .collection(firestoreReferences.getEQUIPECOLLECTION()).orderBy("cargosAdministrativos", Query.Direction.ASCENDING).orderBy("timestamp", Query.Direction.ASCENDING);
 
         FirestoreRecyclerOptions<MembroEquipe> options = new FirestoreRecyclerOptions.Builder<MembroEquipe>()
                 .setQuery(query, MembroEquipe.class)
@@ -66,7 +67,7 @@ public class ListarEquipeActivity extends AppCompatActivity {
 
     private String getDadosUsuario(String usuarioID, String indicadoPor, final FirestoreEquipeAdministrativaViewHolder holder) {
         final String[] nomeUsuario = new String[1];
-        db.collection("Usuarios").whereEqualTo("identificador", usuarioID).get()
+        db.collection(firestoreReferences.getUsuariosCOLLECTION()).whereEqualTo("identificador", usuarioID).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -75,7 +76,7 @@ public class ListarEquipeActivity extends AppCompatActivity {
                         }
                     }
                 });
-        db.collection("Usuarios").whereEqualTo("identificador", indicadoPor).get()
+        db.collection(firestoreReferences.getUsuariosCOLLECTION()).whereEqualTo("identificador", indicadoPor).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {

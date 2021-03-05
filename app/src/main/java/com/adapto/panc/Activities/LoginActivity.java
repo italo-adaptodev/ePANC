@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
+import com.adapto.panc.FirestoreReferences;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
 import com.adapto.panc.SnackBarPersonalizada;
@@ -34,14 +35,15 @@ public class LoginActivity extends AppCompatActivity {
     private LoginSharedPreferences loginSessionManager;
     private View v;
     private FirebaseFirestore db;
+    private FirestoreReferences firestoreReferences =  new FirestoreReferences();
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_login);
         loginSessionManager = new LoginSharedPreferences(getApplicationContext());
         loginSessionManager.checkLogin();
+        setContentView(R.layout.activity_login);
         loginButton = findViewById(R.id.loginButton);
         cadastrarTextview = findViewById(R.id.cadastrarTextView);
         loginTextField = findViewById(R.id.loginTextField);
@@ -63,7 +65,7 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
                 if(verificarCampos()) {
-                    db.collection("Usuarios")
+                    db.collection(firestoreReferences.getUsuariosCOLLECTION())
                             .whereEqualTo("identificador", loginTextField.getEditText().getText().toString())
                             .whereEqualTo("senha", senhaTexfield.getEditText().getText().toString())
                             .get()

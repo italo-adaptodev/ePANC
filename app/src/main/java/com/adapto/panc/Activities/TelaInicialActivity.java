@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.adapto.panc.FirestoreReferences;
 import com.adapto.panc.Models.Database.PostagemForumDuvidas;
 import com.adapto.panc.Models.ViewHolder.PostagemForumHolder;
 import com.adapto.panc.R;
@@ -45,6 +46,8 @@ public class TelaInicialActivity extends AppCompatActivity {
     private View v;
     private BottomAppBar bottomAppBar;
     private FirestoreRecyclerOptions<PostagemForumDuvidas> options;
+    private FirestoreReferences firestoreReferences = new FirestoreReferences();
+    private  Handler handler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,7 +75,7 @@ public class TelaInicialActivity extends AppCompatActivity {
 
         //region RECYCLER VIEW POSTAGENS
         Query query = db
-                .collection("PostagensForumPANC").orderBy("timestamp", Query.Direction.DESCENDING);
+                .collection(firestoreReferences.getPostagensForumPANCCOLLECTION()).orderBy("timestamp", Query.Direction.DESCENDING);
 
         options = new FirestoreRecyclerOptions.Builder<PostagemForumDuvidas>()
                 .setQuery(query, PostagemForumDuvidas.class)
@@ -84,14 +87,14 @@ public class TelaInicialActivity extends AppCompatActivity {
         //endregion
         setSupportActionBar(bottomAppBar);
 
-        Handler handler = new Handler();
+
         handler.postDelayed(task, 10000);
 
 
     }
 
     private void excluirPostagem(String postagemID) {
-        db.collection("PostagensForumPANC").document(postagemID)
+        db.collection(firestoreReferences.getPostagensForumPANCCOLLECTION()).document(postagemID)
                 .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
@@ -108,11 +111,13 @@ public class TelaInicialActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+        handler.postDelayed(task, 10000);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
+        handler.postDelayed(task, 10000);
     }
 
     @Override
@@ -125,16 +130,16 @@ public class TelaInicialActivity extends AppCompatActivity {
 
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
-        if(isUsuarioAdminstrador)
-            menu.getItem(2).setVisible(false);
+       /* if(isUsuarioAdminstrador)
+            menu.getItem(3).setVisible(false);*/
         return super.onMenuOpened(featureId, menu);
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
-            case R.id.search:
-                new SnackBarPersonalizada().showMensagemLonga(v, "Item selecionado: procurar");
+            case R.id.equipe:
+                startActivity(new Intent(this, ListarEquipeActivity.class));
                 break;
 
             case R.id.exit:
@@ -145,6 +150,10 @@ public class TelaInicialActivity extends AppCompatActivity {
             case R.id.addProduto:
                 startActivity(new Intent(this, Produtor_ListarProdutosActivity.class));
                 break;
+
+            case R.id.convite:
+                startActivity(new Intent(this, ConvidarActivity.class));
+                break;
             default:
                 break;
         }
@@ -153,8 +162,8 @@ public class TelaInicialActivity extends AppCompatActivity {
     }
 
     private boolean getCargosUsuarioSolicitante() {
-        db.collection("EQUIPE")
-                .whereEqualTo("usuarioID",   new LoginSharedPreferences(this).getKEYUSER())
+        db.collection(firestoreReferences.getEQUIPECOLLECTION())
+                .whereEqualTo("usuarioID",   new LoginSharedPreferences(this).getIdentifier())
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override

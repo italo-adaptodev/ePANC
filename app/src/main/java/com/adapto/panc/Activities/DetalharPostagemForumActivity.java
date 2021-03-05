@@ -4,21 +4,16 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
-import android.graphics.drawable.DrawableWrapper;
-import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
-import android.util.EventLog;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -27,18 +22,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adapto.panc.Adapters.ForumComentarioAdapter;
+import com.adapto.panc.FirestoreReferences;
 import com.adapto.panc.Models.Database.FirestoreForumComentario;
 import com.adapto.panc.Models.Database.PostagemForumDuvidas;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
 import com.adapto.panc.SnackBarPersonalizada;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.DataSource;
-import com.bumptech.glide.load.engine.GlideException;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.CustomTarget;
 import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -57,14 +48,11 @@ import com.google.firebase.firestore.QuerySnapshot;
 import com.synnapps.carouselview.CarouselView;
 import com.synnapps.carouselview.ImageListener;
 
-import java.io.FileNotFoundException;
-import java.io.InputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
@@ -89,6 +77,7 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
     private CarouselView carouselView;
     private List<Drawable> sampleImages;
     private List<String> uris;
+    private FirestoreReferences firestoreReferences = new FirestoreReferences();
     ExecutorService mExecutor = Executors.newSingleThreadExecutor();
     Handler mHandler = new Handler(Looper.getMainLooper());
 
@@ -114,7 +103,7 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
         ScrollView sv = findViewById(R.id.scrollView);
         sv.scrollTo(0, 0);
         postagem = recuperarPostagem(postagemKey);
-        getNomeUsuarioAtual(new LoginSharedPreferences(getApplicationContext()).getKEYUSER());
+        getNomeUsuarioAtual(new LoginSharedPreferences(getApplicationContext()).getIdentifier());
         btnEnviarComentario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -134,7 +123,7 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
     }
 
     private void getNomeUsuarioAtual(String identificador) {
-        db.collection("Usuarios").whereEqualTo("identificador", identificador).get()
+        db.collection(firestoreReferences.getUsuariosCOLLECTION()).whereEqualTo("identificador", identificador).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -169,7 +158,7 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
     }
 
     private DocumentReference recuperarPostagem(String postagemKey) {
-        DocumentReference docRef = db.collection("PostagensForumPANC").document(postagemKey);
+        DocumentReference docRef = db.collection(firestoreReferences.getPostagensForumPANCCOLLECTION()).document(postagemKey);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot DS) {
@@ -201,7 +190,7 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
     }
 
     private void getNomeAutorPostagem(String usuarioID) {
-        db.collection("Usuarios").whereEqualTo("identificador", usuarioID).get()
+        db.collection(firestoreReferences.getUsuariosCOLLECTION()).whereEqualTo("identificador", usuarioID).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
@@ -214,7 +203,7 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
 
     public void listenToDiffs() {
         // [START listen_diffs]
-        db.collection("PostagensForumPANC")
+        db.collection(firestoreReferences.getPostagensForumPANCCOLLECTION())
                 .whereEqualTo("postagemID", postagemForumDuvidas.getPostagemID())
                 .addSnapshotListener(new EventListener<QuerySnapshot>() {
                     @Override
