@@ -1,11 +1,12 @@
 package com.adapto.panc.Activities;
 
+import android.animation.Animator;
+import android.animation.LayoutTransition;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ScrollView;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import com.adapto.panc.FirestoreReferences;
 import com.adapto.panc.R;
@@ -24,6 +26,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.button.MaterialButton;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
@@ -41,7 +44,7 @@ import java.util.TimeZone;
 
 public class Produtor_DetalharProdutoActivity extends AppCompatActivity {
 
-    private TextView nomeProdutorDetalhar, nomeProdutoDetalhar, precoProdutoDetalhar, telefoneProdutorDetalhar, emailProdutorDetalhar, enderecoProdutorDetalhar,
+    private TextView nomeProdutorDetalhar, nomeProdutoDetalhar, precoProdutoDetalhar, emailProdutorDetalhar, enderecoProdutorDetalhar,
             descricaoProdutoDetalhar;
     public static final String DATE_FORMAT_1 = "dd MMM yyyy";
     private DocumentReference postagem;
@@ -51,20 +54,24 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity {
     private List<Drawable> sampleImages;
     private List<String> uris;
     private FirestoreReferences collections;
+    private MaterialButton btnExpand;
+    private final static int MAX_LINES_COLLAPSED = 3;
+    private final boolean INITIAL_IS_COLLAPSED = true;
+    private boolean isCollapsed = INITIAL_IS_COLLAPSED;
+    private ScrollView scrollViewProduto;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhar_produto_vitrine);
-        nomeProdutorDetalhar = findViewById(R.id.nomeProdutorDetalhar);
         nomeProdutoDetalhar = findViewById(R.id.nomeProdutoDetalhar);
         precoProdutoDetalhar = findViewById(R.id.precoProdutoDetalhar);
-        telefoneProdutorDetalhar = findViewById(R.id.telefoneProdutorDetalhar);
         emailProdutorDetalhar = findViewById(R.id.emailProdutorDetalhar);
         enderecoProdutorDetalhar = findViewById(R.id.enderecoProdutorDetalhar);
         descricaoProdutoDetalhar = findViewById(R.id.descricaoProdutoDetalhar);
         carouselView = findViewById(R.id.imagensProdutoDetalhar);
+        scrollViewProduto = findViewById(R.id.scrollViewProduto);
         sampleImages = new ArrayList<>();
         uris = new ArrayList<>();
         v = findViewById(android.R.id.content);
@@ -75,6 +82,28 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity {
         ScrollView sv = findViewById(R.id.scrollViewProduto);
         sv.scrollTo(0, 0);
         postagem = recuperarPostagem(postagemKey);
+        btnExpand = findViewById(R.id.btnExpand);
+
+        btnExpand.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(isCollapsed){
+                    if(canBeCollapsed())
+                        btnExpand.setClickable(false);
+                    else
+                        btnExpand.setClickable(true);
+
+                    descricaoProdutoDetalhar.setMaxLines(Integer.MAX_VALUE);
+                    setTextWithSmoothAnimation(btnExpand, "Encolher", R.drawable.ic_uparrow);
+                }else{
+                    descricaoProdutoDetalhar.setMaxLines(MAX_LINES_COLLAPSED);
+                    setTextWithSmoothAnimation(btnExpand, "Expandir", R.drawable.ic_down_arrow);
+                }
+                isCollapsed = !isCollapsed;
+            }
+        });
+
+        applyLayoutTransition();
     }
 
     private DocumentReference recuperarPostagem(String postagemKey) {
@@ -92,6 +121,7 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity {
                 nomeProdutoDetalhar.setText(DS.getString("nome"));
                 precoProdutoDetalhar.setText(DS.getDouble("preco").toString());
                 descricaoProdutoDetalhar.setText(DS.getString("descricao"));
+
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -121,12 +151,12 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity {
     }
 
     private void getInfoProdutor(String usuarioID) {
-        db.collection(collections.getPRODUTOR()).whereEqualTo("usuarioID", usuarioID).get()
+        db.collection(collections.getProdutorCOLLECTION()).whereEqualTo("usuarioID", usuarioID).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
-                            telefoneProdutorDetalhar.setText(snap.getString("numContato"));
+//                            telefoneProdutorDetalhar.setText(snap.getString("numContato"));
                             emailProdutorDetalhar.setText(snap.getString("email"));
                             enderecoProdutorDetalhar.setText(snap.getString("localizacao"));
                         }
@@ -159,7 +189,46 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity {
         }
     };
 
+    private void applyLayoutTransition() {
+        LayoutTransition transition = new LayoutTransition();
+        transition.setDuration(600);
+        transition.enableTransitionType(LayoutTransition.CHANGING);
+        scrollViewProduto.setLayoutTransition(transition);
+    }
 
+    private boolean canBeCollapsed() {
+        return descricaoProdutoDetalhar.getLineCount() <= MAX_LINES_COLLAPSED;
+    }
+
+    private void setTextWithSmoothAnimation(final MaterialButton btn, final String message, final int icon) {
+        btn.animate().setDuration(100).setListener(new Animator.AnimatorListener() {
+
+            @Override
+            public void onAnimationStart(Animator animation) {
+
+            }
+
+
+            @Override
+            public void onAnimationEnd(Animator animation) {
+                btn.setText(message);
+                btn.setIcon(ContextCompat.getDrawable(getApplicationContext(), icon));
+                btn.animate().setListener(null).setDuration(100).alpha(1);
+            }
+
+
+            @Override
+            public void onAnimationCancel(Animator animation) {
+
+            }
+
+
+            @Override
+            public void onAnimationRepeat(Animator animation) {
+
+            }
+        }).alpha(0);
+    }
 
     // Create an interface to respond with the result after processing
 }
