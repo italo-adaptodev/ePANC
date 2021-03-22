@@ -11,6 +11,7 @@ import android.widget.RadioGroup;
 
 import com.adapto.panc.FirestoreReferences;
 import com.adapto.panc.Models.Database.Produtor;
+import com.adapto.panc.Models.Database.Restaurante;
 import com.adapto.panc.Models.Database.Usuario;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
@@ -32,8 +33,9 @@ public class CadastroActivity extends AppCompatActivity {
 
     private TextInputLayout nomeCadastroUsuario, loginCadastroUsuario, senhaCadastroUsuario;
     private TextInputLayout telInfoProdutor, emailInfoProdutor, localInfoProdutor;
+    private TextInputLayout telInfoRestaurante, nomeInfoRestaurante, localInfoRestaurante;
     private SnackBarPersonalizada snackbar;
-    private MaterialButton prosseguirButton2, prosseguirButton, cadastroProdutorInfo;
+    private MaterialButton prosseguirButton2, prosseguirButton, cadastroProdutorInfo, cadastroRestauranteInfo;
     private RadioGroup radioGroup;
     private RadioButton radioProdutor, radioConsumidor, radioRestaurante, radioCultivare;
     private static String URL_PRODUTOR = "https://docs.google.com/forms/d/e/1FAIpQLScutVCI0iaI5-tzGDIfo6x7XlczL35043m0XpVrloLk2BKdMA/viewform?usp=sf_link";
@@ -43,7 +45,7 @@ public class CadastroActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private String usuarioID;
     private FirestoreReferences fsRefs;
-    private View cadastro2 = null, infoProdutor = null;
+    private View cadastro2 = null, infoProdutor = null, infoRestaurante = null, infoConsumidor = null, infoCultivare = null;
 
 
     @Override
@@ -52,6 +54,7 @@ public class CadastroActivity extends AppCompatActivity {
         setContentView(R.layout.activity_cadastro);
         cadastro2 = getLayoutInflater().inflate(R.layout.activity_cadastro2, null);
         infoProdutor = getLayoutInflater().inflate(R.layout.activity_cadastro_produtor_infos, null);
+        infoRestaurante = getLayoutInflater().inflate(R.layout.activity_cadastro_restaurante_infos, null);
 
         //region Primeira view
         nomeCadastroUsuario = findViewById(R.id.nomeCadastro);
@@ -64,6 +67,7 @@ public class CadastroActivity extends AppCompatActivity {
 
         //region Views especificas com campos complementares
         cadastroProdutorInfo = infoProdutor.findViewById(R.id.cadastroProdutorInfo);
+        cadastroRestauranteInfo = infoRestaurante.findViewById(R.id.cadastroRestauranteInfo);
         //endregion
 
         snackbar = new SnackBarPersonalizada();
@@ -101,9 +105,9 @@ public class CadastroActivity extends AppCompatActivity {
                     setContentView(infoProdutor);
                 }*/ else if (selectedId == radioProdutor.getId()) {
                     setContentView(infoProdutor);
-                } /*else if (selectedId == radioRestaurante.getId()) {
-                    setContentView(infoProdutor);
-                }*/
+                } else if (selectedId == radioRestaurante.getId()) {
+                    setContentView(infoRestaurante);
+                }
             }
         });
 
@@ -115,6 +119,13 @@ public class CadastroActivity extends AppCompatActivity {
             }
         });
 
+        cadastroRestauranteInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                createRestaurente();
+            }
+        });
+
 
         //endregion
 
@@ -123,7 +134,11 @@ public class CadastroActivity extends AppCompatActivity {
 
 
     //A CHAMADA DO INTENT QUESTIONARIO SERÁ REALIZADA NA FUNÇÃO DE CRIAÇÃO DE FUNÇÃO ESPECÍFICA
+    //region Creates
     private void createRestaurente() {
+        createUsuario();
+        Restaurante novoRestaurante = getCamposInfoRestaurante();
+        createFirestoreRestaurante(novoRestaurante);
     }
 
     private void createCultivare() {
@@ -142,6 +157,7 @@ public class CadastroActivity extends AppCompatActivity {
         Usuario novoUsuario = getCamposUsuario();
         createFirestoreUsuario(novoUsuario);
     }
+//endregion
 
     private boolean verificarCamposUsuario() {
 
@@ -159,7 +175,7 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     private void createFirestoreProdutor(final Produtor novoProdutor) {
-        Task<QuerySnapshot> query = db.collection(fsRefs.getPRODUTOR()).get();
+        Task<QuerySnapshot> query = db.collection(fsRefs.getProdutorCOLLECTION()).get();
         if(query.isSuccessful()) {
             query.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                 @Override
@@ -186,12 +202,59 @@ public class CadastroActivity extends AppCompatActivity {
                 }
             });
         }else{
-            FirebaseFirestore.getInstance().collection(fsRefs.getPRODUTOR())
+            FirebaseFirestore.getInstance().collection(fsRefs.getProdutorCOLLECTION())
                     .add(novoProdutor)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(final DocumentReference documentReference) {
                             startIntentQuestionario(URL_PRODUTOR);
+                        }
+                    })
+                    .addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            snackbar.showMensagemLonga(v, e.getMessage());
+                        }
+                    });
+        }
+    }
+
+    private void createFirestoreRestaurante(final Restaurante novoRestaurante) {
+        Task<QuerySnapshot> query = db.collection(fsRefs.getRestauranteCOLLECTION()).get();
+        if(query.isSuccessful()) {
+            query.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                @Override
+                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                    for (final QueryDocumentSnapshot snap : queryDocumentSnapshots) {
+                        if (snap.getString("identificador").equals(novoRestaurante.getUsuarioID()))
+                            snackbar.showMensagemLonga(v, "Identificador em uso ou inválido");
+                        else
+                            db.collection(fsRefs.getRestauranteCOLLECTION())
+                                    .add(novoRestaurante)
+                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                                        @Override
+                                        public void onSuccess(final DocumentReference documentReference) {
+//                                            startIntentQuestionario(URL_RESTAURANTE);
+                                            startActivity(new Intent(CadastroActivity.this, TelaInicialActivity.class));
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            snackbar.showMensagemLonga(v, e.getMessage());
+                                        }
+                                    });
+                    }
+                }
+            });
+        }else{
+            FirebaseFirestore.getInstance().collection(fsRefs.getRestauranteCOLLECTION())
+                    .add(novoRestaurante)
+                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                        @Override
+                        public void onSuccess(final DocumentReference documentReference) {
+//                            startIntentQuestionario(URL_RESTAURANTE);
+                            startActivity(new Intent(CadastroActivity.this, TelaInicialActivity.class));
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {
@@ -286,6 +349,7 @@ public class CadastroActivity extends AppCompatActivity {
         String nome = Objects.requireNonNull(nomeCadastroUsuario.getEditText()).getText().toString();
         return new Usuario(identificador, senha, nome);
     }
+
     private Produtor getCamposInfoProdutor() {
         telInfoProdutor = infoProdutor.findViewById(R.id.contatoInfoProdutor);
         localInfoProdutor = infoProdutor.findViewById(R.id.localInfoProdutor);
@@ -293,7 +357,19 @@ public class CadastroActivity extends AppCompatActivity {
 
         return new Produtor(Objects.requireNonNull(telInfoProdutor.getEditText()).getText().toString(),
                 Objects.requireNonNull(localInfoProdutor.getEditText()).getText().toString(),
-                Objects.requireNonNull(emailInfoProdutor.getEditText()).getText().toString(), usuarioID);
+                Objects.requireNonNull(emailInfoProdutor.getEditText()).getText().toString(), Objects.requireNonNull(loginCadastroUsuario.getEditText()).getText().toString());
+    }
+
+    private Restaurante getCamposInfoRestaurante() {
+        telInfoRestaurante = infoRestaurante.findViewById(R.id.contatoInfoRestaurante);
+        localInfoRestaurante = infoRestaurante.findViewById(R.id.localInfoRestaurante);
+        nomeInfoRestaurante = infoRestaurante.findViewById(R.id.nomeInfoRestaurante);
+
+        return new Restaurante(Objects.requireNonNull(telInfoRestaurante.getEditText()).getText().toString(),
+                Objects.requireNonNull(localInfoRestaurante.getEditText()).getText().toString(),
+                Objects.requireNonNull(nomeInfoRestaurante.getEditText()).getText().toString(),
+                Objects.requireNonNull(loginCadastroUsuario.getEditText()).getText().toString(),
+                "");
     }
 }
 

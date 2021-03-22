@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".Activities.LoginActivity"
+    android:background="@drawable/background"
+    android:id="@+id/cadastro2"
+    >
+
+
+
+    <com.google.android.material.card.MaterialCardView
+        android:id="@+id/cardviewLogin"
+        android:layout_width="282dp"
+        android:layout_height="470dp"
+        android:orientation="horizontal"
+        app:cardBackgroundColor="#EBFFFFFF"
+        app:cardCornerRadius="15dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:strokeColor="@color/colorPrimary"
+        app:strokeWidth="3dp">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
+            <com.google.android.material.button.MaterialButton
+                android:id="@+id/cadastroRestauranteInfo"
+                style="@style/Widget.MaterialComponents.Button.OutlinedButton"
+                android:layout_width="180dp"
+                android:layout_height="48dp"
+                android:layout_marginBottom="24dp"
+                android:text="Cadastrar"
+                android:textColor="@color/colorAccent"
+                android:textSize="16sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:strokeColor="@color/colorPrimary"
+                app:strokeWidth="2dp">
+
+            </com.google.android.material.button.MaterialButton>
+
+            <TextView
+                android:id="@+id/textView"
+                android:layout_width="239dp"
+                android:layout_height="31dp"
+                android:paddingTop="10dp"
+                android:text="@string/textoInfoRestaurante"
+                android:textAlignment="center"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintBottom_toTopOf="@+id/cadastroRestauranteInfo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.488"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/imageView3"
+                app:layout_constraintVertical_bias="0.049" />
+
+            <ImageView
+                android:id="@+id/imageView3"
+                android:layout_width="118dp"
+                android:layout_height="107dp"
+                android:layout_marginTop="16dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                tools:srcCompat="@tools:sample/avatars" />
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/contatoInfoRestaurante"
+                style="@style/TextBoxOutlinedBoxGreen"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="28dp"
+                android:focusableInTouchMode="true"
+                android:textColorHint="@color/colorAccent"
+                app:boxStrokeWidth="2dp"
+                app:hintTextColor="@color/colorAccent"
+                app:layout_constraintBottom_toTopOf="@+id/emailInfoProdutor"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintVertical_bias="0.0">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Telefone/Whatsapp"
+                    android:textColor="@color/colorAccent"
+                    android:textCursorDrawable="@drawable/color_cursor">
+
+                </com.google.android.material.textfield.TextInputEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/nomeInfoRestaurante"
+                style="@style/TextBoxOutlinedBoxGreen"
+                android:layout_width="240dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
+                android:focusableInTouchMode="true"
+                android:textColorHint="@color/colorAccent"
+                app:boxStrokeWidth="2dp"
+                app:hintTextColor="@color/colorAccent"
+                app:layout_constraintBottom_toTopOf="@+id/localInfoRestaurante"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.523"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/contatoInfoRestaurante">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Nome do estabelecimento"
+                    android:textColor="@color/colorAccent"
+                    android:textCursorDrawable="@drawable/color_cursor">
+
+                </com.google.android.material.textfield.TextInputEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/localInfoRestaurante"
+                style="@style/TextBoxOutlinedBoxGreen"
+                android:layout_width="241dp"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="16dp"
+                android:focusableInTouchMode="true"
+                android:textColorHint="@color/colorAccent"
+                app:boxStrokeWidth="2dp"
+                app:hintTextColor="@color/colorAccent"
+                app:layout_constraintBottom_toTopOf="@+id/cadastroRestauranteInfo"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.487"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/nomeInfoRestaurante">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:layout_width="240dp"
+                    android:layout_height="wrap_content"
+                    android:hint="Localização"
+                    android:textColor="@color/colorAccent"
+                    android:textCursorDrawable="@drawable/color_cursor">
+
+                </com.google.android.material.textfield.TextInputEditText>
+            </com.google.android.material.textfield.TextInputLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+    </com.google.android.material.card.MaterialCardView>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
