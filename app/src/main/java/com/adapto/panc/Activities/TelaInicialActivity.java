@@ -1,6 +1,7 @@
 package com.adapto.panc.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
@@ -8,6 +9,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
@@ -15,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.adapto.panc.FirestoreReferences;
 import com.adapto.panc.Models.Database.PostagemForumDuvidas;
@@ -43,11 +46,14 @@ public class TelaInicialActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private FirebaseFirestore db;
     private boolean isUsuarioAdminstrador = false;
+    private boolean response = false;
     private View v;
     private BottomAppBar bottomAppBar;
     private FirestoreRecyclerOptions<PostagemForumDuvidas> options;
     private FirestoreReferences firestoreReferences = new FirestoreReferences();
     private  Handler handler = new Handler();
+    private ProgressBar spinner;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,19 +63,24 @@ public class TelaInicialActivity extends AppCompatActivity {
         setContentView(R.layout.activity_tela_inicial);
         recyclerView = findViewById(R.id.feedPrincipalRecV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        recyclerView.setVisibility(View.INVISIBLE);
         criarPostagemFAB = findViewById(R.id.criarPostagemFAB);
-        criarPostagemIntent = new Intent(this.getBaseContext(), CriarPostagemDuvidaActivity.class );
-        listarEquipeIntent = new Intent(this.getBaseContext(), ListarEquipeActivity.class );
+        criarPostagemIntent = new Intent(this.getBaseContext(), CriarPostagemDuvidaActivity.class);
+        listarEquipeIntent = new Intent(this.getBaseContext(), ListarEquipeActivity.class);
         toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Panc - APP");
         bottomAppBar = findViewById(R.id.bottom_app_bar);
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        spinner = findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.VISIBLE);
         setSupportActionBar(toolbar);
         v = findViewById(android.R.id.content);
         criarPostagemFAB.setOnClickListener(new View.OnClickListener() {
+            @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
             public void onClick(View v) {
                 startActivity(criarPostagemIntent);
+
             }
         });
 
@@ -83,13 +94,8 @@ public class TelaInicialActivity extends AppCompatActivity {
                 .build();
 
 
-
         //endregion
         setSupportActionBar(bottomAppBar);
-
-
-        handler.postDelayed(task, 10000);
-
 
     }
 
@@ -111,13 +117,13 @@ public class TelaInicialActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        handler.postDelayed(task, 10000);
+        handler.postDelayed(task, 1000);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        handler.postDelayed(task, 10000);
+        handler.postDelayed(task, 1000);
     }
 
     @Override
@@ -162,7 +168,7 @@ public class TelaInicialActivity extends AppCompatActivity {
     }
 
     private boolean getCargosUsuarioSolicitante() {
-        db.collection(firestoreReferences.getEQUIPECOLLECTION())
+        db.collection(firestoreReferences.getEquipeCOLLECTION())
                 .whereEqualTo("usuarioID",   new LoginSharedPreferences(this).getIdentifier())
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -224,6 +230,8 @@ public class TelaInicialActivity extends AppCompatActivity {
                 }
             };
             recyclerView.setAdapter(adapter);
+            spinner.setVisibility(View.INVISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
         }
     };
 }

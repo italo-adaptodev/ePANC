@@ -11,6 +11,7 @@ import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ProgressBar;
 
 import com.adapto.panc.FirestoreReferences;
 import com.adapto.panc.Models.Database.Produtor_Produto;
@@ -40,6 +41,10 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
     private View v;
     private FirestoreRecyclerOptions<Produtor_Produto> options;
     private FirestoreReferences collections;
+    private Handler handler = new Handler();
+    private ProgressBar spinner;
+    private boolean isUsuarioProdutor = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,10 +53,12 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
         db = FirebaseFirestore.getInstance();
         collections = new FirestoreReferences();
         getCargosUsuarioSolicitante();
+        getPermissaoProdutor();
         recyclerView = findViewById(R.id.recyclerViewVitrine);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         v = findViewById(android.R.id.content);
-
+        spinner = findViewById(R.id.progressBar1);
+        spinner.setVisibility(View.VISIBLE);
 
         //region RECYCLER VIEW POSTAGENS
         Query query = db
@@ -68,16 +75,30 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
         criarPostagemFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(criarPostagemIntent);
+                if(!isUsuarioProdutor)
+                    new SnackBarPersonalizada().showMensagemLonga(v, "Você não possui permissão para cadastrar um produto!");
+                else
+                    startActivity(criarPostagemIntent);
             }
         });
 
-        Handler handler = new Handler();
         handler.postDelayed(task, 10000);
     }
 
+    @Override
+    protected void onStart() {
+        super.onStart();
+        handler.postDelayed(task, 1000);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        handler.postDelayed(task, 1000);
+    }
+
     private boolean getCargosUsuarioSolicitante() {
-        db.collection(collections.getEQUIPECOLLECTION())
+        db.collection(collections.getEquipeCOLLECTION())
                 .whereEqualTo("usuarioID",   new LoginSharedPreferences(this).getIdentifier())
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
@@ -88,6 +109,7 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
                                 String cargos = snap.get("cargosAdministrativos").toString();
                                 if(cargos.contains("ADMINISTRADOR")) {
                                     isUsuarioAdminstrador = true;
+
                                 }
                             }
 
@@ -96,6 +118,21 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
                 });
         return isUsuarioAdminstrador;
 
+    }
+
+    private void getPermissaoProdutor() {
+        db.collection(collections.getProdutorCOLLECTION())
+                .whereEqualTo("usuarioID",   new LoginSharedPreferences(this).getIdentifier())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if(queryDocumentSnapshots.size() > 0) {
+                            isUsuarioProdutor = true;
+
+                        }
+                    }
+                });
     }
 
     private void excluirPostagem(String postagemID) {
@@ -150,6 +187,8 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
                 }
             };
             recyclerView.setAdapter(adapter);
+            spinner.setVisibility(View.INVISIBLE);
+            recyclerView.setVisibility(View.VISIBLE);
         }
     };
 }
