@@ -29,12 +29,13 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent">
 
+
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/cadastroProdutorInfo"
                 style="@style/Widget.MaterialComponents.Button.OutlinedButton"
                 android:layout_width="180dp"
                 android:layout_height="48dp"
-                android:layout_marginBottom="36dp"
+                android:layout_marginBottom="24dp"
                 android:text="Cadastrar"
                 android:textColor="@color/colorAccent"
                 android:textSize="16sp"
@@ -46,11 +47,10 @@
 
             </com.google.android.material.button.MaterialButton>
 
-
             <TextView
                 android:id="@+id/textView"
-                android:layout_width="241dp"
-                android:layout_height="48dp"
+                android:layout_width="239dp"
+                android:layout_height="31dp"
                 android:layout_marginTop="164dp"
                 android:paddingTop="10dp"
                 android:text="@string/textoContatoProdutor"
@@ -77,8 +77,8 @@
                 android:id="@+id/contatoInfoProdutor"
                 style="@style/TextBoxOutlinedBoxGreen"
                 android:layout_width="240dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="11dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
                 android:focusableInTouchMode="true"
                 android:textColorHint="@color/colorAccent"
                 app:boxStrokeWidth="2dp"
@@ -103,8 +103,8 @@
                 android:id="@+id/emailInfoProdutor"
                 style="@style/TextBoxOutlinedBoxGreen"
                 android:layout_width="240dp"
-                android:layout_height="40dp"
-                android:layout_marginTop="11dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="1dp"
                 android:focusableInTouchMode="true"
                 android:textColorHint="@color/colorAccent"
                 app:boxStrokeWidth="2dp"
@@ -113,8 +113,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.523"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/textView"
-                app:layout_constraintVertical_bias="0.756">
+                app:layout_constraintTop_toBottomOf="@+id/contatoInfoProdutor">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="240dp"
@@ -130,7 +129,7 @@
                 android:id="@+id/localInfoProdutor"
                 style="@style/TextBoxOutlinedBoxGreen"
                 android:layout_width="241dp"
-                android:layout_height="40dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="16dp"
                 android:focusableInTouchMode="true"
                 android:textColorHint="@color/colorAccent"
@@ -139,7 +138,8 @@
                 app:layout_constraintBottom_toTopOf="@+id/cadastroProdutorInfo"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.512"
-                app:layout_constraintStart_toStartOf="parent">
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/emailInfoProdutor">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="240dp"
