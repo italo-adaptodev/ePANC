@@ -2,44 +2,44 @@ package com.adapto.panc;
 
 public class FirestoreReferences {
 
-    public static final String VitrineProdutosCOLLECTION = "VitrineProdutos";
-    public static final String UsuariosCOLLECTION = "Usuarios";
-    public static final String PostagensForumPANCCOLLECTION = "ForumDuvidas";
+    public static final String VITRINEPRODUTOSCOLLECTION = "VitrineProdutos";
+    public static final String USUARIOSCOLLECTION = "Usuarios";
+    public static final String FORUMDUVIDASCOLLECTION = "ForumDuvidas";
     public static final String EQUIPECOLLECTION = "Equipe";
-    public static final String PRODUTOR = "Produtor";
-    public static final String RESTAURANTE = "Restaurante";
-    public static final String CULTIVARE = "Cultivare";
+    public static final String PRODUTORCOLLECTION = "Produtor";
+    public static final String RESTAURANTECOLLECTION = "Restaurante";
+    public static final String CULTIVARECOLLECTION = "Cultivare";
     public static final String CONSUMIDOR = "Consumidor";
 
     public String getVitrineProdutosCOLLECTION() {
-        return VitrineProdutosCOLLECTION ;
+        return VITRINEPRODUTOSCOLLECTION;
     }
 
     public String getUsuariosCOLLECTION() {
-        return UsuariosCOLLECTION ;
+        return USUARIOSCOLLECTION;
     }
 
     public String getPostagensForumPANCCOLLECTION() {
-        return PostagensForumPANCCOLLECTION ;
+        return FORUMDUVIDASCOLLECTION;
     }
 
-    public String getEQUIPECOLLECTION() {
+    public String getEquipeCOLLECTION() {
         return EQUIPECOLLECTION ;
     }
 
-    public String getPRODUTOR() {
-        return PRODUTOR;
+    public String getProdutorCOLLECTION() {
+        return PRODUTORCOLLECTION;
     }
 
-    public String getRESTAURANTE() {
-        return RESTAURANTE;
+    public String getRestauranteCOLLECTION() {
+        return RESTAURANTECOLLECTION;
     }
 
-    public String getCULTIVARE() {
-        return CULTIVARE;
+    public String getCultivareCOLLECTION() {
+        return CULTIVARECOLLECTION;
     }
 
-    public String getCONSUMIDOR() {
+    public String getConsumidorCOLLECTION() {
         return CONSUMIDOR;
     }
 }
