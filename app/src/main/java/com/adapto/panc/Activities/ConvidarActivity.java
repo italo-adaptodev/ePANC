@@ -78,7 +78,7 @@ public class ConvidarActivity extends AppCompatActivity {
                                     if(queryDocumentSnapshots.size() == 0){
                                         snackBarPersonalizada.showMensagemLonga(v, "Usuário não encontrado ou identificador incorreto");
                                     }else {
-                                        final CollectionReference equipeCollection = db.collection(firestoreReferences.getEQUIPECOLLECTION());
+                                        final CollectionReference equipeCollection = db.collection(firestoreReferences.getEquipeCOLLECTION());
                                         final DocumentSnapshot snap = queryDocumentSnapshots.getDocuments().get(0);
                                         equipeCollection.whereEqualTo("usuarioID", identificadorConvidado)
                                         .get()
@@ -91,7 +91,7 @@ public class ConvidarActivity extends AppCompatActivity {
                                                             snackBarPersonalizada.showMensagemLonga(v, "Cargos atualizados com sucesso" );
                                                         }else{
                                                             MembroEquipe membroEquipe = new MembroEquipe(snap.getString("identificador"), loginSharedPreferences.getIdentifier(),  cargos);
-                                                            FirebaseFirestore.getInstance().collection(firestoreReferences.getEQUIPECOLLECTION())
+                                                            FirebaseFirestore.getInstance().collection(firestoreReferences.getEquipeCOLLECTION())
                                                                     .add(membroEquipe)
                                                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                                         @Override

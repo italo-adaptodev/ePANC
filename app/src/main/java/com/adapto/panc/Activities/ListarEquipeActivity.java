@@ -41,7 +41,7 @@ public class ListarEquipeActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         db = FirebaseFirestore.getInstance();
         Query query = db
-                .collection(firestoreReferences.getEQUIPECOLLECTION()).orderBy("cargosAdministrativos", Query.Direction.ASCENDING).orderBy("timestamp", Query.Direction.ASCENDING);
+                .collection(firestoreReferences.getEquipeCOLLECTION()).orderBy("cargosAdministrativos", Query.Direction.ASCENDING).orderBy("timestamp", Query.Direction.ASCENDING);
 
         FirestoreRecyclerOptions<MembroEquipe> options = new FirestoreRecyclerOptions.Builder<MembroEquipe>()
                 .setQuery(query, MembroEquipe.class)
