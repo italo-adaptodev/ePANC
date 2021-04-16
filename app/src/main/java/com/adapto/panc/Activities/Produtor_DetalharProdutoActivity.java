@@ -7,10 +7,13 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -59,6 +62,9 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity {
     private final boolean INITIAL_IS_COLLAPSED = true;
     private boolean isCollapsed = INITIAL_IS_COLLAPSED;
     private ScrollView scrollViewProduto;
+    private Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+    private ImageButton whatsappBtn;
+
 
 
     @Override
@@ -83,6 +89,7 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity {
         sv.scrollTo(0, 0);
         postagem = recuperarPostagem(postagemKey);
         btnExpand = findViewById(R.id.btnExpand);
+        whatsappBtn = findViewById(R.id.whatsappbtn);
 
         btnExpand.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -104,6 +111,21 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity {
         });
 
         applyLayoutTransition();
+
+        whatsappBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                whatsappIntent.putExtra(Intent.EXTRA_TEXT, "Ola! Me interessei pelo produto " +nomeProdutoDetalhar.getText() + " que vi no aplicativo PANCApp." +
+                        "Como podemos acertar uma compra? Aguardo resposta.");
+
+                if (whatsappIntent.resolveActivity(getPackageManager()) == null) {
+                    Toast.makeText(Produtor_DetalharProdutoActivity.this, "Whatsapp not installed.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                startActivity(whatsappIntent);
+
+            }
+        });
     }
 
     private DocumentReference recuperarPostagem(String postagemKey) {
@@ -112,7 +134,7 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot DS) {
                 getNomeAutorPostagem(DS.getString("usuarioID"));
-                getInfoProdutor(DS.getString("usuarioID"));
+                getInfoProdutor(DS.getString("produtorID"));
                 uris = (List<String>) DS.get("imagensID");
                 Timestamp timestamp = (Timestamp) DS.get("timestamp");
                 Date data = timestamp.toDate();
@@ -151,17 +173,28 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity {
     }
 
     private void getInfoProdutor(String usuarioID) {
+        Log.i("teste", "1");
         db.collection(collections.getProdutorCOLLECTION()).whereEqualTo("usuarioID", usuarioID).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
-//                            telefoneProdutorDetalhar.setText(snap.getString("numContato"));
+                            createIntentMensagem(snap.getString("numContato"));
                             emailProdutorDetalhar.setText(snap.getString("email"));
                             enderecoProdutorDetalhar.setText(snap.getString("localizacao"));
                         }
                     }
                 });
+    }
+
+    private void createIntentMensagem(String numContato) {
+
+        whatsappIntent.setType("text/plain");
+        whatsappIntent.setPackage("com.whatsapp");
+        String smsNumber = numContato; //Number without with country code and without '+' prifix
+        whatsappIntent.putExtra("jid", smsNumber + "@s.whatsapp.net");
+
+
     }
 
     public void setImagesCarousel(List<String> images) {
