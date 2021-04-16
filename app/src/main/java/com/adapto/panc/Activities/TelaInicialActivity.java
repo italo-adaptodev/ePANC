@@ -160,6 +160,10 @@ public class TelaInicialActivity extends AppCompatActivity {
             case R.id.convite:
                 startActivity(new Intent(this, ConvidarActivity.class));
                 break;
+
+            case R.id.menurestaurantes:
+                startActivity(new Intent(this, Restaurante_MeuRestauranteActivity.class));
+                break;
             default:
                 break;
         }

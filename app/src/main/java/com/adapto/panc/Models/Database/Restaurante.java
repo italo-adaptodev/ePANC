@@ -1,5 +1,6 @@
 package com.adapto.panc.Models.Database;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -7,6 +8,7 @@ public class Restaurante {
     private String numContato, localizacao, usuarioID, nomeRestaurante;
     private String questionarioURL;
     private Map<String, String> horarios;
+    private List<Prato> pratos;
 
     public Restaurante(String numContato, String localizacao, String nomeRestaurante, String usuarioID, String questionarioURL) {
         this.numContato = numContato;
@@ -14,6 +16,10 @@ public class Restaurante {
         this.usuarioID = usuarioID;
         this.nomeRestaurante = nomeRestaurante;
         this.questionarioURL = questionarioURL;
+        this.pratos = new ArrayList<>();
+    }
+
+    public Restaurante() {
     }
 
     public String getNumContato() {
@@ -62,5 +68,17 @@ public class Restaurante {
 
     public void setHorarios(Map<String, String> horarios) {
         this.horarios = horarios;
+    }
+
+    public List<Prato> getPratos() {
+        return pratos;
+    }
+
+    public void setPratos(List<Prato> pratos) {
+        this.pratos = pratos;
+    }
+
+    public int getCountPratos(){
+        return pratos.size();
     }
 }
