@@ -8,16 +8,22 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
 import android.text.TextUtils;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.content.res.AppCompatResources;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -25,12 +31,14 @@ import com.adapto.panc.Adapters.ForumComentarioAdapter;
 import com.adapto.panc.FirestoreReferences;
 import com.adapto.panc.Models.Database.FirestoreForumComentario;
 import com.adapto.panc.Models.Database.PostagemForumDuvidas;
+import com.adapto.panc.Models.ViewHolder.PostagemForumHolder;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
 import com.adapto.panc.SnackBarPersonalizada;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
+import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -78,8 +86,8 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
     private List<Drawable> sampleImages;
     private List<String> uris;
     private FirestoreReferences firestoreReferences = new FirestoreReferences();
-    ExecutorService mExecutor = Executors.newSingleThreadExecutor();
-    Handler mHandler = new Handler(Looper.getMainLooper());
+    private ProgressBar spinner;
+    private ConstraintLayout constraintLayoutDetalharForum;
 
 
     @Override
@@ -94,6 +102,7 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
         comentario = findViewById(R.id.forum_detalhar_comentario);
         btnEnviarComentario = findViewById(R.id.forum_btn_enviar_comentario);
         carouselView = findViewById(R.id.postagemForumDetalharImagens);
+        carouselView.setVisibility(View.INVISIBLE);
         sampleImages = new ArrayList<>();
         uris = new ArrayList<>();
         v = findViewById(android.R.id.content);
@@ -104,6 +113,9 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
         sv.scrollTo(0, 0);
         postagem = recuperarPostagem(postagemKey);
         getNomeUsuarioAtual(new LoginSharedPreferences(getApplicationContext()).getIdentifier());
+        spinner = findViewById(R.id.progressBar2);
+        spinner.setVisibility(View.VISIBLE);
+        constraintLayoutDetalharForum = findViewById(R.id.ConstraintLayoutDetalharForum);
         btnEnviarComentario.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -184,6 +196,8 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isComplete())
                     setImagesCarousel(uris);
+                spinner.setVisibility(View.INVISIBLE);
+                constraintLayoutDetalharForum.setVisibility(View.VISIBLE);
             }
         });
         return docRef;
@@ -232,11 +246,19 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
         // [END listen_diffs]
     }
 
+    ImageListener imageListener = new ImageListener() {
+        @Override
+        public void setImageForPosition(int position, ImageView imageView) {
+            imageView.setImageDrawable(sampleImages.get(position));
+        }
+    };
+
     public void setImagesCarousel(List<String> images) {
         final Bitmap[] bitmap = {null};
         for(String uri: images){
             Glide.with(getBaseContext()).asBitmap()
                     .load(uri)
+                    .dontAnimate()
                     .into(new SimpleTarget<Bitmap>() {
                         @Override
                         public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
@@ -248,18 +270,7 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
         }
         carouselView.setImageListener(imageListener);
         carouselView.setPageCount(sampleImages.size());
+        carouselView.setVisibility(View.VISIBLE);
     }
-
-    ImageListener imageListener = new ImageListener() {
-        @Override
-        public void setImageForPosition(int position, ImageView imageView) {
-            imageView.setImageDrawable(sampleImages.get(position));
-        }
-    };
-
-
-
-    // Create an interface to respond with the result after processing
-    
 }
 
