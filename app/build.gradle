@@ -52,4 +52,5 @@ dependencies {
     implementation 'com.synnapps:carouselview:0.1.5'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
     implementation 'me.abhinay.input:currency-edittext:1.1'
+    implementation 'com.github.joielechong:countrycodepicker:2.4.2'
 }

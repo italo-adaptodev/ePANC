@@ -136,8 +136,9 @@ public class TelaInicialActivity extends AppCompatActivity {
 
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
-       /* if(isUsuarioAdminstrador)
-            menu.getItem(3).setVisible(false);*/
+
+        if(!isUsuarioAdminstrador)
+            menu.getItem(4).setVisible(false);
         return super.onMenuOpened(featureId, menu);
     }
 
@@ -158,7 +159,8 @@ public class TelaInicialActivity extends AppCompatActivity {
                 break;
 
             case R.id.convite:
-                startActivity(new Intent(this, ConvidarActivity.class));
+                 if(isUsuarioAdminstrador)
+                    startActivity(new Intent(this, ConvidarActivity.class));
                 break;
 
             case R.id.menurestaurantes:

@@ -26,12 +26,13 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.rilixtech.widget.countrycodepicker.CountryCodePicker;
 
 import java.util.Objects;
 
 public class CadastroActivity extends AppCompatActivity {
 
-    private TextInputLayout nomeCadastroUsuario, loginCadastroUsuario, senhaCadastroUsuario;
+    private TextInputLayout nomeCadastroUsuario, loginCadastroUsuario, senhaCadastroUsuario, contatoUsuario;
     private TextInputLayout telInfoProdutor, emailInfoProdutor, localInfoProdutor;
     private TextInputLayout telInfoRestaurante, nomeInfoRestaurante, localInfoRestaurante;
     private SnackBarPersonalizada snackbar;
@@ -46,7 +47,6 @@ public class CadastroActivity extends AppCompatActivity {
     private String usuarioID;
     private FirestoreReferences fsRefs;
     private View cadastro2 = null, infoProdutor = null, infoRestaurante = null, infoConsumidor = null, infoCultivare = null;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

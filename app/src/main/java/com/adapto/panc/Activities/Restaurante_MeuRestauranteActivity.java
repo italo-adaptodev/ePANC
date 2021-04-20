@@ -8,6 +8,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -20,6 +21,7 @@ import com.adapto.panc.Models.Database.Prato;
 import com.adapto.panc.Models.Database.Restaurante;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
+import com.adapto.panc.SnackBarPersonalizada;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -45,6 +47,7 @@ public class Restaurante_MeuRestauranteActivity extends AppCompatActivity {
     private String restauranteID;
     private MeuRestaurantePratosAdapter pratosAdapter;
     private DocumentReference docRef;
+    private View v;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +61,7 @@ public class Restaurante_MeuRestauranteActivity extends AppCompatActivity {
         recyclerViewMeuRest.setLayoutManager(new LinearLayoutManager(this));
         nomeRestauranteMeuRest = findViewById(R.id.nomeRestauranteMeuRest);
         addPrato = findViewById(R.id.addPratoMeuRest);
+        v = findViewById(android.R.id.content);
         final Intent addPratoIntent = new Intent(this.getBaseContext(), AdicionarPratoARestauranteActivity.class);
         restauranteDocRef = getRestauranteByUsuarioID(new LoginSharedPreferences(getApplicationContext()).getIdentifier());
         addPrato.setOnClickListener(new View.OnClickListener() {
@@ -72,7 +76,7 @@ public class Restaurante_MeuRestauranteActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        buildRecyclerView();
+//        buildRecyclerView();
     }
 
     private Restaurante getRestauranteByUsuarioID(String identificador) {
@@ -85,7 +89,7 @@ public class Restaurante_MeuRestauranteActivity extends AppCompatActivity {
                 for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
                     restaurante[0] = snap.toObject(Restaurante.class);
                     nomeRestauranteMeuRest.setText(snap.getString("nomeRestaurante"));
-                    restauranteID = snap.getId();
+                    buildRecyclerView(snap.getId());
                 }
 
             }
@@ -93,20 +97,22 @@ public class Restaurante_MeuRestauranteActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isComplete()){
+
                     spinner.setVisibility(View.INVISIBLE);
                     infosMeuRest.setVisibility(View.VISIBLE);
+                    recyclerViewMeuRest.setVisibility(View.VISIBLE);
                 }
             }
         });
         return restaurante[0];
     }
 
-    private void getDocRef (){
-        docRef = db.collection(firestoreReferences.getRestauranteCOLLECTION()).document("2WImxuJDNdbgHUIxP4av");
+    private void getDocRef (String key){
+        docRef = db.collection(firestoreReferences.getRestauranteCOLLECTION()).document(key);
     }
 
-    private void buildRecyclerView(){
-        getDocRef();
+    private void buildRecyclerView(String key){
+        getDocRef(key);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
@@ -117,9 +123,9 @@ public class Restaurante_MeuRestauranteActivity extends AppCompatActivity {
         }).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                recyclerViewMeuRest.setVisibility(View.VISIBLE);
             }
         });
+
 
     }
 
