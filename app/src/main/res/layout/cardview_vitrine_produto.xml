@@ -12,12 +12,12 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:id="@+id/vitrineProdutoLinearLayoutBtn"
+            android:id="@+id/vitrineProdutoLinearLayout"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:visibility="gone">
             <ImageButton
-                android:id="@+id/vitrineProdutoDelete"
+                android:id="@+id/vitrineProdutoLinearLayoutDeleteBtn"
                 android:layout_width="35dp"
                 android:layout_height="26dp"
                 android:layout_gravity="end"

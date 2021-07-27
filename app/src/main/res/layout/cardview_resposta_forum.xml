@@ -28,7 +28,7 @@
                 android:layout_width="326dp"
                 android:layout_height="20dp"
                 android:layout_marginStart="2dp"
-                android:layout_marginLeft="2dp"
+                
                 android:layout_marginTop="0dp"
                 android:background="#00635A5A"
                 android:gravity="start"
@@ -57,12 +57,12 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginStart="3dp"
-                android:layout_marginLeft="2dp"
+                
                 android:layout_marginTop="0dp"
                 android:paddingLeft="2dp"
                 android:paddingBottom="5dp"
                 android:layout_marginEnd="10dp"
-                android:layout_marginRight="10dp"
+                
                 android:layout_marginBottom="0dp"
                 android:text="Texto"
                 android:textColor="#000"
