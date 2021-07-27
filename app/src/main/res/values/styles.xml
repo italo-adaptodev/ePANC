@@ -13,4 +13,15 @@
         <item name="boxStrokeColor">@color/textboxgreen</item>
         <item name="helperTextEnabled">true</item>
     </style>
+
+    <style name="GlideSliderBackgroundStyle">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:background">@color/glide_slider_background_color</item>
+    </style>
+
+    <style name="GlideSliderImageStyle">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">match_parent</item>
+    </style>
 </resources>

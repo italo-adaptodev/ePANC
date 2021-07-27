@@ -29,6 +29,21 @@
 
         app:layout_constraintTop_toBottomOf="@+id/toolbar" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/emptyRecyclerViewTXT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nenhum item encontrado"
+        android:textColor="#000000"
+        android:textSize="16dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/feedPrincipalRecV"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/feedPrincipalRecV"
+        app:layout_constraintTop_toTopOf="@+id/feedPrincipalRecV">
+
+    </com.google.android.material.textview.MaterialTextView>
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/feedPrincipalRecV"
         android:layout_width="387dp"

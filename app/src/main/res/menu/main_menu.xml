@@ -25,14 +25,21 @@
         android:id="@+id/convite"
         android:title="Convidar"
         android:icon="@drawable/ic_add_button"
+        android:orderInCategory="4"
+        />
+
+    <item
+        android:id="@+id/meurestaurante"
+        android:title="Meu Restaurante"
+        android:icon="@drawable/ic_add_button"
         android:orderInCategory="5"
         />
 
     <item
-        android:id="@+id/menurestaurantes"
+        android:id="@+id/listarestaurantes"
         android:title="Restaurantes"
         android:icon="@drawable/ic_add_button"
-        android:orderInCategory="4"
+        android:orderInCategory="6"
         />
 
 </menu>
