@@ -13,20 +13,24 @@
         android:layout_height="match_parent"
         android:background="#FFFFFF">
 
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/imagensProdutoDetalhar"
+            app:layout_constraintTop_toTopOf="@+id/imagensProdutoDetalhar" />
 
-        <com.synnapps.carouselview.CarouselView
+        <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/imagensProdutoDetalhar"
             android:layout_width="match_parent"
             android:layout_height="400dp"
-            android:layout_marginTop="10dp"
-            android:outlineAmbientShadowColor="@color/colorAccent"
+            android:layout_marginBottom="538dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:pageColor="@color/colorAccent">
-
-        </com.synnapps.carouselview.CarouselView>
+            app:layout_constraintTop_toTopOf="parent">
+        </androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"

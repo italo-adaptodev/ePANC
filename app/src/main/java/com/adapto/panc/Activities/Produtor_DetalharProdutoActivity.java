@@ -2,6 +2,7 @@ package com.adapto.panc.Activities;
 
 import android.animation.Animator;
 import android.animation.LayoutTransition;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -11,20 +12,34 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.content.ContextCompat;
 
 import com.adapto.panc.FirestoreReferences;
 import com.adapto.panc.R;
 import com.adapto.panc.SnackBarPersonalizada;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
 import com.bumptech.glide.request.target.SimpleTarget;
+import com.bumptech.glide.request.target.Target;
 import com.bumptech.glide.request.transition.Transition;
+import com.glide.slider.library.SliderLayout;
+import com.glide.slider.library.slidertypes.BaseSliderView;
+import com.glide.slider.library.slidertypes.DefaultSliderView;
+import com.glide.slider.library.tricks.ViewPagerEx;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -45,7 +60,7 @@ import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
 
-public class Produtor_DetalharProdutoActivity extends AppCompatActivity {
+public class Produtor_DetalharProdutoActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
     private TextView nomeProdutorDetalhar, nomeProdutoDetalhar, precoProdutoDetalhar, emailProdutorDetalhar, enderecoProdutorDetalhar,
             descricaoProdutoDetalhar;
@@ -64,6 +79,7 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity {
     private ScrollView scrollViewProduto;
     private Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
     private ImageButton whatsappBtn;
+    private LinearLayoutCompat linearLayoutImagem;
 
 
 
@@ -76,7 +92,7 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity {
         emailProdutorDetalhar = findViewById(R.id.emailProdutorDetalhar);
         enderecoProdutorDetalhar = findViewById(R.id.enderecoProdutorDetalhar);
         descricaoProdutoDetalhar = findViewById(R.id.descricaoProdutoDetalhar);
-        carouselView = findViewById(R.id.imagensProdutoDetalhar);
+        linearLayoutImagem = findViewById(R.id.imagensProdutoDetalhar);
         scrollViewProduto = findViewById(R.id.scrollViewProduto);
         sampleImages = new ArrayList<>();
         uris = new ArrayList<>();
@@ -154,7 +170,11 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isComplete())
-                    setImagesCarousel(uris);
+                    if(uris.size() > 1 ) {
+                        setImagesCarousel(uris);
+                    }else {
+                        setImage(uris.get(0));
+                    }
             }
         });
         return docRef;
@@ -197,22 +217,77 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity {
 
     }
 
+    @SuppressLint("CheckResult")
     public void setImagesCarousel(List<String> images) {
-        final Bitmap[] bitmap = {null};
-        for(String uri: images){
-            Glide.with(getBaseContext()).asBitmap()
-                    .load(uri)
-                    .into(new SimpleTarget<Bitmap>() {
+        SliderLayout sliderLayout = new SliderLayout(this);
+        sliderLayout.stopAutoCycle();
+        sliderLayout.setMinimumWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        sliderLayout.setMinimumHeight(250);
+        sliderLayout.setMinimumHeight(250);
+
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress);
+
+        linearLayoutImagem.addView(sliderLayout);
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .placeholder(R.drawable.pancdefault);
+
+        for (int i = 0; i < images.size(); i++) {
+            DefaultSliderView sliderView = new DefaultSliderView(this);
+            sliderView
+                    .image(images.get(i))
+                    .setRequestOption(requestOptions)
+                    .setProgressBarVisible(true)
+                    .setOnSliderClickListener(this)
+                    .setOnImageLoadListener(new BaseSliderView.ImageLoadListener() {
                         @Override
-                        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                            bitmap[0] = resource;
+                        public void onStart(BaseSliderView target) {
+                            progressBar.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onEnd(boolean result, BaseSliderView target) {
+                            progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onDrawableLoaded(Drawable drawable) {
+                            progressBar.setVisibility(View.GONE);
                         }
                     });
-            Drawable d = new BitmapDrawable(getResources(), bitmap[0]);
-            sampleImages.add(d);
+
+            sliderView.bundle(new Bundle());
+            sliderLayout.addSlider(sliderView);
         }
-        carouselView.setImageListener(imageListener);
-        carouselView.setPageCount(sampleImages.size());
+        sliderLayout.setCurrentPosition(0);
+        sliderLayout.addOnPageChangeListener(this);
+    }
+
+    private void setImage(String uri){
+        ImageView imageView = new ImageView(this);
+        imageView.setMaxWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        imageView.setMaxHeight(250);
+        linearLayoutImagem.addView(imageView);
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress);
+
+        Glide.with(getBaseContext())
+                .load(uri)
+                .dontAnimate()
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+                .into(imageView);
     }
 
     ImageListener imageListener = new ImageListener() {
@@ -263,5 +338,27 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity {
         }).alpha(0);
     }
 
-    // Create an interface to respond with the result after processing
+    public void onBackPressed() {
+        startActivity(new Intent(this, Produtor_ListarProdutosActivity.class));
+    }
+
+    @Override
+    public void onSliderClick(BaseSliderView slider) {
+        new SnackBarPersonalizada().showMensagemLonga(v,   slider.getUrl());
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
+    }
 }

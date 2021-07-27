@@ -1,20 +1,17 @@
 package com.adapto.panc.Activities;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
-import android.os.Handler;
-import android.os.Looper;
 import android.text.TextUtils;
-import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -22,7 +19,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.content.res.AppCompatResources;
+import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -31,14 +28,20 @@ import com.adapto.panc.Adapters.ForumComentarioAdapter;
 import com.adapto.panc.FirestoreReferences;
 import com.adapto.panc.Models.Database.FirestoreForumComentario;
 import com.adapto.panc.Models.Database.PostagemForumDuvidas;
-import com.adapto.panc.Models.ViewHolder.PostagemForumHolder;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
 import com.adapto.panc.SnackBarPersonalizada;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.request.target.SimpleTarget;
-import com.bumptech.glide.request.transition.Transition;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.bumptech.glide.load.DataSource;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.engine.GlideException;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.RequestOptions;
+import com.bumptech.glide.request.target.Target;
+import com.glide.slider.library.SliderLayout;
+import com.glide.slider.library.slidertypes.BaseSliderView;
+import com.glide.slider.library.slidertypes.DefaultSliderView;
+import com.glide.slider.library.tricks.ViewPagerEx;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -53,28 +56,22 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.FirebaseFirestoreException;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.synnapps.carouselview.CarouselView;
-import com.synnapps.carouselview.ImageListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.TimeZone;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
 
 
-public class DetalharPostagemForumActivity extends AppCompatActivity {
+public class DetalharPostagemForumActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener,
+        ViewPagerEx.OnPageChangeListener {
 
     private ArrayList<FirestoreForumComentario> arrayList;
     private TextView postagemDetalhadaAutor, postagemDetalhadaData,postagemDetalhadaTexto;
-    private ImageView postagemForumDetalharImagem;
     private RecyclerView recyclerViewComentarios;
     private EditText comentario;
     private ImageButton btnEnviarComentario;
-    private int qtdComentarios;
-    private Boolean check = false;
     public static final String DATE_FORMAT_1 = "dd MMM yyyy";
     private DocumentReference postagem;
     private  FirebaseFirestore db;
@@ -82,13 +79,12 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
     private PostagemForumDuvidas postagemForumDuvidas = new PostagemForumDuvidas();
     private ForumComentarioAdapter forumAdapter;
     private String nomeUsuarioComentario;
-    private CarouselView carouselView;
-    private List<Drawable> sampleImages;
+    private List<Bitmap> sampleImages;
     private List<String> uris;
     private FirestoreReferences firestoreReferences = new FirestoreReferences();
     private ProgressBar spinner;
     private ConstraintLayout constraintLayoutDetalharForum;
-
+    private LinearLayoutCompat linearLayoutImagem;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -98,11 +94,10 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
         postagemDetalhadaData = findViewById(R.id.detalhar_forum_data);
         recyclerViewComentarios = findViewById(R.id.recyclerview_detalhar_respostas_forum);
         recyclerViewComentarios.setLayoutManager(new LinearLayoutManager(this));
+        linearLayoutImagem = findViewById(R.id.linearlayoutImagem);
         postagemDetalhadaTexto = findViewById(R.id.detalhar_forum_texto);
         comentario = findViewById(R.id.forum_detalhar_comentario);
         btnEnviarComentario = findViewById(R.id.forum_btn_enviar_comentario);
-        carouselView = findViewById(R.id.postagemForumDetalharImagens);
-        carouselView.setVisibility(View.INVISIBLE);
         sampleImages = new ArrayList<>();
         uris = new ArrayList<>();
         v = findViewById(android.R.id.content);
@@ -164,9 +159,9 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
 
     private void atualizarActivity() {
         finish();
-        overridePendingTransition(0, 0);
+        overridePendingTransition(R.anim.from_right_in, R.anim.from_left_out);
         startActivity(getIntent());
-        overridePendingTransition(0, 0);
+        overridePendingTransition(R.anim.from_right_in, R.anim.from_left_out);
     }
 
     private DocumentReference recuperarPostagem(String postagemKey) {
@@ -185,6 +180,15 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
                 postagemForumDuvidas = DS.toObject(PostagemForumDuvidas.class);
                 forumAdapter = new ForumComentarioAdapter(getLayoutInflater(), postagemForumDuvidas.getComentarios());
                 recyclerViewComentarios.setAdapter(forumAdapter);
+                if(uris.size() > 1 ) {
+                    setImagesCarousel(uris);
+                }else {
+                    setImage(uris.get(0));
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -194,13 +198,84 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
         }).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                if(task.isComplete())
-                    setImagesCarousel(uris);
                 spinner.setVisibility(View.INVISIBLE);
                 constraintLayoutDetalharForum.setVisibility(View.VISIBLE);
             }
         });
         return docRef;
+    }
+
+    @SuppressLint("CheckResult")
+    public void setImagesCarousel(List<String> images) {
+        SliderLayout sliderLayout = new SliderLayout(this);
+        sliderLayout.stopAutoCycle();
+        sliderLayout.setMinimumWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        sliderLayout.setMinimumHeight(250);
+        sliderLayout.setMinimumHeight(250);
+
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress);
+
+        linearLayoutImagem.addView(sliderLayout);
+        RequestOptions requestOptions = new RequestOptions();
+        requestOptions.centerCrop()
+                .diskCacheStrategy(DiskCacheStrategy.RESOURCE)
+                .placeholder(R.drawable.pancdefault);
+
+        for (int i = 0; i < images.size(); i++) {
+            DefaultSliderView sliderView = new DefaultSliderView(this);
+            sliderView
+                    .image(images.get(i))
+                    .setRequestOption(requestOptions)
+                    .setProgressBarVisible(true)
+                    .setOnSliderClickListener(this)
+                    .setOnImageLoadListener(new BaseSliderView.ImageLoadListener() {
+                        @Override
+                        public void onStart(BaseSliderView target) {
+                            progressBar.setVisibility(View.VISIBLE);
+                        }
+
+                        @Override
+                        public void onEnd(boolean result, BaseSliderView target) {
+                            progressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onDrawableLoaded(Drawable drawable) {
+                            progressBar.setVisibility(View.GONE);
+                        }
+                    });
+
+            sliderView.bundle(new Bundle());
+            sliderLayout.addSlider(sliderView);
+        }
+        sliderLayout.setCurrentPosition(0);
+        sliderLayout.addOnPageChangeListener(this);
+    }
+
+    private void setImage(String uri){
+        ImageView imageView = new ImageView(this);
+        imageView.setMaxWidth(LinearLayout.LayoutParams.MATCH_PARENT);
+        imageView.setMaxHeight(250);
+        linearLayoutImagem.addView(imageView);
+        final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress);
+
+        Glide.with(getBaseContext())
+                .load(uri)
+                .dontAnimate()
+                .listener(new RequestListener<Drawable>() {
+                    @Override
+                    public boolean onLoadFailed(@Nullable GlideException e, Object model, Target<Drawable> target, boolean isFirstResource) {
+                        progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+
+                    @Override
+                    public boolean onResourceReady(Drawable resource, Object model, Target<Drawable> target, DataSource dataSource, boolean isFirstResource) {
+                        progressBar.setVisibility(View.GONE);
+                        return false;
+                    }
+                })
+                .into(imageView);
     }
 
     private void getNomeAutorPostagem(String usuarioID) {
@@ -246,31 +321,29 @@ public class DetalharPostagemForumActivity extends AppCompatActivity {
         // [END listen_diffs]
     }
 
-    ImageListener imageListener = new ImageListener() {
-        @Override
-        public void setImageForPosition(int position, ImageView imageView) {
-            imageView.setImageDrawable(sampleImages.get(position));
-        }
-    };
+    @Override
+    public void onBackPressed() {
+        finish();
+    }
 
-    public void setImagesCarousel(List<String> images) {
-        final Bitmap[] bitmap = {null};
-        for(String uri: images){
-            Glide.with(getBaseContext()).asBitmap()
-                    .load(uri)
-                    .dontAnimate()
-                    .into(new SimpleTarget<Bitmap>() {
-                        @Override
-                        public void onResourceReady(Bitmap resource, Transition<? super Bitmap> transition) {
-                            bitmap[0] = resource;
-                        }
-                    });
-            Drawable d = new BitmapDrawable(getResources(), bitmap[0]);
-            sampleImages.add(d);
-        }
-        carouselView.setImageListener(imageListener);
-        carouselView.setPageCount(sampleImages.size());
-        carouselView.setVisibility(View.VISIBLE);
+    @Override
+    public void onSliderClick(BaseSliderView slider) {
+        new SnackBarPersonalizada().showMensagemLonga(v,   slider.getUrl());
+    }
+
+    @Override
+    public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+    }
+
+    @Override
+    public void onPageSelected(int position) {
+
+    }
+
+    @Override
+    public void onPageScrollStateChanged(int state) {
+
     }
 }
 

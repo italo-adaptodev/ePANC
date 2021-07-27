@@ -43,33 +43,25 @@
             android:layout_marginTop="40dp"
             >
 
+            <ProgressBar
+                android:id="@+id/progress"
+                android:layout_width="match_parent"
+                android:layout_height="60dp"
+                android:visibility="visible"
+                app:layout_constraintBottom_toBottomOf="@+id/linearlayoutImagem"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="@+id/linearlayoutImagem" />
+
             <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/teste"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/linearlayoutImagem"
+                android:layout_width="match_parent"
+                android:layout_height="250dp"
                 android:layout_marginBottom="538dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
-
-                <com.synnapps.carouselview.CarouselView
-                    android:id="@+id/postagemForumDetalharImagens"
-                    android:layout_width="match_parent"
-                    android:layout_height="200dp"
-                    app:autoPlay="false"
-                    app:fillColor="#FFFFFFFF"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.493"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintVertical_bias="0.028"
-                    app:pageColor="#00000000"
-                    app:radius="6dp"
-                    app:slideInterval="3000"
-                    app:strokeColor="#FF777777"
-                    app:strokeWidth="1dp" />
             </androidx.appcompat.widget.LinearLayoutCompat>
 
 
@@ -86,7 +78,7 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.465"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/teste"
+                app:layout_constraintTop_toBottomOf="@+id/linearlayoutImagem"
                 app:layout_constraintVertical_bias="0.024" />
 
             <RelativeLayout
@@ -108,17 +100,17 @@
                     android:layout_width="140dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
+                    
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+                    
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="start"
                     android:layout_marginStart="4dp"
-                    android:layout_marginLeft="4dp"
+                    
                     android:layout_marginTop="0dp"
                     android:layout_marginEnd="196dp"
-                    android:layout_marginRight="196dp"
+                    
                     android:layout_marginBottom="0dp"
                     android:background="@drawable/arrendondado_textview"
                     android:foregroundGravity="center"
@@ -138,17 +130,17 @@
                     android:layout_width="160dp"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
-                    android:layout_alignParentLeft="true"
+                    
                     android:layout_alignParentTop="true"
                     android:layout_alignParentEnd="true"
-                    android:layout_alignParentRight="true"
+                    
                     android:layout_alignParentBottom="true"
                     android:layout_gravity="start"
                     android:layout_marginStart="203dp"
-                    android:layout_marginLeft="203dp"
+                    
                     android:layout_marginTop="0dp"
                     android:layout_marginEnd="3dp"
-                    android:layout_marginRight="3dp"
+                    
                     android:layout_marginBottom="0dp"
                     android:background="@drawable/arrendondado_textview"
                     android:gravity="center"
@@ -198,10 +190,10 @@
             android:layout_width="305dp"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            android:layout_alignParentLeft="true"
+            
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            android:layout_alignParentRight="true"
+            
             android:layout_alignParentBottom="true"
             android:background="@drawable/arredondado_comentar_forum"
             android:hint="Comentário..."
