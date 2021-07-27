@@ -16,6 +16,20 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.53" />
 
+    <com.google.android.material.textview.MaterialTextView
+        android:id="@+id/emptyRecyclerViewTXT"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Nenhum item encontrado"
+        android:textColor="#000000"
+        android:textSize="16dp"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerViewVitrine"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/recyclerViewVitrine"
+        app:layout_constraintTop_toTopOf="@+id/recyclerViewVitrine">
+
+    </com.google.android.material.textview.MaterialTextView>
     <ProgressBar
         android:id="@+id/progressBar1"
         android:layout_width="72dp"

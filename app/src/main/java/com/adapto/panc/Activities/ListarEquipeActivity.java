@@ -1,5 +1,6 @@
 package com.adapto.panc.Activities;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -16,7 +17,10 @@ import com.adapto.panc.R;
 import com.adapto.panc.SnackBarPersonalizada;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -30,6 +34,7 @@ public class ListarEquipeActivity extends AppCompatActivity {
     private SnackBarPersonalizada snackBarPersonalizada;
     private View v;
     private FirestoreReferences firestoreReferences = new FirestoreReferences();
+    private MaterialTextView textViewRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,14 +44,25 @@ public class ListarEquipeActivity extends AppCompatActivity {
         v = findViewById(android.R.id.content);
         recyclerView = findViewById(R.id.recyclerViewEquipe);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        textViewRecycler = findViewById(R.id.emptyRecyclerViewTXT);
         db = FirebaseFirestore.getInstance();
         Query query = db
                 .collection(firestoreReferences.getEquipeCOLLECTION()).orderBy("cargosAdministrativos", Query.Direction.ASCENDING).orderBy("timestamp", Query.Direction.ASCENDING);
 
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.getResult().size() < 1){
+                    textViewRecycler.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         FirestoreRecyclerOptions<MembroEquipe> options = new FirestoreRecyclerOptions.Builder<MembroEquipe>()
                 .setQuery(query, MembroEquipe.class)
                 .setLifecycleOwner(this)
-                .build();
+                .build()
+                ;
 
         adapter = new FirestoreRecyclerAdapter<MembroEquipe, FirestoreEquipeAdministrativaViewHolder>(options) {
             @Override
@@ -92,6 +108,7 @@ public class ListarEquipeActivity extends AppCompatActivity {
     protected void onStart() {
         super.onStart();
         adapter.startListening();
+
     }@Override
     protected void onStop() {
         super.onStop();

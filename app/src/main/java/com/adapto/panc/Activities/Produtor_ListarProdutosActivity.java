@@ -22,9 +22,12 @@ import com.adapto.panc.SnackBarPersonalizada;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -44,6 +47,7 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private ProgressBar spinner;
     private boolean isUsuarioProdutor = false;
+    private MaterialTextView textViewRecycler;
 
 
     @Override
@@ -56,6 +60,7 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
         getPermissaoProdutor();
         recyclerView = findViewById(R.id.recyclerViewVitrine);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        textViewRecycler = findViewById(R.id.emptyRecyclerViewTXT);
         v = findViewById(android.R.id.content);
         spinner = findViewById(R.id.progressBar1);
         spinner.setVisibility(View.VISIBLE);
@@ -63,6 +68,15 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
         //region RECYCLER VIEW POSTAGENS
         Query query = db
                 .collection(collections.getVitrineProdutosCOLLECTION()).orderBy("timestamp", Query.Direction.DESCENDING);
+
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.getResult().size() < 1){
+                    textViewRecycler.setVisibility(View.VISIBLE);
+                }
+            }
+        });
 
         options = new FirestoreRecyclerOptions.Builder<Produtor_Produto>()
                 .setQuery(query, Produtor_Produto.class)
@@ -82,19 +96,19 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
             }
         });
 
-        handler.postDelayed(task, 10000);
+        handler.postDelayed(task, 1);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        handler.postDelayed(task, 1000);
+        handler.postDelayed(task, 1);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        handler.postDelayed(task, 1000);
+        handler.postDelayed(task, 1);
     }
 
     private boolean getCargosUsuarioSolicitante() {
@@ -152,6 +166,7 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
 
     private Runnable task = new Runnable() {
         public void run() {
+
             adapter = new FirestoreRecyclerAdapter<Produtor_Produto, Produtor_VitrineHolder>(options) {
                 @Override
                 public void onBindViewHolder(Produtor_VitrineHolder holder, int position, final Produtor_Produto model) {
@@ -186,9 +201,16 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
                     return new Produtor_VitrineHolder(view);
                 }
             };
+
             recyclerView.setAdapter(adapter);
             spinner.setVisibility(View.INVISIBLE);
             recyclerView.setVisibility(View.VISIBLE);
         }
     };
+
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, TelaInicialActivity.class));
+    }
 }
