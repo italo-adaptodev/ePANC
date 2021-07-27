@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Map;
 
 public class Restaurante {
-    private String numContato, localizacao, usuarioID, nomeRestaurante;
+    private String numContato, localizacao, usuarioID, nomeRestaurante, restauranteID;
     private String questionarioURL;
     private Map<String, String> horarios;
     private List<Prato> pratos;
@@ -80,5 +80,13 @@ public class Restaurante {
 
     public int getCountPratos(){
         return pratos.size();
+    }
+
+    public String getRestauranteID() {
+        return restauranteID;
+    }
+
+    public void setRestauranteID(String restauranteID) {
+        this.restauranteID = restauranteID;
     }
 }
