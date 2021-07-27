@@ -1,8 +1,11 @@
 package com.adapto.panc.Activities;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
@@ -21,6 +24,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -47,6 +51,8 @@ public class CadastroActivity extends AppCompatActivity {
     private String usuarioID;
     private FirestoreReferences fsRefs;
     private View cadastro2 = null, infoProdutor = null, infoRestaurante = null, infoConsumidor = null, infoCultivare = null;
+    private AlertDialog alertDialog = null;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +136,7 @@ public class CadastroActivity extends AppCompatActivity {
         //endregion
 
         db = FirebaseFirestore.getInstance();
+
     }
 
 
@@ -234,6 +241,7 @@ public class CadastroActivity extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                         @Override
                                         public void onSuccess(final DocumentReference documentReference) {
+                                            documentReference.update("restauranteID", documentReference.getId());
 //                                            startIntentQuestionario(URL_RESTAURANTE);
                                             startActivity(new Intent(CadastroActivity.this, TelaInicialActivity.class));
                                         }
@@ -337,10 +345,28 @@ public class CadastroActivity extends AppCompatActivity {
         }
     }
 
-    private void startIntentQuestionario(String URL) {
-        Intent intent = new Intent(CadastroActivity.this, WebViewConfig.class);
-        intent.putExtra("URL", URL);
-        startActivity(intent);
+    private void startIntentQuestionario(final String URL) {
+        showAlerta();
+        alertDialog.getButton(Dialog.BUTTON_POSITIVE).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                alertDialog.dismiss();
+                Intent intent = new Intent(CadastroActivity.this, WebViewConfig.class);
+                intent.putExtra("URL", URL);
+                startActivity(intent);
+            }
+        });
+
+    }
+
+    private void showAlerta() {
+        alertDialog = new MaterialAlertDialogBuilder(this)
+                .setTitle("SEJA BEM VINDO!")
+                .setMessage("Você agora será redirecionado para preencher um formulário direcionado ao projeto de mestrado. Por favor, preencha todos os campos e confirme o envio." +
+                        "Caso não queira preencher o envio, basta clicar no botão 'Voltar' do seu celular para sair da página")
+                .setCancelable(false)
+                .setPositiveButton("Ok", null)
+                .show();
     }
 
     private Usuario getCamposUsuario() {

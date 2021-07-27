@@ -28,10 +28,13 @@ import com.adapto.panc.SnackBarPersonalizada;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomappbar.BottomAppBar;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -46,6 +49,7 @@ public class TelaInicialActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private FirebaseFirestore db;
     private boolean isUsuarioAdminstrador = false;
+    private boolean isUsuarioRestaurante = false;
     private boolean response = false;
     private View v;
     private BottomAppBar bottomAppBar;
@@ -53,6 +57,7 @@ public class TelaInicialActivity extends AppCompatActivity {
     private FirestoreReferences firestoreReferences = new FirestoreReferences();
     private  Handler handler = new Handler();
     private ProgressBar spinner;
+    private MaterialTextView textViewRecycler;
 
 
     @Override
@@ -60,10 +65,12 @@ public class TelaInicialActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
         getCargosUsuarioSolicitante();
+        getPermissaoRestaurante();
         setContentView(R.layout.activity_tela_inicial);
         recyclerView = findViewById(R.id.feedPrincipalRecV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setVisibility(View.INVISIBLE);
+        textViewRecycler = findViewById(R.id.emptyRecyclerViewTXT);
         criarPostagemFAB = findViewById(R.id.criarPostagemFAB);
         criarPostagemIntent = new Intent(this.getBaseContext(), CriarPostagemDuvidaActivity.class);
         listarEquipeIntent = new Intent(this.getBaseContext(), ListarEquipeActivity.class);
@@ -88,15 +95,22 @@ public class TelaInicialActivity extends AppCompatActivity {
         Query query = db
                 .collection(firestoreReferences.getPostagensForumPANCCOLLECTION()).orderBy("timestamp", Query.Direction.DESCENDING);
 
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.getResult().size() < 1){
+                    textViewRecycler.setVisibility(View.VISIBLE);
+                }
+            }
+        });
+
         options = new FirestoreRecyclerOptions.Builder<PostagemForumDuvidas>()
                 .setQuery(query, PostagemForumDuvidas.class)
                 .setLifecycleOwner(this)
                 .build();
 
-
         //endregion
         setSupportActionBar(bottomAppBar);
-
     }
 
     private void excluirPostagem(String postagemID) {
@@ -137,9 +151,26 @@ public class TelaInicialActivity extends AppCompatActivity {
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
 
-        if(!isUsuarioAdminstrador)
-            menu.getItem(4).setVisible(false);
+       /* if(!isUsuarioAdminstrador)
+            menu.getItem(3).setVisible(false);
+        if(!isUsuarioRestaurante)
+            menu.getItem(4).setVisible(false);*/
         return super.onMenuOpened(featureId, menu);
+    }
+
+    private boolean getPermissaoRestaurante() {
+        db.collection(firestoreReferences.getRestauranteCOLLECTION())
+                .whereEqualTo("usuarioID",   new LoginSharedPreferences(this).getIdentifier())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if(queryDocumentSnapshots.size() > 0) {
+                            isUsuarioRestaurante = true;
+                        }
+                    }
+                });
+        return isUsuarioRestaurante;
     }
 
     @Override
@@ -159,12 +190,15 @@ public class TelaInicialActivity extends AppCompatActivity {
                 break;
 
             case R.id.convite:
-                 if(isUsuarioAdminstrador)
                     startActivity(new Intent(this, ConvidarActivity.class));
                 break;
 
-            case R.id.menurestaurantes:
-                startActivity(new Intent(this, Restaurante_MeuRestauranteActivity.class));
+            case R.id.meurestaurante:
+                startActivity(new Intent(this, Restaurante_DetalharRestauranteDONOActivity.class));
+                break;
+
+            case R.id.listarestaurantes:
+                startActivity(new Intent(this, Restaurante_ListarRestaurantesActivity.class));
                 break;
             default:
                 break;
@@ -202,6 +236,7 @@ public class TelaInicialActivity extends AppCompatActivity {
 
     private Runnable task = new Runnable() {
         public void run() {
+
             adapter = new FirestoreRecyclerAdapter<PostagemForumDuvidas, PostagemForumHolder>(options) {
                 @Override
                 public void onBindViewHolder(PostagemForumHolder holder, int position, final PostagemForumDuvidas model) {
@@ -234,6 +269,7 @@ public class TelaInicialActivity extends AppCompatActivity {
                             .inflate(R.layout.cardview_feedprincipal, group, false);
                     return new PostagemForumHolder(view);
                 }
+
             };
             recyclerView.setAdapter(adapter);
             spinner.setVisibility(View.INVISIBLE);

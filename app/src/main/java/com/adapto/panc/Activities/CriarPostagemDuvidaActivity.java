@@ -19,8 +19,10 @@ import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
 import com.adapto.panc.Repository.ReferenciaDatabase;
 import com.adapto.panc.SnackBarPersonalizada;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.Timestamp;
@@ -83,6 +85,7 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
             public void onClick(View v)
             {
                 uploadImages();
+
             }
         });
     }
@@ -260,6 +263,14 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
                         public void onFailure(@NonNull Exception e) {
                             snackBarPersonalizada.showMensagemLonga(v, e.getMessage());
                         }
-                    });
+                    }).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
+                @Override
+                public void onComplete(@NonNull Task<DocumentReference> task) {
+                    Intent intent = new Intent(CriarPostagemDuvidaActivity.this, TelaInicialActivity.class);
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                    startActivity(intent);
+
+                }
+            });
     }
 }
