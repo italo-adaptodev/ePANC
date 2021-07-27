@@ -36,7 +36,7 @@ import java.util.UUID;
 
 import me.abhinay.input.CurrencyEditText;
 
-public class AdicionarPratoARestauranteActivity extends AppCompatActivity {
+public class AdicionarPratoActivity extends AppCompatActivity {
 
     private CurrencyEditText etInput;
     private ImageView img1, img2, img3, img4, img5, img6 ;
@@ -52,6 +52,7 @@ public class AdicionarPratoARestauranteActivity extends AppCompatActivity {
     private FirestoreReferences firestoreReferences =  new FirestoreReferences();
     private String restauranteID;
     private DocumentReference restauranteDocRef;
+    private Intent intent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,7 +74,7 @@ public class AdicionarPratoARestauranteActivity extends AppCompatActivity {
         storageReference = referenciaDatabase.getFirebaseStorage();
         snackBarPersonalizada = new SnackBarPersonalizada();
         filepaths = new ArrayList<>();
-        Intent intent = getIntent();
+        intent = getIntent();
         restauranteID = intent.getStringExtra("restauranteID");
         restauranteDocRef = getRestauranteByID();
 
@@ -91,7 +92,10 @@ public class AdicionarPratoARestauranteActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
-                uploadImages();
+                if(filepaths.size() == 0)
+                    snackBarPersonalizada.showMensagemLonga(v, "Não foi possível adiciona o prato. Por favor, selecione pelo menos 1 imagem para visualização dos usuários");
+                else
+                    uploadImages();
             }
         });
 
@@ -263,13 +267,21 @@ public class AdicionarPratoARestauranteActivity extends AppCompatActivity {
 
     private void atualizarActivity() {
         finish();
-        overridePendingTransition(0, 0);
-        startActivity(getIntent());
-        overridePendingTransition(0, 0);
+        onBackPressed();
     }
 
     private DocumentReference getRestauranteByID() {
         DocumentReference docRef = referenciaDatabase.getDatabaseFirestore().collection(firestoreReferences.getRestauranteCOLLECTION()).document(restauranteID);
         return docRef;
+    }
+
+    private boolean verificarCamposUsuario() {
+
+        if(nomePrato.getEditText().getText().toString().isEmpty() || ingredientesPrato.getEditText().getText().toString().isEmpty()
+                || etInput.getText().toString().isEmpty()) {
+            new SnackBarPersonalizada().showMensagemLonga(v, "Preencha todos os campos corretamente!");
+            return false;
+        }
+        return true;
     }
 }
