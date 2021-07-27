@@ -3,7 +3,7 @@
     <color name="colorPrimary">#B0C284</color>
     <color name="colorPrimaryDark">#677544</color>
     <color name="colorAccent">#5E356E</color>
-
-
+    <color name="glide_slider_indicator_color">#FFFFFF</color>
+    <color name="glide_slider_background_color">#FFFFFF</color>
 
 </resources>
