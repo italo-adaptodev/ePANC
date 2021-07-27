@@ -25,8 +25,8 @@ public class Produtor_VitrineHolder extends RecyclerView.ViewHolder{
         vitrineProdutoImagem = itemView.findViewById(R.id.vitrineProdutoImagem);
         nome = itemView.findViewById(R.id.vitrineProdutoNome);
         preco = itemView.findViewById(R.id.vitrineProdutoPreco);
-        btnExcluirPostagem = itemView.findViewById(R.id.vitrineProdutoDelete);
-        linearLayoutBtn = itemView.findViewById(R.id.vitrineProdutoLinearLayoutBtn);
+        btnExcluirPostagem = itemView.findViewById(R.id.vitrineProdutoLinearLayoutDeleteBtn);
+        linearLayoutBtn = itemView.findViewById(R.id.vitrineProdutoLinearLayout);
         linearLayoutCard = itemView.findViewById(R.id.vitrineProdutoLinearLayoutCard);
 
     }

@@ -270,4 +270,9 @@ public class Produtor_CadastrarProdutosActivity extends AppCompatActivity {
                     }
                 });
     }
+
+    @Override
+    public void onBackPressed() {
+        startActivity(new Intent(this, Produtor_ListarProdutosActivity.class));
+    }
 }
