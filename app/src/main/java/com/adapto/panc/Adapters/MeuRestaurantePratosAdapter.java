@@ -16,17 +16,15 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.adapto.panc.Activities.DetalharPostagemForumActivity;
-import com.adapto.panc.Activities.Restaurante_DetalharRestauranteActivity;
-import com.adapto.panc.Activities.Restaurante_DetalharRestauranteDONOActivity;
+import com.adapto.panc.Activities.Restaurante.EditarPrato;
+import com.adapto.panc.Activities.Restaurante.Restaurante_DetalharPratoActivity;
+import com.adapto.panc.Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity;
 import com.adapto.panc.FirestoreReferences;
-import com.adapto.panc.Models.Database.PostagemForumDuvidas;
 import com.adapto.panc.Models.Database.Prato;
-import com.adapto.panc.Models.ViewHolder.PostagemForumHolder;
+import com.adapto.panc.Models.Database.Restaurante;
 import com.adapto.panc.R;
 import com.adapto.panc.SnackBarPersonalizada;
 import com.bumptech.glide.Glide;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
@@ -38,7 +36,7 @@ import java.util.List;
 
 public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaurantePratosAdapter.FirestoreItemPratoHolder> {
     private LayoutInflater inflater;
-    private List<Prato> pratos;
+    Restaurante restaurante;
     private Context context;
     private boolean adm = false;
     private FirestoreReferences firestoreReferences = new FirestoreReferences();
@@ -46,18 +44,18 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
     private Activity activity;
     private Handler handler = new Handler();
 
-    public MeuRestaurantePratosAdapter(LayoutInflater inflater, List<Prato> pratos, Context context, boolean adm, Activity activity) {
+    public MeuRestaurantePratosAdapter(LayoutInflater inflater, Restaurante restaurante, Context context, boolean adm, Activity activity) {
         this.inflater = inflater;
-        this.pratos = pratos;
+        this.restaurante = restaurante;
         this.context = context;
         this.adm = adm;
         db = FirebaseFirestore.getInstance();
         this.activity = activity;
     }
 
-    public MeuRestaurantePratosAdapter(LayoutInflater inflater, List<Prato> pratos, Context context) {
+    public MeuRestaurantePratosAdapter(LayoutInflater inflater, Restaurante restaurante, Context context) {
         this.inflater = inflater;
-        this.pratos = pratos;
+        this.restaurante = restaurante;
         this.context = context;
         db = FirebaseFirestore.getInstance();
     }
@@ -76,7 +74,7 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
     @Override
     public void onBindViewHolder(final FirestoreItemPratoHolder holder, final int position) {
         holder.setConfigsView(context);
-        Prato prato = pratos.get(position);
+        Prato prato = restaurante.getPratos().get(position);
         holder.nomePrato.setText(prato.getNome());
         holder.precoPrato.setText("R$ " + prato.getPrecoString());
         holder.position = position;
@@ -84,7 +82,7 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
         Glide.with(context)
                 .load(imgID)
                 .into(holder.imagemPrato);
-        if (adm){
+        if (adm) {
             holder.restaurantePratoLinearLayout.setVisibility(View.VISIBLE);
             holder.btnExcluirPrato.setVisibility(View.VISIBLE);
             holder.linearLayoutCard.setVisibility(View.VISIBLE);
@@ -94,12 +92,31 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
                     excluirPostagem(position, holder.view, activity);
                 }
             });
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, EditarPrato.class);
+                    intent.putExtra("restauranteID", restaurante.getRestauranteID());
+                    intent.putExtra("ListaPratoID", position);
+                    activity.startActivity(intent);
+                }
+            });
+        }else{
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(context, Restaurante_DetalharPratoActivity.class);
+                    intent.putExtra("restauranteID", restaurante.getRestauranteID());
+                    intent.putExtra("ListaPratoID", position);
+                    activity.startActivity(intent);
+                }
+            });
         }
     }
 
     @Override
     public int getItemCount() {
-        return pratos.size();
+        return restaurante.getPratos().size();
     }
 
     public static class FirestoreItemPratoHolder extends RecyclerView.ViewHolder {
@@ -122,17 +139,17 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
 
         }
 
-        public void setConfigsView(Context baseContext){
+        public void setConfigsView(Context baseContext) {
             restaurantePratoLinearLayout.setVisibility(View.VISIBLE);
-            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams. MATCH_PARENT ,
-                    LinearLayout.LayoutParams. MATCH_PARENT );
-            layoutParams.setMargins(0, 50 , 0 , 0 ) ;
+            RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT,
+                    LinearLayout.LayoutParams.MATCH_PARENT);
+            layoutParams.setMargins(0, 50, 0, 0);
             linearLayoutCard.setLayoutParams(layoutParams);
         }
     }
 
     private void excluirPostagem(final int index, final View view, final Activity activity) {
-        final DocumentReference docRef = db.collection(firestoreReferences.getRestauranteCOLLECTION()).document(pratos.get(0).getRestauranteID());
+        final DocumentReference docRef = db.collection(firestoreReferences.getRestauranteCOLLECTION()).document(restaurante.getPratos().get(0).getRestauranteID());
         docRef.get()
                 .addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
@@ -141,19 +158,18 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        new SnackBarPersonalizada().showMensagemLonga(view,"Prato excluído com sucesso!");
+                                        new SnackBarPersonalizada().showMensagemLonga(view, "Prato excluído com sucesso!");
                                         handler.postDelayed(task, 3000);
 
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {
                             @Override
                             public void onFailure(@NonNull Exception e) {
-                                new SnackBarPersonalizada().showMensagemLonga(view,"Não foi possível remover o prato. Tenteo novamente mais tarde.");
+                                new SnackBarPersonalizada().showMensagemLonga(view, "Não foi possível remover o prato. Tenteo novamente mais tarde.");
                             }
                         });
                     }
                 });
-
 
 
     }
