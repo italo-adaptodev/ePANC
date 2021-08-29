@@ -19,6 +19,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.adapto.panc.Activities.ForumDuvida.CriarPostagemDuvidaActivity;
+import com.adapto.panc.Activities.ForumDuvida.DetalharPostagemForumActivity;
+import com.adapto.panc.Activities.Produto.Produtor_ListarProdutosActivity;
+import com.adapto.panc.Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity;
+import com.adapto.panc.Activities.Restaurante.Restaurante_ListarRestaurantesActivity;
 import com.adapto.panc.FirestoreReferences;
 import com.adapto.panc.Models.Database.PostagemForumDuvidas;
 import com.adapto.panc.Models.ViewHolder.PostagemForumHolder;
@@ -242,9 +247,10 @@ public class TelaInicialActivity extends AppCompatActivity {
                 public void onBindViewHolder(PostagemForumHolder holder, int position, final PostagemForumDuvidas model) {
                     holder.setConfigsView(isUsuarioAdminstrador, getBaseContext());
                     String imgID = model.getImagensID().get(0);
-                    Glide.with(getBaseContext())
-                            .load(imgID)
-                            .into(holder.postagemForumImagem);
+                    if(imgID != null)
+                        Glide.with(getBaseContext())
+                                .load(imgID)
+                                .into(holder.postagemForumImagem);
                     holder.postagemForumDesc.setText(model.getPostagemForumTexto());
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
