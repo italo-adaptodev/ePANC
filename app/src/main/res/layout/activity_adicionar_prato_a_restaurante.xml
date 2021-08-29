@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".Activities.Produtor_CadastrarProdutosActivity">
+    tools:context=".Activities.Produto.Produtor_CadastrarProdutosActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"

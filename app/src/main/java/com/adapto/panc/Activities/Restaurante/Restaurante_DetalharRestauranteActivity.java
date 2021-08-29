@@ -1,4 +1,4 @@
-package com.adapto.panc.Activities;
+package com.adapto.panc.Activities.Restaurante;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -17,7 +17,6 @@ import com.adapto.panc.Adapters.MeuRestaurantePratosAdapter;
 import com.adapto.panc.FirestoreReferences;
 import com.adapto.panc.Models.Database.Restaurante;
 import com.adapto.panc.R;
-import com.adapto.panc.Repository.LoginSharedPreferences;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -65,7 +64,6 @@ public class Restaurante_DetalharRestauranteActivity extends AppCompatActivity {
         localizacaoRestaurante = findViewById(R.id.localizacaoRestaurante);
         numContatoRestaurante = findViewById(R.id.numContatoRestaurante);
         editarRestaurante = findViewById(R.id.editarRestaurante);
-        addPrato = findViewById(R.id.addPratoMeuRest);
         v = findViewById(android.R.id.content);
         addPratoIntent = new Intent(this.getBaseContext(), AdicionarPratoActivity.class);
         Intent intent = getIntent();
@@ -120,7 +118,7 @@ public class Restaurante_DetalharRestauranteActivity extends AppCompatActivity {
             @Override
             public void onSuccess(DocumentSnapshot documentSnapshot) {
                 restaurante = documentSnapshot.toObject(Restaurante.class);
-                pratosAdapter = new MeuRestaurantePratosAdapter(getLayoutInflater(), restaurante.getPratos(), getBaseContext());
+                pratosAdapter = new MeuRestaurantePratosAdapter(getLayoutInflater(), restaurante, getBaseContext(), false, Restaurante_DetalharRestauranteActivity.this);
                 if(restaurante.getPratos().size() == 0)
                     textViewRecycler.setVisibility(View.VISIBLE);
                 else

@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="#145E356E"
-    tools:context=".Activities.DetalharPostagemForumActivity"
+    tools:context=".Activities.ForumDuvida.DetalharPostagemForumActivity"
     android:fitsSystemWindows="true"
     >
 

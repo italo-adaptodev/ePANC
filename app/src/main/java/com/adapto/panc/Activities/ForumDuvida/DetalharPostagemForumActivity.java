@@ -1,4 +1,4 @@
-package com.adapto.panc.Activities;
+package com.adapto.panc.Activities.ForumDuvida;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;

@@ -1,4 +1,4 @@
-package com.adapto.panc.Activities;
+package com.adapto.panc.Activities.Produto;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;

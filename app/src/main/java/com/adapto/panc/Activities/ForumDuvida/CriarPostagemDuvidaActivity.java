@@ -1,4 +1,4 @@
-package com.adapto.panc.Activities;
+package com.adapto.panc.Activities.ForumDuvida;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,6 +13,7 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 
+import com.adapto.panc.Activities.TelaInicialActivity;
 import com.adapto.panc.FirestoreReferences;
 import com.adapto.panc.Models.Database.PostagemForumDuvidas;
 import com.adapto.panc.R;

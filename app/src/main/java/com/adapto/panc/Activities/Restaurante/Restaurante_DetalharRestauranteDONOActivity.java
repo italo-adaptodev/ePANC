@@ -1,4 +1,4 @@
-package com.adapto.panc.Activities;
+package com.adapto.panc.Activities.Restaurante;
 
 import android.app.Activity;
 import android.content.Intent;
@@ -26,7 +26,6 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -45,7 +44,6 @@ public class Restaurante_DetalharRestauranteDONOActivity extends AppCompatActivi
     private MeuRestaurantePratosAdapter pratosAdapter;
     private DocumentReference docRef;
     private View v;
-    private Restaurante restaurante;
     private String restauranteID;
     private MaterialTextView textViewRecycler;
     private boolean isUsuarioDonoRestaurante = false;
@@ -59,7 +57,7 @@ public class Restaurante_DetalharRestauranteDONOActivity extends AppCompatActivi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_restaurante_detalharrestaurante);
+        setContentView(R.layout.activity_restaurante_detalharrestaurantedono);
         db = FirebaseFirestore.getInstance();
         spinner = findViewById(R.id.progressBarMeuRest);
         spinner.setVisibility(View.VISIBLE);
@@ -106,7 +104,7 @@ public class Restaurante_DetalharRestauranteDONOActivity extends AppCompatActivi
                             nomeRestauranteMeuRest.setText(snap.getString("nomeRestaurante"));
                             localizacaoRestaurante.setText(snap.getString("localizacao"));
                             numContatoRestaurante.setText(snap.getString("numContato"));
-                            buildRecyclerView(snap.getId());
+                            buildRecyclerView(restaurante[0]);
                         }
 
                     }
@@ -123,31 +121,14 @@ public class Restaurante_DetalharRestauranteDONOActivity extends AppCompatActivi
         return restaurante[0];
     }
 
-    private void getDocRef (String key){
-        docRef = db.collection(firestoreReferences.getRestauranteCOLLECTION()).document(key);
-    }
-
-    private void buildRecyclerView(String key){
-        getDocRef(key);
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                restaurante = documentSnapshot.toObject(Restaurante.class);
-                pratosAdapter = new MeuRestaurantePratosAdapter(getLayoutInflater(), restaurante.getPratos(), getBaseContext(), true, Restaurante_DetalharRestauranteDONOActivity.this);
-                if(restaurante.getPratos().size() == 0)
-                    textViewRecycler.setVisibility(View.VISIBLE);
-                else
-                    textViewRecycler.setVisibility(View.INVISIBLE);
-                recyclerViewMeuRest.setAdapter(pratosAdapter);
-                restauranteID = documentSnapshot.getId();
-            }
-        }).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-            }
-        });
-
-
+    private void buildRecyclerView(Restaurante restaurante){
+            pratosAdapter = new MeuRestaurantePratosAdapter(getLayoutInflater(), restaurante, getBaseContext(), true, Restaurante_DetalharRestauranteDONOActivity.this);
+            if(restaurante.getPratos().size() == 0)
+                textViewRecycler.setVisibility(View.VISIBLE);
+            else
+                textViewRecycler.setVisibility(View.INVISIBLE);
+            recyclerViewMeuRest.setAdapter(pratosAdapter);
+            restauranteID = restaurante.getRestauranteID();
     }
 
     @Override

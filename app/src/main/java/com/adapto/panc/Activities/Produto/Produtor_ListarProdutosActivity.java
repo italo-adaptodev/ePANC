@@ -1,4 +1,4 @@
-package com.adapto.panc.Activities;
+package com.adapto.panc.Activities.Produto;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -13,9 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
+import com.adapto.panc.Activities.Produto.Produtor_CadastrarProdutosActivity;
+import com.adapto.panc.Activities.Produto.Produtor_DetalharProdutoActivity;
+import com.adapto.panc.Activities.TelaInicialActivity;
 import com.adapto.panc.FirestoreReferences;
-import com.adapto.panc.Models.Database.Restaurante;
-import com.adapto.panc.Models.ViewHolder.Restaurante_ListaHolder;
+import com.adapto.panc.Models.Database.Produtor_Produto;
+import com.adapto.panc.Models.ViewHolder.Produtor_VitrineHolder;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
 import com.adapto.panc.SnackBarPersonalizada;
@@ -26,33 +29,39 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class Restaurante_ListarRestaurantesActivity extends AppCompatActivity {
+public class Produtor_ListarProdutosActivity extends AppCompatActivity {
 
+    private FloatingActionButton criarPostagemFAB;
+    private Intent criarPostagemIntent;
     private RecyclerView recyclerView;
     private FirestoreRecyclerAdapter adapter;
     private FirebaseFirestore db;
     private boolean isUsuarioAdminstrador = false;
     private View v;
-    private FirestoreRecyclerOptions<Restaurante> options;
+    private FirestoreRecyclerOptions<Produtor_Produto> options;
     private FirestoreReferences collections;
     private Handler handler = new Handler();
     private ProgressBar spinner;
+    private boolean isUsuarioProdutor = false;
     private MaterialTextView textViewRecycler;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_restaurante_listar_restaurantes);
+        setContentView(R.layout.activity_produtor__lista_produtos);
         db = FirebaseFirestore.getInstance();
         collections = new FirestoreReferences();
-        getCargosUsuarioAtivo();
-        recyclerView = findViewById(R.id.recyclerview_restaurante_lista);
+        getCargosUsuarioSolicitante();
+        getPermissaoProdutor();
+        recyclerView = findViewById(R.id.recyclerViewVitrine);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         textViewRecycler = findViewById(R.id.emptyRecyclerViewTXT);
         v = findViewById(android.R.id.content);
@@ -61,7 +70,7 @@ public class Restaurante_ListarRestaurantesActivity extends AppCompatActivity {
 
         //region RECYCLER VIEW POSTAGENS
         Query query = db
-                .collection(collections.getRestauranteCOLLECTION()).orderBy("nomeRestaurante", Query.Direction.ASCENDING);
+                .collection(collections.getVitrineProdutosCOLLECTION()).orderBy("timestamp", Query.Direction.DESCENDING);
 
         query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
             @Override
@@ -72,11 +81,24 @@ public class Restaurante_ListarRestaurantesActivity extends AppCompatActivity {
             }
         });
 
-        options = new FirestoreRecyclerOptions.Builder<Restaurante>()
-                .setQuery(query, Restaurante.class)
+        options = new FirestoreRecyclerOptions.Builder<Produtor_Produto>()
+                .setQuery(query, Produtor_Produto.class)
                 .setLifecycleOwner(this)
                 .build();
         //endregion
+
+        criarPostagemFAB = findViewById(R.id.criarPostagemFAB);
+        criarPostagemIntent = new Intent(this.getBaseContext(), Produtor_CadastrarProdutosActivity.class );
+        criarPostagemFAB.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(!isUsuarioProdutor)
+                    new SnackBarPersonalizada().showMensagemLonga(v, "Você não possui permissão para cadastrar um produto!");
+                else
+                    startActivity(criarPostagemIntent);
+            }
+        });
+
         handler.postDelayed(task, 1);
     }
 
@@ -92,7 +114,7 @@ public class Restaurante_ListarRestaurantesActivity extends AppCompatActivity {
         handler.postDelayed(task, 1);
     }
 
-    private boolean getCargosUsuarioAtivo() {
+    private boolean getCargosUsuarioSolicitante() {
         db.collection(collections.getEquipeCOLLECTION())
                 .whereEqualTo("usuarioID",   new LoginSharedPreferences(this).getIdentifier())
                 .get()
@@ -115,17 +137,32 @@ public class Restaurante_ListarRestaurantesActivity extends AppCompatActivity {
 
     }
 
+    private void getPermissaoProdutor() {
+        db.collection(collections.getProdutorCOLLECTION())
+                .whereEqualTo("usuarioID",   new LoginSharedPreferences(this).getIdentifier())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if(queryDocumentSnapshots.size() > 0) {
+                            isUsuarioProdutor = true;
+
+                        }
+                    }
+                });
+    }
+
     private void excluirPostagem(String postagemID) {
-        db.collection(collections.getRestauranteCOLLECTION()).document(postagemID)
+        db.collection(collections.getVitrineProdutosCOLLECTION()).document(postagemID)
                 .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
             @Override
             public void onSuccess(Void aVoid) {
-                new SnackBarPersonalizada().showMensagemLonga(v, "Postagem excluída com sucesso!");
+                new SnackBarPersonalizada().showMensagemLonga(v, "Produto excluída com sucesso!");
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                new SnackBarPersonalizada().showMensagemLonga(v, "Não foi possível excluir esta postagem. ERRO: " + e.getLocalizedMessage());
+                new SnackBarPersonalizada().showMensagemLonga(v, "Não foi possível excluir este produto. ERRO: " + e.getLocalizedMessage());
             }
         });
     }
@@ -133,37 +170,39 @@ public class Restaurante_ListarRestaurantesActivity extends AppCompatActivity {
     private Runnable task = new Runnable() {
         public void run() {
 
-            adapter = new FirestoreRecyclerAdapter<Restaurante, Restaurante_ListaHolder>(options) {
+            adapter = new FirestoreRecyclerAdapter<Produtor_Produto, Produtor_VitrineHolder>(options) {
                 @Override
-                public void onBindViewHolder(Restaurante_ListaHolder holder, int position, final Restaurante model) {
+                public void onBindViewHolder(Produtor_VitrineHolder holder, int position, final Produtor_Produto model) {
                     holder.setConfigsView(isUsuarioAdminstrador, getBaseContext());
-                    String imgID = model.getPratos().get(0).getImagensID().get(0);
-                    Glide.with(getBaseContext())
+                    String imgID = model.getImagensID().get(0);
+                    if(imgID != null)
+                        Glide.with(getBaseContext())
                             .load(imgID)
-                            .into(holder.restauranteListaImagem);
-                    holder.nome.setText(model.getNomeRestaurante());
+                            .into(holder.vitrineProdutoImagem);
+                    holder.nome.setText(model.getNome());
+                    holder.preco.setText("R$ " + model.getPrecoString());
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            Intent intent = new Intent(getBaseContext(), Restaurante_DetalharRestauranteActivity.class);
-                            intent.putExtra("restauranteIDDetalhe", model.getRestauranteID());
+                            Intent intent = new Intent(getBaseContext(), Produtor_DetalharProdutoActivity.class);
+                            intent.putExtra("postagemIDDetalhe", model.getPostagemID());
                             startActivity(intent);
                         }
                     });
                     holder.btnExcluirPostagem.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            excluirPostagem(model.getRestauranteID());
+                            excluirPostagem(model.getPostagemID());
                         }
                     });
 
                 }
 
                 @Override
-                public Restaurante_ListaHolder onCreateViewHolder(ViewGroup group, int i) {
+                public Produtor_VitrineHolder onCreateViewHolder(ViewGroup group, int i) {
                     View view = LayoutInflater.from(group.getContext())
-                            .inflate(R.layout.cardview_restaurante_lista, group, false);
-                    return new Restaurante_ListaHolder(view);
+                            .inflate(R.layout.cardview_vitrine_produto, group, false);
+                    return new Produtor_VitrineHolder(view);
                 }
             };
 
