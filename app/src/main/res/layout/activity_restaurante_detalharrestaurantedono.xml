@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.Restaurante.Restaurante_DetalharRestauranteActivity">
+    tools:context=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/infosMeuRest"
@@ -89,15 +89,13 @@
         android:layout_width="72dp"
         android:layout_height="61dp"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="304dp"
         android:indeterminate="true"
         android:progressDrawable="@drawable/circular_progress_bar"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/coordinatorLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/infosMeuRest"
-        app:layout_constraintVertical_bias="0.0" />
+
+        app:layout_constraintTop_toBottomOf="@+id/infosMeuRest" />
 
     <com.google.android.material.textview.MaterialTextView
         android:id="@+id/emptyRecyclerViewTXT"
@@ -107,11 +105,10 @@
         android:textColor="#000000"
         android:textSize="16dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toBottomOf="@+id/recyclerViewMeuRest"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/infosMeuRest"
-        app:layout_constraintVertical_bias="0.413">
+        app:layout_constraintStart_toStartOf="@+id/recyclerViewMeuRest"
+        app:layout_constraintTop_toTopOf="@+id/recyclerViewMeuRest">
 
     </com.google.android.material.textview.MaterialTextView>
 
@@ -121,6 +118,7 @@
         android:layout_height="0dp"
         android:layout_marginBottom="12dp"
         android:visibility="visible"
+        app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/infosMeuRest"
@@ -128,6 +126,41 @@
 
     </androidx.recyclerview.widget.RecyclerView>
 
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="90dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
 
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottom_app_bar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:backgroundTint="@color/colorPrimary"
+            app:fabAlignmentMode="center"
+            >
+        </com.google.android.material.bottomappbar.BottomAppBar>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/addPratoMeuRest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            app:backgroundTint="@color/colorAccent"
+            app:layout_anchor="@id/bottom_app_bar"
+            app:layout_constraintBottom_toBottomOf="@+id/recyclerViewMeuRest"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.954"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintVertical_bias="1.0"
+            app:maxImageSize="50dp"
+            app:srcCompat="@drawable/ic_add_button"
+            app:tint="@null" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
