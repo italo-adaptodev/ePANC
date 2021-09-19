@@ -18,6 +18,7 @@ import com.adapto.panc.Models.Database.Prato;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.ReferenciaDatabase;
 import com.adapto.panc.SnackBarPersonalizada;
+import com.cottacush.android.currencyedittext.CurrencyEditText;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
@@ -34,11 +35,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import me.abhinay.input.CurrencyEditText;
 
 public class AdicionarPratoActivity extends AppCompatActivity {
 
-    private CurrencyEditText etInput;
+    private CurrencyEditText precoPrato;
     private ImageView img1, img2, img3, img4, img5, img6 ;
     private List<ImageView> imageViews;
     private final int PICK_IMAGE_REQUEST = 22;
@@ -48,7 +48,7 @@ public class AdicionarPratoActivity extends AppCompatActivity {
     private List<Uri> filepaths;
     private StorageReference storageReference;
     private MaterialButton btnSelect, btnUpload;
-    private TextInputLayout nomePrato, ingredientesPrato;
+    private TextInputLayout nomePrato, descricaoPrato, ingredientesPANC;
     private FirestoreReferences firestoreReferences =  new FirestoreReferences();
     private String restauranteID;
     private DocumentReference restauranteDocRef;
@@ -59,17 +59,13 @@ public class AdicionarPratoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adicionar_prato_a_restaurante);
         addImageviews();
-        etInput = (CurrencyEditText) findViewById(R.id.precoPrato);
-        etInput.setDelimiter(false);
-        etInput.setSpacing(false);
-        etInput.setDecimals(true);
-        //Make sure that Decimals is set as false if a custom Separator is used
-        etInput.setSeparator(".");
+        precoPrato = (CurrencyEditText) findViewById(R.id.precoPrato);
         btnSelect = findViewById(R.id.btnChoose);
         btnUpload = findViewById(R.id.btnUpload);
         v = findViewById(android.R.id.content);
         nomePrato =  findViewById(R.id.nomePrato);
-        ingredientesPrato =  findViewById(R.id.ingredientesPrato);
+        descricaoPrato =  findViewById(R.id.descricaoPrato);
+        ingredientesPANC = findViewById(R.id.ingredientesPANCPrato);
         referenciaDatabase = new ReferenciaDatabase();
         storageReference = referenciaDatabase.getFirebaseStorage();
         snackBarPersonalizada = new SnackBarPersonalizada();
@@ -246,16 +242,24 @@ public class AdicionarPratoActivity extends AppCompatActivity {
     }
 
     private void uploadPostagem(final List<String> imagens) {
-        String nome, ingredientes;
+        final String nome, ingredientes;
         nome = nomePrato.getEditText().getText().toString();
-        ingredientes = ingredientesPrato.getEditText().getText().toString();
-        Prato novoPrato = new Prato(nome,ingredientes, restauranteID, etInput.getCleanDoubleValue(), imagens, Timestamp.now());
+        ingredientes = ingredientesPANC.getEditText().getText().toString();
+        Double preco = precoPrato.getNumericValue();
+        Prato novoPrato = new Prato(nome,ingredientes, restauranteID, preco.toString() , imagens, Timestamp.now());
         restauranteDocRef
                 .update("pratos", FieldValue.arrayUnion(novoPrato))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        atualizarActivity();
+                        restauranteDocRef
+                                .update("ingredientesPANC", FieldValue.arrayUnion(ingredientes))
+                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                    @Override
+                                    public void onSuccess(Void aVoid) {
+                                        atualizarActivity();
+                                    }
+                                });
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -271,14 +275,14 @@ public class AdicionarPratoActivity extends AppCompatActivity {
     }
 
     private DocumentReference getRestauranteByID() {
-        DocumentReference docRef = referenciaDatabase.getDatabaseFirestore().collection(firestoreReferences.getRestauranteCOLLECTION()).document(restauranteID);
-        return docRef;
+        return referenciaDatabase.getDatabaseFirestore().collection(firestoreReferences.getRestauranteCOLLECTION()).document(restauranteID);
+
     }
 
     private boolean verificarCamposUsuario() {
 
-        if(nomePrato.getEditText().getText().toString().isEmpty() || ingredientesPrato.getEditText().getText().toString().isEmpty()
-                || etInput.getText().toString().isEmpty()) {
+        if(nomePrato.getEditText().getText().toString().isEmpty() || descricaoPrato.getEditText().getText().toString().isEmpty()
+                || precoPrato.getText().toString().isEmpty()) {
             new SnackBarPersonalizada().showMensagemLonga(v, "Preencha todos os campos corretamente!");
             return false;
         }

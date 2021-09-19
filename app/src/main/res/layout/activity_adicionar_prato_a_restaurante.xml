@@ -37,43 +37,66 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <me.abhinay.input.CurrencyEditText
+        <com.cottacush.android.currencyedittext.CurrencyEditText
             android:id="@+id/precoPrato"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="61dp"
-            android:layout_marginBottom="108dp"
             android:hint="Digite o valor"
             android:inputType="number"
-            app:layout_constraintBottom_toTopOf="@+id/ingredientesPrato"
+            app:currencySymbol="R$"
+            app:layout_constraintBottom_toTopOf="@+id/descricaoPrato"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nomePrato" />
+            app:layout_constraintTop_toBottomOf="@+id/nomePrato"
+            app:useCurrencySymbolAsHint="true" />
 
         <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/ingredientesPrato"
+            android:id="@+id/descricaoPrato"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="108dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
-            android:layout_marginBottom="92dp"
+            android:layout_marginBottom="128dp"
             android:ems="10"
             android:gravity="start"
             android:inputType="textMultiLine|textCapSentences"
             app:boxStrokeColor="@color/colorAccent"
             app:layout_constraintBottom_toTopOf="@+id/btnChoose"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent">
+            app:layout_constraintHorizontal_bias="1.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/precoPrato">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
                 android:gravity="start"
-                android:hint="Ingredientes" />
+                android:hint="Descrição" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/ingredientesPANCPrato"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="0dp"
+            android:layout_height="108dp"
+            android:ems="10"
+            android:gravity="start"
+            android:inputType="textMultiLine|textCapSentences"
+            app:boxStrokeColor="@color/colorAccent"
+            app:layout_constraintBottom_toTopOf="@+id/btnChoose"
+            app:layout_constraintEnd_toEndOf="@+id/descricaoPrato"
+            app:layout_constraintStart_toStartOf="@+id/descricaoPrato"
+            app:layout_constraintTop_toBottomOf="@+id/descricaoPrato">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:gravity="start"
+                android:hint="Ingredientes PANC" />
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.button.MaterialButton

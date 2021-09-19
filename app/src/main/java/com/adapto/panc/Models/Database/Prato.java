@@ -3,18 +3,16 @@ package com.adapto.panc.Models.Database;
 import com.google.firebase.Timestamp;
 
 import java.util.List;
-import java.util.Map;
 
 public class Prato {
 
-    private String nome, ingredientes, restauranteID;
-    private double preco;
+    private String nome, descricao, restauranteID, preco;
     private List<String> imagensID;
     private Timestamp timestamp;
 
-    public Prato(String nome, String ingredientes, String restauranteID, double preco, List<String> imagensID, Timestamp timestamp) {
+    public Prato(String nome, String descricao, String restauranteID, String preco, List<String> imagensID, Timestamp timestamp) {
         this.nome = nome;
-        this.ingredientes = ingredientes;
+        this.descricao = descricao;
         this.restauranteID = restauranteID;
         this.preco = preco;
         this.imagensID = imagensID;
@@ -32,12 +30,12 @@ public class Prato {
         this.nome = nome;
     }
 
-    public String getIngredientes() {
-        return ingredientes;
+    public String getDescricao() {
+        return descricao;
     }
 
-    public void setIngredientes(String ingredientes) {
-        this.ingredientes = ingredientes;
+    public void setDescricao(String descricao) {
+        this.descricao = descricao;
     }
 
     public String getRestauranteID() {
@@ -49,18 +47,15 @@ public class Prato {
     }
 
     public boolean hasIngrediente(String ingrediente){
-        return this.ingredientes.contains(ingrediente);
+        return this.descricao.contains(ingrediente);
     }
 
-    public double getPreco() {
+    public String getPreco() {
         return preco;
     }
 
-    public String getPrecoString() {
-        return "" + preco;
-    }
 
-    public void setPreco(double preco) {
+    public void setPreco(String preco) {
         this.preco = preco;
     }
 

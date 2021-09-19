@@ -5,10 +5,17 @@ import java.util.List;
 import java.util.Map;
 
 public class Restaurante {
-    private String numContato, localizacao, usuarioID, nomeRestaurante, restauranteID;
+    private String numContato;
+    private String localizacao;
+    private String usuarioID;
+    private String nomeRestaurante;
+
+
+    private String id;
     private String questionarioURL;
     private Map<String, String> horarios;
     private List<Prato> pratos;
+    private List<String> ingredientesPANC;
 
     public Restaurante(String numContato, String localizacao, String nomeRestaurante, String usuarioID, String questionarioURL) {
         this.numContato = numContato;
@@ -17,6 +24,7 @@ public class Restaurante {
         this.nomeRestaurante = nomeRestaurante;
         this.questionarioURL = questionarioURL;
         this.pratos = new ArrayList<>();
+        this.ingredientesPANC = new ArrayList<>();
     }
 
     public Restaurante() {
@@ -82,11 +90,21 @@ public class Restaurante {
         return pratos.size();
     }
 
-    public String getRestauranteID() {
-        return restauranteID;
+    public List<String> getIngredientesPANC() {
+        return ingredientesPANC;
     }
 
-    public void setRestauranteID(String restauranteID) {
-        this.restauranteID = restauranteID;
+    public void setIngredientesPANC(List<String> ingredientesPANC) {
+        this.ingredientesPANC = ingredientesPANC;
     }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+
 }
