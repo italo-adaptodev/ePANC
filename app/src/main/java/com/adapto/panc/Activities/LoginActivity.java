@@ -42,7 +42,8 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         loginSessionManager = new LoginSharedPreferences(getApplicationContext());
-        loginSessionManager.checkLogin();
+        if(loginSessionManager.isLoggedIn())
+            realizarLogin();
         setContentView(R.layout.activity_login);
         loginButton = findViewById(R.id.loginButton);
         cadastrarTextview = findViewById(R.id.cadastrarTextView);
@@ -53,6 +54,8 @@ public class LoginActivity extends AppCompatActivity {
         snackbar = new SnackBarPersonalizada();
         v = findViewById(android.R.id.content);
         db = FirebaseFirestore.getInstance();
+
+
         //region LISTENERS
         cadastrarTextview.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -101,5 +104,10 @@ public class LoginActivity extends AppCompatActivity {
         return true;
     }
 
-
+    private void realizarLogin(){
+        Intent i = new Intent(getApplicationContext(), TelaInicialActivity.class);
+        i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+        getApplicationContext().startActivity(i);
+    }
 }

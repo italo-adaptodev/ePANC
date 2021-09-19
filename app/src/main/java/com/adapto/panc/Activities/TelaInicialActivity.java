@@ -63,14 +63,20 @@ public class TelaInicialActivity extends AppCompatActivity {
     private  Handler handler = new Handler();
     private ProgressBar spinner;
     private MaterialTextView textViewRecycler;
+    private String usuarioID;
 
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         db = FirebaseFirestore.getInstance();
-        getCargosUsuarioSolicitante();
-        getPermissaoRestaurante();
+        v = findViewById(android.R.id.content);
+        usuarioID = new LoginSharedPreferences(this).getIdentifier();
+        if(usuarioID.isEmpty()){
+            new SnackBarPersonalizada().showMensagemLonga(v, "Não foi possível encontrar os dados do usuário. Você será redirecionado a tela de login");
+            new LoginSharedPreferences(getBaseContext()).logoutUser();
+        }
+        isUsuarioAtivo();
         setContentView(R.layout.activity_tela_inicial);
         recyclerView = findViewById(R.id.feedPrincipalRecV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
@@ -86,7 +92,6 @@ public class TelaInicialActivity extends AppCompatActivity {
         spinner = findViewById(R.id.progressBar1);
         spinner.setVisibility(View.VISIBLE);
         setSupportActionBar(toolbar);
-        v = findViewById(android.R.id.content);
         criarPostagemFAB.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -136,7 +141,6 @@ public class TelaInicialActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        handler.postDelayed(task, 1000);
     }
 
     @Override
@@ -214,7 +218,7 @@ public class TelaInicialActivity extends AppCompatActivity {
 
     private boolean getCargosUsuarioSolicitante() {
         db.collection(firestoreReferences.getEquipeCOLLECTION())
-                .whereEqualTo("usuarioID",   new LoginSharedPreferences(this).getIdentifier())
+                .whereEqualTo("usuarioID", usuarioID)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -234,6 +238,26 @@ public class TelaInicialActivity extends AppCompatActivity {
 
     }
 
+    private void isUsuarioAtivo() {
+        db.collection(firestoreReferences.getUsuariosCOLLECTION())
+                .whereEqualTo("id", usuarioID)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        int size = queryDocumentSnapshots.size();
+                        if( size<= 0) {
+                            new SnackBarPersonalizada()
+                                    .showMensagemLongaClose(v, "Não foi possível encontrar os dados do usuário.", getApplicationContext());
+                        }else{
+                            handler.postDelayed(task, 1000);
+                            getCargosUsuarioSolicitante();
+                            getPermissaoRestaurante();
+                        }
+                    }
+                });
+    }
+
     @Override
     public void onBackPressed() {
         finishAffinity();
@@ -245,7 +269,10 @@ public class TelaInicialActivity extends AppCompatActivity {
             adapter = new FirestoreRecyclerAdapter<PostagemForumDuvidas, PostagemForumHolder>(options) {
                 @Override
                 public void onBindViewHolder(PostagemForumHolder holder, int position, final PostagemForumDuvidas model) {
-                    holder.setConfigsView(isUsuarioAdminstrador, getBaseContext());
+                    if(usuarioID.equals(model.getUsuarioID()))
+                        holder.setConfigsView(true, getBaseContext());
+                    else
+                        holder.setConfigsView(isUsuarioAdminstrador, getBaseContext());
                     String imgID = model.getImagensID().get(0);
                     if(imgID != null)
                         Glide.with(getBaseContext())

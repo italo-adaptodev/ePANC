@@ -46,22 +46,6 @@ public class LoginSharedPreferences {
      * Check login method wil check user login status If false it will redirect
      * user to login page Else won't do anything
      */
-    public void checkLogin() {
-        // Check login status
-        if (this.isLoggedIn()) {
-            // user is not logged in redirect him to Login Activity
-            Intent i = new Intent(_context, TelaInicialActivity.class);
-            // Closing all the Activities
-            i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-            // Add new Flag to start new Activity
-            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-
-            // Staring Login Activity
-            _context.startActivity(i);
-        }
-    }
-
     /**
      * Clear session details
      */
@@ -86,7 +70,7 @@ public class LoginSharedPreferences {
      * Quick check for login
      **/
     // Get Login State
-    private boolean isLoggedIn() {
+    public boolean isLoggedIn() {
         return pref.getBoolean(IS_LOGIN, false);
     }
 

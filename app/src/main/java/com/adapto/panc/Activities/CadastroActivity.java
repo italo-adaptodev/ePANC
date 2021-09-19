@@ -241,9 +241,15 @@ public class CadastroActivity extends AppCompatActivity {
                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                         @Override
                                         public void onSuccess(final DocumentReference documentReference) {
-                                            documentReference.update("restauranteID", documentReference.getId());
-//                                            startIntentQuestionario(URL_RESTAURANTE);
-                                            startActivity(new Intent(CadastroActivity.this, TelaInicialActivity.class));
+                                            snackbar.showMensagemLonga(v, documentReference.getId());
+                                            documentReference
+                                                    .update("id", documentReference.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    //startIntentQuestionario(URL_RESTAURANTE);
+                                                    //startActivity(new Intent(CadastroActivity.this, TelaInicialActivity.class));
+                                                }
+                                            });
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
@@ -261,8 +267,15 @@ public class CadastroActivity extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(final DocumentReference documentReference) {
-//                            startIntentQuestionario(URL_RESTAURANTE);
-                            startActivity(new Intent(CadastroActivity.this, TelaInicialActivity.class));
+                            snackbar.showMensagemLonga(v, documentReference.getId());
+                            documentReference
+                                    .update("id", documentReference.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    //startIntentQuestionario(URL_RESTAURANTE);
+                                    startActivity(new Intent(CadastroActivity.this, TelaInicialActivity.class));
+                                }
+                            });
                         }
                     })
                     .addOnFailureListener(new OnFailureListener() {

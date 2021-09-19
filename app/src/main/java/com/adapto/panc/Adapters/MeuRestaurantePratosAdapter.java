@@ -76,7 +76,7 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
         holder.setConfigsView(context);
         Prato prato = restaurante.getPratos().get(position);
         holder.nomePrato.setText(prato.getNome());
-        holder.precoPrato.setText("R$ " + prato.getPrecoString());
+        holder.precoPrato.setText("R$ " + prato.getPreco());
         holder.position = position;
         String imgID = prato.getImagensID().get(0);
         Glide.with(context)
@@ -96,7 +96,7 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, EditarPrato.class);
-                    intent.putExtra("restauranteID", restaurante.getRestauranteID());
+                    intent.putExtra("restauranteID", restaurante.getId());
                     intent.putExtra("ListaPratoID", position);
                     activity.startActivity(intent);
                 }
@@ -106,7 +106,7 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(context, Restaurante_DetalharPratoActivity.class);
-                    intent.putExtra("restauranteID", restaurante.getRestauranteID());
+                    intent.putExtra("restauranteID", restaurante.getId());
                     intent.putExtra("ListaPratoID", position);
                     activity.startActivity(intent);
                 }
