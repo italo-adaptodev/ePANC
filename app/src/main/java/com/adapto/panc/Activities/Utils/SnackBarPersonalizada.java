@@ -1,4 +1,4 @@
-package com.adapto.panc;
+package com.adapto.panc.Activities.Utils;
 
 import android.content.Context;
 import android.view.View;

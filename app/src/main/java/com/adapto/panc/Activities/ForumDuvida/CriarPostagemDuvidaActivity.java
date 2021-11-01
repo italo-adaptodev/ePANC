@@ -14,12 +14,12 @@ import android.view.View;
 import android.widget.ImageView;
 
 import com.adapto.panc.Activities.TelaInicialActivity;
-import com.adapto.panc.FirestoreReferences;
+import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Models.Database.PostagemForumDuvidas;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
 import com.adapto.panc.Repository.ReferenciaDatabase;
-import com.adapto.panc.SnackBarPersonalizada;
+import com.adapto.panc.Activities.Utils.SnackBarPersonalizada;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;

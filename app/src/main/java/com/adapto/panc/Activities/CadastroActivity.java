@@ -5,21 +5,20 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Dialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 
-import com.adapto.panc.FirestoreReferences;
+import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Models.Database.Produtor;
 import com.adapto.panc.Models.Database.Restaurante;
 import com.adapto.panc.Models.Database.Usuario;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
-import com.adapto.panc.SnackBarPersonalizada;
-import com.adapto.panc.WebViewConfig;
+import com.adapto.panc.Activities.Utils.SnackBarPersonalizada;
+import com.adapto.panc.Activities.Utils.WebViewConfig;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -30,7 +29,6 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.rilixtech.widget.countrycodepicker.CountryCodePicker;
 
 import java.util.Objects;
 

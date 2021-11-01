@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adapto.panc.Models.Database.FirestoreForumComentario;
-import com.adapto.panc.Models.ViewHolder.FirestoreForumComentarioHolder;
 import com.adapto.panc.R;
 
 import java.util.List;

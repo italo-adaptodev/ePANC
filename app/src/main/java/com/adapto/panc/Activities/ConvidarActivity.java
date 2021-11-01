@@ -9,11 +9,11 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
 
-import com.adapto.panc.FirestoreReferences;
+import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Models.Database.MembroEquipe;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
-import com.adapto.panc.SnackBarPersonalizada;
+import com.adapto.panc.Activities.Utils.SnackBarPersonalizada;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.textfield.TextInputLayout;

@@ -1,4 +1,4 @@
-package com.adapto.panc;
+package com.adapto.panc.Activities.Utils;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -15,6 +15,7 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import com.adapto.panc.Activities.TelaInicialActivity;
+import com.adapto.panc.R;
 
 public class WebViewConfig extends AppCompatActivity {
     private Context mContext;
