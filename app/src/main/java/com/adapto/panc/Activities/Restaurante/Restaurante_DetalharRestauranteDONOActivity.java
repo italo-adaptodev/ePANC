@@ -16,7 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.adapto.panc.Adapters.MeuRestaurantePratosAdapter;
-import com.adapto.panc.FirestoreReferences;
+import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Models.Database.Restaurante;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
@@ -49,7 +49,7 @@ public class Restaurante_DetalharRestauranteDONOActivity extends AppCompatActivi
     private boolean isUsuarioDonoRestaurante = false;
     private ImageButton editarRestaurante;
     private String donoRestauranteID;
-    private Intent addPratoIntent;
+    private Intent addPratoIntent, editarInfosRestauranteIntent;
     private String restauranteListaID;
     private LifecycleObserver mObserver;
 
@@ -72,6 +72,7 @@ public class Restaurante_DetalharRestauranteDONOActivity extends AppCompatActivi
         addPrato = findViewById(R.id.addPratoMeuRest);
         v = findViewById(android.R.id.content);
         addPratoIntent = new Intent(this.getBaseContext(), AdicionarPratoActivity.class);
+        editarInfosRestauranteIntent = new Intent(this.getBaseContext(), EditarInformacoesRestauranteDONOActivity.class);
         donoRestauranteID = new LoginSharedPreferences(getApplicationContext()).getIdentifier();
         restauranteDocRef = getRestaurante(donoRestauranteID);
         addPrato.setOnClickListener(new View.OnClickListener() {
@@ -81,7 +82,13 @@ public class Restaurante_DetalharRestauranteDONOActivity extends AppCompatActivi
                 startActivityForResult(addPratoIntent, Activity.RESULT_OK);
             }
         });
-
+        editarRestaurante.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                editarInfosRestauranteIntent.putExtra("restauranteID", restauranteID);
+                startActivityForResult(editarInfosRestauranteIntent, Activity.RESULT_OK);
+            }
+        });
 
     }
 
@@ -104,6 +111,7 @@ public class Restaurante_DetalharRestauranteDONOActivity extends AppCompatActivi
                             nomeRestauranteMeuRest.setText(snap.getString("nomeRestaurante"));
                             localizacaoRestaurante.setText(snap.getString("localizacao"));
                             numContatoRestaurante.setText(snap.getString("numContato"));
+                            restauranteID = restaurante[0].getId();
                             buildRecyclerView(restaurante[0]);
                         }
 
@@ -128,7 +136,6 @@ public class Restaurante_DetalharRestauranteDONOActivity extends AppCompatActivi
             else
                 textViewRecycler.setVisibility(View.INVISIBLE);
             recyclerViewMeuRest.setAdapter(pratosAdapter);
-            restauranteID = restaurante.getRestauranteID();
     }
 
     @Override

@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fillViewport="true"
-    tools:context=".Activities.Produto.Produtor_CadastrarProdutosActivity">
+    tools:context=".Activities.Restaurante.AdicionarPratoActivity">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -14,7 +14,6 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nomePrato"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -37,19 +36,18 @@
 
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.cottacush.android.currencyedittext.CurrencyEditText
+        <EditText
             android:id="@+id/precoPrato"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:hint="Digite o valor"
-            android:inputType="number"
-            app:currencySymbol="R$"
+            android:inputType="numberDecimal"
             app:layout_constraintBottom_toTopOf="@+id/descricaoPrato"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/nomePrato"
-            app:useCurrencySymbolAsHint="true" />
+            app:layout_constraintTop_toBottomOf="@+id/nomePrato">
+        </EditText>
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/descricaoPrato"

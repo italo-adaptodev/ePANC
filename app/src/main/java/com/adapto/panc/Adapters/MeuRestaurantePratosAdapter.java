@@ -19,11 +19,11 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.adapto.panc.Activities.Restaurante.EditarPrato;
 import com.adapto.panc.Activities.Restaurante.Restaurante_DetalharPratoActivity;
 import com.adapto.panc.Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity;
-import com.adapto.panc.FirestoreReferences;
+import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Models.Database.Prato;
 import com.adapto.panc.Models.Database.Restaurante;
 import com.adapto.panc.R;
-import com.adapto.panc.SnackBarPersonalizada;
+import com.adapto.panc.Activities.Utils.SnackBarPersonalizada;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -68,6 +68,7 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
         firestoreItemPratoHolder.nomePrato = (TextView) itemMessage.findViewById(R.id.restaurantePratoNome);
         firestoreItemPratoHolder.precoPrato = (TextView) itemMessage.findViewById(R.id.restaurantePratoPreco);
         firestoreItemPratoHolder.imagemPrato = itemMessage.findViewById(R.id.restaurantePratoImagem);
+        firestoreItemPratoHolder.ingredientesPANC = (TextView) itemMessage.findViewById(R.id.restaurantePratoIngredientesPANC);
         return firestoreItemPratoHolder;
     }
 
@@ -77,6 +78,7 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
         Prato prato = restaurante.getPratos().get(position);
         holder.nomePrato.setText(prato.getNome());
         holder.precoPrato.setText("R$ " + prato.getPreco());
+        holder.ingredientesPANC.setText(prato.getIngredientesPANC());
         holder.position = position;
         String imgID = prato.getImagensID().get(0);
         Glide.with(context)
@@ -120,7 +122,7 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
     }
 
     public static class FirestoreItemPratoHolder extends RecyclerView.ViewHolder {
-        public TextView nomePrato, precoPrato;
+        public TextView nomePrato, precoPrato, ingredientesPANC;
         public ImageView imagemPrato;
         public LinearLayout restaurantePratoLinearLayout, linearLayoutCard;
         public ImageButton btnExcluirPrato;
@@ -133,6 +135,7 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
             nomePrato = itemView.findViewById(R.id.restaurantePratoNome);
             precoPrato = itemView.findViewById(R.id.restaurantePratoPreco);
             imagemPrato = itemView.findViewById(R.id.restaurantePratoImagem);
+            ingredientesPANC = itemView.findViewById(R.id.restaurantePratoIngredientesPANC);
             restaurantePratoLinearLayout = itemView.findViewById(R.id.restaurantePratoLinearLayout);
             linearLayoutCard = itemView.findViewById(R.id.restaurantePratoLinearLayoutCard);
             btnExcluirPrato = itemView.findViewById(R.id.restaurantePratoLinearLayoutDeleteBtn);

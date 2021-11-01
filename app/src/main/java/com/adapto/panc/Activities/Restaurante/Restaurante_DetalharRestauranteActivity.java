@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.adapto.panc.Adapters.MeuRestaurantePratosAdapter;
-import com.adapto.panc.FirestoreReferences;
+import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Models.Database.Restaurante;
 import com.adapto.panc.R;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -79,10 +79,10 @@ public class Restaurante_DetalharRestauranteActivity extends AppCompatActivity {
         super.onStart();
     }
 
-    private Restaurante getRestaurante(String identificador) {
+    private Restaurante getRestaurante(String id) {
         final Restaurante[] restaurante = new Restaurante[1];
         db.collection(firestoreReferences.getRestauranteCOLLECTION())
-                .whereEqualTo("restauranteID" , identificador).get()
+                .whereEqualTo("id" , id).get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {

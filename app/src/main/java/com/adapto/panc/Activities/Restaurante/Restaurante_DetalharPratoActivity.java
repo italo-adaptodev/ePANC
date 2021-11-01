@@ -15,7 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import com.adapto.panc.FirestoreReferences;
+import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Models.Database.Prato;
 import com.adapto.panc.Models.Database.Restaurante;
 import com.adapto.panc.R;
@@ -67,7 +67,7 @@ public class Restaurante_DetalharPratoActivity extends AppCompatActivity impleme
                 Restaurante restaurante = documentSnapshot.toObject(Restaurante.class);
                 pratoEscolhido = restaurante.getPratos().get(listaPratoID);
                 detalharPrato_nome.setText(pratoEscolhido.getNome());
-                detalharPrato_ingredientes.setText(pratoEscolhido.getIngredientes());
+                detalharPrato_ingredientes.setText(pratoEscolhido.getDescricao());
                 detalharPrato_preco.setText("R$ " + pratoEscolhido.getPreco());
                 if(pratoEscolhido.getImagensID().size() > 1 ) {
                     setImagesCarousel(pratoEscolhido.getImagensID());
