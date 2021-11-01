@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -13,15 +14,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.adapto.panc.Activities.Produto.Produtor_CadastrarProdutosActivity;
-import com.adapto.panc.Activities.Produto.Produtor_DetalharProdutoActivity;
 import com.adapto.panc.Activities.TelaInicialActivity;
-import com.adapto.panc.FirestoreReferences;
+import com.adapto.panc.Activities.Utils.FirestoreReferences;
+import com.adapto.panc.Models.Database.Prato;
 import com.adapto.panc.Models.Database.Produtor_Produto;
 import com.adapto.panc.Models.ViewHolder.Produtor_VitrineHolder;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
-import com.adapto.panc.SnackBarPersonalizada;
+import com.adapto.panc.Activities.Utils.SnackBarPersonalizada;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -31,10 +31,15 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.List;
 
 public class Produtor_ListarProdutosActivity extends AppCompatActivity {
 
@@ -50,6 +55,7 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
     private Handler handler = new Handler();
     private ProgressBar spinner;
     private boolean isUsuarioProdutor = false;
+    private boolean isUsuarioDonoProduto = false;
     private MaterialTextView textViewRecycler;
 
 
@@ -61,6 +67,7 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
         collections = new FirestoreReferences();
         getCargosUsuarioSolicitante();
         getPermissaoProdutor();
+        getPermissaoDonoProduto();
         recyclerView = findViewById(R.id.recyclerViewVitrine);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         textViewRecycler = findViewById(R.id.emptyRecyclerViewTXT);
@@ -99,19 +106,18 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
             }
         });
 
-        handler.postDelayed(task, 1);
     }
 
     @Override
     protected void onStart() {
         super.onStart();
-        handler.postDelayed(task, 1);
+        handler.postDelayed(task, 1000);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
-        handler.postDelayed(task, 1);
+        handler.postDelayed(task, 1000);
     }
 
     private boolean getCargosUsuarioSolicitante() {
@@ -167,13 +173,30 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
         });
     }
 
+    private void getPermissaoDonoProduto() {
+        db.collection(collections.getVitrineProdutosCOLLECTION())
+                .whereEqualTo("produtorID",   new LoginSharedPreferences(this).getIdentifier())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if(queryDocumentSnapshots.size() > 0) {
+                            isUsuarioDonoProduto = true;
+
+                        }
+                        handler.postDelayed(task, 1000);
+                    }
+                });
+    }
+
     private Runnable task = new Runnable() {
         public void run() {
 
             adapter = new FirestoreRecyclerAdapter<Produtor_Produto, Produtor_VitrineHolder>(options) {
                 @Override
                 public void onBindViewHolder(Produtor_VitrineHolder holder, int position, final Produtor_Produto model) {
-                    holder.setConfigsView(isUsuarioAdminstrador, getBaseContext());
+
+                    holder.setConfigsView(isUsuarioAdminstrador, isUsuarioDonoProduto, getBaseContext());
                     String imgID = model.getImagensID().get(0);
                     if(imgID != null)
                         Glide.with(getBaseContext())
@@ -217,4 +240,6 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
     public void onBackPressed() {
         startActivity(new Intent(this, TelaInicialActivity.class));
     }
+
+
 }

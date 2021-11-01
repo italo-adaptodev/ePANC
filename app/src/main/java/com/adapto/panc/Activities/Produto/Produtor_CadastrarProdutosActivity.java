@@ -13,12 +13,13 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.adapto.panc.FirestoreReferences;
+import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Models.Database.Produtor_Produto;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
 import com.adapto.panc.Repository.ReferenciaDatabase;
-import com.adapto.panc.SnackBarPersonalizada;
+import com.adapto.panc.Activities.Utils.SnackBarPersonalizada;
+import com.cottacush.android.currencyedittext.CurrencyEditText;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
@@ -35,11 +36,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-import me.abhinay.input.CurrencyEditText;
 
 public class Produtor_CadastrarProdutosActivity extends AppCompatActivity {
 
-    private CurrencyEditText etInput;
+    private CurrencyEditText precoProduto;
     private ImageView img1, img2, img3, img4, img5, img6 ;
     private List<ImageView> imageViews;
     private final int PICK_IMAGE_REQUEST = 22;
@@ -57,13 +57,7 @@ public class Produtor_CadastrarProdutosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_produtor_cadastrar_produtos);
         addImageviews();
-        etInput = (CurrencyEditText) findViewById(R.id.precoProduto);
-        etInput.setDelimiter(false);
-        etInput.setSpacing(false);
-        etInput.setDecimals(true);
-        //Make sure that Decimals is set as false if a custom Separator is used
-        etInput.setSeparator(".");
-
+        precoProduto = (CurrencyEditText) findViewById(R.id.precoProduto);
         btnSelect = findViewById(R.id.btnChoose);
         btnUpload = findViewById(R.id.btnUpload);
         v = findViewById(android.R.id.content);
@@ -242,7 +236,7 @@ public class Produtor_CadastrarProdutosActivity extends AppCompatActivity {
         nome = nomeProduto.getEditText().getText().toString();
         desc = descricaoProduto.getEditText().getText().toString();
         obs = observacoesProduto.getEditText().getText().toString();
-        Produtor_Produto produto = new Produtor_Produto(nome, new LoginSharedPreferences(getApplicationContext()).getIdentifier(),desc, obs, etInput.getCleanDoubleValue(), imagens, Timestamp.now());
+        Produtor_Produto produto = new Produtor_Produto(nome, new LoginSharedPreferences(getApplicationContext()).getIdentifier(),desc, obs, precoProduto.getNumericValue(), imagens, Timestamp.now());
         FirebaseFirestore.getInstance().collection(firestoreReferences.getVitrineProdutosCOLLECTION())
                 .add(produto)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

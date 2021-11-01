@@ -148,13 +148,15 @@
 
         </TableLayout>
 
-        <me.abhinay.input.CurrencyEditText
+        <com.cottacush.android.currencyedittext.CurrencyEditText
             android:id="@+id/precoProduto"
             android:layout_width="200dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
             android:hint="Digite o valor"
             android:inputType="number"
+            app:currencySymbol="R$"
+            app:useCurrencySymbolAsHint="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"
             app:layout_constraintStart_toStartOf="parent"

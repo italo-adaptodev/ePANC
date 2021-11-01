@@ -22,9 +22,9 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
 import androidx.core.content.ContextCompat;
 
-import com.adapto.panc.FirestoreReferences;
+import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.R;
-import com.adapto.panc.SnackBarPersonalizada;
+import com.adapto.panc.Activities.Utils.SnackBarPersonalizada;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.DataSource;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -47,8 +47,6 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.synnapps.carouselview.CarouselView;
-import com.synnapps.carouselview.ImageListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,7 +62,6 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity implemen
     private DocumentReference postagem;
     private FirebaseFirestore db;
     private View v;
-    private CarouselView carouselView;
     private List<Drawable> sampleImages;
     private List<String> uris;
     private FirestoreReferences collections;
@@ -286,12 +283,6 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity implemen
                 .into(imageView);
     }
 
-    ImageListener imageListener = new ImageListener() {
-        @Override
-        public void setImageForPosition(int position, ImageView imageView) {
-            imageView.setImageDrawable(sampleImages.get(position));
-        }
-    };
 
     private void applyLayoutTransition() {
         LayoutTransition transition = new LayoutTransition();
