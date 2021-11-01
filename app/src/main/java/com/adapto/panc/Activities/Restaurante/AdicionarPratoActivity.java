@@ -11,13 +11,15 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.ImageView;
 
-import com.adapto.panc.FirestoreReferences;
+import com.adapto.panc.Activities.Utils.DinheiroTextWatcher;
+import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Models.Database.Prato;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.ReferenciaDatabase;
-import com.adapto.panc.SnackBarPersonalizada;
+import com.adapto.panc.Activities.Utils.SnackBarPersonalizada;
 import com.cottacush.android.currencyedittext.CurrencyEditText;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,14 +33,15 @@ import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 import java.util.UUID;
 
 
 public class AdicionarPratoActivity extends AppCompatActivity {
 
-    private CurrencyEditText precoPrato;
     private ImageView img1, img2, img3, img4, img5, img6 ;
     private List<ImageView> imageViews;
     private final int PICK_IMAGE_REQUEST = 22;
@@ -48,7 +51,8 @@ public class AdicionarPratoActivity extends AppCompatActivity {
     private List<Uri> filepaths;
     private StorageReference storageReference;
     private MaterialButton btnSelect, btnUpload;
-    private TextInputLayout nomePrato, descricaoPrato, ingredientesPANC;
+    private TextInputLayout nomePrato, descricaoPrato, ingredientesPANC, precoPrato;
+    private EditText precoPratoEditText;
     private FirestoreReferences firestoreReferences =  new FirestoreReferences();
     private String restauranteID;
     private DocumentReference restauranteDocRef;
@@ -59,7 +63,7 @@ public class AdicionarPratoActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_adicionar_prato_a_restaurante);
         addImageviews();
-        precoPrato = (CurrencyEditText) findViewById(R.id.precoPrato);
+        precoPratoEditText = findViewById(R.id.precoPrato);
         btnSelect = findViewById(R.id.btnChoose);
         btnUpload = findViewById(R.id.btnUpload);
         v = findViewById(android.R.id.content);
@@ -242,11 +246,12 @@ public class AdicionarPratoActivity extends AppCompatActivity {
     }
 
     private void uploadPostagem(final List<String> imagens) {
-        final String nome, ingredientes;
+        final String nome, descricao, ingredientes;
         nome = nomePrato.getEditText().getText().toString();
+        descricao = descricaoPrato.getEditText().getText().toString();
         ingredientes = ingredientesPANC.getEditText().getText().toString();
-        Double preco = precoPrato.getNumericValue();
-        Prato novoPrato = new Prato(nome,ingredientes, restauranteID, preco.toString() , imagens, Timestamp.now());
+        Double preco = Double.parseDouble(precoPratoEditText.getText().toString());
+        Prato novoPrato = new Prato(nome, descricao, ingredientes, restauranteID, preco.toString() , imagens, Timestamp.now());
         restauranteDocRef
                 .update("pratos", FieldValue.arrayUnion(novoPrato))
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -282,7 +287,7 @@ public class AdicionarPratoActivity extends AppCompatActivity {
     private boolean verificarCamposUsuario() {
 
         if(nomePrato.getEditText().getText().toString().isEmpty() || descricaoPrato.getEditText().getText().toString().isEmpty()
-                || precoPrato.getText().toString().isEmpty()) {
+                || precoPratoEditText.getText().toString().isEmpty()) {
             new SnackBarPersonalizada().showMensagemLonga(v, "Preencha todos os campos corretamente!");
             return false;
         }

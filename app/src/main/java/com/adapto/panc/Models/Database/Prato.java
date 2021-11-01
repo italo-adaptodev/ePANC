@@ -6,17 +6,18 @@ import java.util.List;
 
 public class Prato {
 
-    private String nome, descricao, restauranteID, preco;
+    private String nome, descricao, restauranteID, preco, ingredientesPANC;
     private List<String> imagensID;
     private Timestamp timestamp;
 
-    public Prato(String nome, String descricao, String restauranteID, String preco, List<String> imagensID, Timestamp timestamp) {
+    public Prato(String nome, String descricao, String ingredientesPANC, String restauranteID, String preco, List<String> imagensID, Timestamp timestamp) {
         this.nome = nome;
         this.descricao = descricao;
         this.restauranteID = restauranteID;
         this.preco = preco;
         this.imagensID = imagensID;
         this.timestamp = timestamp;
+        this.ingredientesPANC = ingredientesPANC;
     }
 
     public Prato() {
@@ -73,5 +74,13 @@ public class Prato {
 
     public void setTimestamp(Timestamp timestamp) {
         this.timestamp = timestamp;
+    }
+
+    public String getIngredientesPANC() {
+        return ingredientesPANC;
+    }
+
+    public void setIngredientesPANC(String ingredientesPANC) {
+        this.ingredientesPANC = ingredientesPANC;
     }
 }
