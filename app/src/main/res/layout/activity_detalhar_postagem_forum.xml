@@ -187,14 +187,13 @@
 
         <EditText
             android:id="@+id/forum_detalhar_comentario"
-            android:layout_width="305dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
-            
             android:layout_alignParentTop="true"
             android:layout_alignParentEnd="true"
-            
             android:layout_alignParentBottom="true"
+            android:layout_marginEnd="60dp"
             android:background="@drawable/arredondado_comentar_forum"
             android:hint="Comentário..."
             android:inputType="textMultiLine"
@@ -202,8 +201,7 @@
             android:padding="8dp"
             android:textSize="15sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.15"
+            app:layout_constraintEnd_toStartOf="@+id/forum_btn_enviar_comentario"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.481" />
@@ -212,10 +210,10 @@
             android:id="@+id/forum_btn_enviar_comentario"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginEnd="20dp"
             android:background="@null"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/forum_detalhar_comentario"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/button_enviar">
 

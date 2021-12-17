@@ -85,6 +85,9 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
     private ProgressBar spinner;
     private ConstraintLayout constraintLayoutDetalharForum;
     private LinearLayoutCompat linearLayoutImagem;
+    private String usuarioID;
+    private boolean isUsuarioAdminstrador = false;
+    private String postagemKey = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,11 +106,12 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
         v = findViewById(android.R.id.content);
         db = FirebaseFirestore.getInstance();
         Intent intent = getIntent();
-        final String postagemKey = intent.getStringExtra("postagemIDDetalhe");
+        postagemKey = intent.getStringExtra("postagemIDDetalhe");
         ScrollView sv = findViewById(R.id.scrollView);
         sv.scrollTo(0, 0);
-        postagem = recuperarPostagem(postagemKey);
-        getNomeUsuarioAtual(new LoginSharedPreferences(getApplicationContext()).getIdentifier());
+        usuarioID = new LoginSharedPreferences(getApplicationContext()).getIdentifier();
+        getCargosUsuarioSolicitante();
+        getNomeUsuarioAtual(usuarioID);
         spinner = findViewById(R.id.progressBar2);
         spinner.setVisibility(View.VISIBLE);
         constraintLayoutDetalharForum = findViewById(R.id.ConstraintLayoutDetalharForum);
@@ -164,7 +168,7 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
         overridePendingTransition(R.anim.from_right_in, R.anim.from_left_out);
     }
 
-    private DocumentReference recuperarPostagem(String postagemKey) {
+    private DocumentReference recuperarPostagem(final String postagemKey) {
         DocumentReference docRef = db.collection(firestoreReferences.getPostagensForumPANCCOLLECTION()).document(postagemKey);
         docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
             @Override
@@ -178,7 +182,7 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
                 postagemDetalhadaData.setText(dateFormat.format(data));
                 postagemDetalhadaTexto.setText(DS.get("postagemForumTexto").toString());
                 postagemForumDuvidas = DS.toObject(PostagemForumDuvidas.class);
-                forumAdapter = new ForumComentarioAdapter(getLayoutInflater(), postagemForumDuvidas.getComentarios());
+                forumAdapter = new ForumComentarioAdapter(getLayoutInflater(), postagemForumDuvidas.getComentarios(),getBaseContext(), isUsuarioAdminstrador, DetalharPostagemForumActivity.this, postagemKey);
                 recyclerViewComentarios.setAdapter(forumAdapter);
                 if(uris.size() > 1 ) {
                     setImagesCarousel(uris);
@@ -320,6 +324,48 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
                 });
         // [END listen_diffs]
     }
+
+    private boolean getCargosUsuarioSolicitante() {
+        db.collection(firestoreReferences.getEquipeCOLLECTION())
+                .whereEqualTo("usuarioID", usuarioID)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if(queryDocumentSnapshots.size() > 0) {
+                            for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
+                                String cargos = snap.get("cargosAdministrativos").toString();
+                                if(cargos.contains("ADMINISTRADOR")) {
+                                    isUsuarioAdminstrador = true;
+                                }
+                            }
+                            postagem = recuperarPostagem(postagemKey);
+
+                        }
+                    }
+                }).addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                postagem = recuperarPostagem(postagemKey);
+            }
+        });
+        return isUsuarioAdminstrador;
+    }
+/*
+    private void excluirPostagem(String comentarioID) {
+        db.collection(firestoreReferences.getPostagensForumPANCCOLLECTION()).document(postagemID)
+                .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+            @Override
+            public void onSuccess(Void aVoid) {
+                new SnackBarPersonalizada().showMensagemLonga(v, "Postagem excluída com sucesso!");
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
+                new SnackBarPersonalizada().showMensagemLonga(v, "Não foi possível excluir esta postagem. ERRO: " + e.getLocalizedMessage());
+            }
+        });
+    }*/
 
     @Override
     public void onBackPressed() {
