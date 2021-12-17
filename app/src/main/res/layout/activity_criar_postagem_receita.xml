@@ -60,20 +60,46 @@
         </com.google.android.material.textfield.TextInputLayout>
 
         <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/tempoPrepatoReceita"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="28dp"
+            android:layout_marginEnd="20dp"
+            android:hint="Tempo de preparo"
+            app:boxStrokeColor="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/rendimentoReceita">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:inputType="textMultiLine"
+                android:maxLines="3">
+
+            </com.google.android.material.textfield.TextInputEditText>
+
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/ingredientesReceita"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
             android:layout_height="108dp"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="52dp"
+            android:layout_marginTop="28dp"
             android:layout_marginEnd="20dp"
             android:ems="10"
             android:gravity="start"
             android:inputType="textMultiLine|textCapSentences"
             app:boxStrokeColor="@color/colorAccent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/rendimentoReceita">
+            app:layout_constraintTop_toBottomOf="@+id/tempoPrepatoReceita">
 
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
@@ -104,7 +130,9 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
                 android:gravity="start"
-                android:hint="Modo de preparo" />
+                android:maxLength="150"
+                android:hint="Modo de preparo"
+                />
         </com.google.android.material.textfield.TextInputLayout>
 
         <TableLayout
@@ -126,69 +154,15 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/forumReceitaimg1"
-                    android:layout_width="120dp"
+                    android:layout_width="match_parent"
                     android:layout_marginEnd="5dp"
                     android:adjustViewBounds="true"
-                    android:maxHeight="120dp">
+                    android:maxHeight="200dp">
 
                 </androidx.appcompat.widget.AppCompatImageView>
 
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/forumReceitaimg2"
-                    android:layout_width="120dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:adjustViewBounds="true"
-                    android:maxHeight="120dp">
-
-                </androidx.appcompat.widget.AppCompatImageView>
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/forumReceitaimg3"
-                    android:layout_width="120dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:adjustViewBounds="true"
-                    android:maxHeight="120dp">
-
-                </androidx.appcompat.widget.AppCompatImageView>
-            </TableRow>
-
-            <TableRow
-                android:layout_width="match_parent"
-                android:layout_height="155dp"
-                android:layout_marginTop="5dp">
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/forumReceitaimg4"
-                    android:layout_width="120dp"
-                    android:layout_marginEnd="5dp"
-                    android:adjustViewBounds="true"
-                    android:maxHeight="120dp">
-
-                </androidx.appcompat.widget.AppCompatImageView>
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/forumReceitaimg5"
-                    android:layout_width="120dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:adjustViewBounds="true"
-                    android:maxHeight="120dp">
-
-                </androidx.appcompat.widget.AppCompatImageView>
-
-                <androidx.appcompat.widget.AppCompatImageView
-                    android:id="@+id/forumReceitaimg6"
-                    android:layout_width="120dp"
-                    android:layout_marginStart="5dp"
-                    android:layout_marginEnd="5dp"
-                    android:adjustViewBounds="true"
-                    android:maxHeight="120dp" />
 
             </TableRow>
-
-
         </TableLayout>
 
         <com.google.android.material.button.MaterialButton
@@ -197,7 +171,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="16dp"
             android:layout_weight="1"
-            android:text="Adicionar imagens"
+            android:text="Adicionar imagem"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.497"

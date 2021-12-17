@@ -15,7 +15,7 @@ import com.adapto.panc.R;
 
 public class ReceitaViewHolder extends RecyclerView.ViewHolder{
 
-    public TextView  nome, forumReceitaInfos;
+    public TextView  nome, forumReceitaInfos, nomeAutor;
     public ImageView forumReceitaImagem;
     public ImageButton btnExcluirPostagem;
     public LinearLayout linearLayoutBtn, linearLayoutCard;
@@ -25,6 +25,7 @@ public class ReceitaViewHolder extends RecyclerView.ViewHolder{
         forumReceitaImagem = itemView.findViewById(R.id.forumReceitaImagem);
         nome = itemView.findViewById(R.id.forumReceitaNome);
         forumReceitaInfos = itemView.findViewById(R.id.forumReceitaInfos);
+        nomeAutor = itemView.findViewById(R.id.forumReceitaNomeAutor);
         btnExcluirPostagem = itemView.findViewById(R.id.deletePostButton);
         linearLayoutBtn = itemView.findViewById(R.id.linearLayoutBtn);
         linearLayoutCard = itemView.findViewById(R.id.linearLayoutCard);

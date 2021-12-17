@@ -65,6 +65,15 @@
             android:ellipsize="end"
             android:maxLines="3"
             android:text="Descrição da postagem" />
+        <TextView
+            android:id="@+id/forumReceitaNomeAutor"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="Descrição da postagem" />
 
     </LinearLayout>
 </RelativeLayout>

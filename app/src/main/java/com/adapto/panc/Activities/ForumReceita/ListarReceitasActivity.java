@@ -174,16 +174,17 @@ public class ListarReceitasActivity extends AppCompatActivity {
                         Glide.with(getBaseContext())
                                 .load(imgID)
                                 .into(holder.forumReceitaImagem);
-                    holder.nome.setText(model.getNome());
-                    holder.forumReceitaInfos.setText(model.getRendimento());
-                    /*holder.itemView.setOnClickListener(new View.OnClickListener() {
+                    holder.nome.setText(model.getNomeReceita());
+                    holder.forumReceitaInfos.setText("Tempo de preparo: " + model.getTempoPreparo());
+                    holder.nomeAutor.setText("Por: " + model.getNomeAutor());
+                    holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
                             Intent intent = new Intent(getBaseContext(), DetalharReceitaActivity.class);
                             intent.putExtra("receitaIDDetalhe", model.getReceitaID());
                             startActivity(intent);
                         }
-                    });*/
+                    });
                     holder.btnExcluirPostagem.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {

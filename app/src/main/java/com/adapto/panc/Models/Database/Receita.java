@@ -6,30 +6,24 @@ import java.util.List;
 
 public class Receita {
 
-    private String nome, autor_usuarioID, receitaID, ingredientes, modoPreparo, rendimento, infos;
+    private String nomeReceita, nomeAutor, autor_usuarioID, receitaID, ingredientes, modoPreparo, rendimento, infos, tempoPreparo;
     private List<String> imagensID;
     private Timestamp timestamp;
 
-    public Receita(String nome, String autor_usuarioID, String ingredientes, String modoPreparo, String rendimento, List<String> imagensID, Timestamp timestamp) {
-        this.nome = nome;
+    public Receita(String nomeReceita, String nomeAutor, String autor_usuarioID, String ingredientes, String modoPreparo, String rendimento, List<String> imagensID, Timestamp timestamp, String tempoPreparo) {
+        this.nomeReceita = nomeReceita;
+        this.nomeAutor = nomeAutor;
         this.autor_usuarioID = autor_usuarioID;
         this.ingredientes = ingredientes;
         this.modoPreparo = modoPreparo;
         this.rendimento = rendimento;
         this.imagensID = imagensID;
         this.timestamp = timestamp;
+        this.tempoPreparo = tempoPreparo;
         this.infos = infos;
     }
 
     public Receita() {
-    }
-
-    public String getNome() {
-        return nome;
-    }
-
-    public void setNome(String nome) {
-        this.nome = nome;
     }
 
     public String getAutor_usuarioID() {
@@ -94,5 +88,29 @@ public class Receita {
 
     public void setInfos(String infos) {
         this.infos = infos;
+    }
+
+    public String getTempoPreparo() {
+        return tempoPreparo;
+    }
+
+    public void setTempoPreparo(String tempoPreparo) {
+        this.tempoPreparo = tempoPreparo;
+    }
+
+    public String getNomeReceita() {
+        return nomeReceita;
+    }
+
+    public void setNomeReceita(String nomeReceita) {
+        this.nomeReceita = nomeReceita;
+    }
+
+    public String getNomeAutor() {
+        return nomeAutor;
+    }
+
+    public void setNomeAutor(String nomeAutor) {
+        this.nomeAutor = nomeAutor;
     }
 }

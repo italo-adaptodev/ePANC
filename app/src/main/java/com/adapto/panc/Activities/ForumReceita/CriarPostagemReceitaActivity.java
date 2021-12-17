@@ -30,6 +30,8 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -50,8 +52,10 @@ public class CriarPostagemReceitaActivity extends AppCompatActivity {
     private List<Uri> filepaths;
     private StorageReference storageReference;
     private MaterialButton btnSelect, btnUpload;
-    private TextInputLayout nomeReceita, rendimentoReceita, ingredientesReceita, modoPreparoReceita;
+    private TextInputLayout nome, rendimentoReceita, ingredientesReceita, modoPreparoReceita, tempoPreparoReceita;
     private FirestoreReferences firestoreReferences =  new FirestoreReferences();
+    private String usuarioID;
+    private String nomeUsuario;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +65,8 @@ public class CriarPostagemReceitaActivity extends AppCompatActivity {
         btnSelect = findViewById(R.id.btnChoose);
         btnUpload = findViewById(R.id.btnUpload);
         v = findViewById(android.R.id.content);
-        nomeReceita =  findViewById(R.id.nomeReceita);
+        nome =  findViewById(R.id.nomeReceita);
+        tempoPreparoReceita = findViewById(R.id.tempoPrepatoReceita);
         rendimentoReceita =  findViewById(R.id.rendimentoReceita);
         ingredientesReceita =  findViewById(R.id.ingredientesReceita);
         modoPreparoReceita =  findViewById(R.id.modoPreparoReceita);
@@ -69,6 +74,8 @@ public class CriarPostagemReceitaActivity extends AppCompatActivity {
         storageReference = referenciaDatabase.getFirebaseStorage();
         snackBarPersonalizada = new SnackBarPersonalizada();
         filepaths = new ArrayList<>();
+        usuarioID = new LoginSharedPreferences(getApplicationContext()).getIdentifier();
+        getNomeAutorPostagem(usuarioID);
 
         // on pressing btnSelect SelectImage() is called
         btnSelect.setOnClickListener(new View.OnClickListener() {
@@ -92,26 +99,16 @@ public class CriarPostagemReceitaActivity extends AppCompatActivity {
     private void addImageviews() {
         imageViews = new ArrayList<>();
         img1 = findViewById(R.id.forumReceitaimg1);
-        img2 = findViewById(R.id.forumReceitaimg2);
-        img3 = findViewById(R.id.forumReceitaimg3);
-        img4 = findViewById(R.id.forumReceitaimg4);
-        img5 = findViewById(R.id.forumReceitaimg5);
-        img6 = findViewById(R.id.forumReceitaimg6);
         imageViews.add(img1);
-        imageViews.add(img2);
-        imageViews.add(img3);
-        imageViews.add(img4);
-        imageViews.add(img5);
-        imageViews.add(img6);
     }
 
     // Select Image method
     private void SelectImage()
     {
-        for(int i = 0; i < 6; i++){
-            imageViews.get(i).setImageBitmap(null);
+//        for(int i = 0; i < 6; i++){
+            imageViews.get(0).setImageBitmap(null);
             filepaths.clear();
-        }
+//        }
         // Defining Implicit Intent to mobile gallery
         Intent intent = new Intent();
         intent.setType("image/*");
@@ -233,18 +230,24 @@ public class CriarPostagemReceitaActivity extends AppCompatActivity {
     }
 
     private void uploadPostagem(final List<String> imagens) {
-        String nome, rendimento, ingredientes, preparo;
-        nome = nomeReceita.getEditText().getText().toString();
+        String nomeReceita, nomeAutor, rendimento, ingredientes, modoPreparo, tempoPreparo, usuarioID;
+        nomeReceita = nome.getEditText().getText().toString();
+        usuarioID = new LoginSharedPreferences(getApplicationContext()).getIdentifier();
+        nomeAutor = nomeUsuario;
         rendimento = rendimentoReceita.getEditText().getText().toString();
         ingredientes = ingredientesReceita.getEditText().getText().toString();
-        preparo = modoPreparoReceita.getEditText().getText().toString();
-        Receita receita = new Receita(nome,
-                new LoginSharedPreferences(getApplicationContext()).getIdentifier(),
+        modoPreparo = modoPreparoReceita.getEditText().getText().toString();
+        tempoPreparo = tempoPreparoReceita.getEditText().getText().toString();
+
+        Receita receita = new Receita(nomeReceita,
+                nomeAutor,
+                usuarioID,
                 ingredientes,
-                preparo,
+                modoPreparo,
                 rendimento,
                 imagens,
-                Timestamp.now());
+                Timestamp.now(),
+                tempoPreparo);
         FirebaseFirestore.getInstance().collection(firestoreReferences.getReceitaCOLLECTION())
                 .add(receita)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -269,6 +272,19 @@ public class CriarPostagemReceitaActivity extends AppCompatActivity {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         snackBarPersonalizada.showMensagemLonga(v, e.getMessage());
+                    }
+                });
+    }
+
+
+    private void getNomeAutorPostagem(String usuarioID) {
+        FirebaseFirestore.getInstance().collection(firestoreReferences.getUsuariosCOLLECTION()).whereEqualTo("identificador", usuarioID).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
+                            nomeUsuario = snap.getString("nome");
+                        }
                     }
                 });
     }

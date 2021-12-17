@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:id="@+id/scrollViewReceita"
+    tools:context=".Activities.ForumReceita.DetalharReceitaActivity"
+    android:fillViewport="true">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+
+        <ProgressBar
+            android:id="@+id/progress"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:visibility="visible"
+            app:layout_constraintBottom_toBottomOf="@+id/imagensReceitaDetalhar"
+            app:layout_constraintTop_toTopOf="@+id/imagensReceitaDetalhar" />
+
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:id="@+id/imagensReceitaDetalhar"
+            android:layout_width="match_parent"
+            android:layout_height="250dp"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="30dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detalharNomeReceita"
+            app:srcCompat="@drawable/pancdefault" />
+
+        <TextView
+            android:id="@+id/detalharNomeReceita"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text="Nome da receita"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            android:textSize="20sp"
+            app:layout_constraintBottom_toTopOf="@+id/imagensReceitaDetalhar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.256" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Tempo de preparo"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toTopOf="@+id/detalharTempoReceita"
+            app:layout_constraintEnd_toEndOf="@+id/detalharTempoReceita"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/detalharTempoReceita"
+            app:layout_constraintTop_toBottomOf="@+id/imagensReceitaDetalhar"
+            app:layout_constraintVertical_bias="1.0">
+
+        </TextView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/detalharTempoReceita"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="28dp"
+            android:layout_marginTop="48dp"
+            android:text="Tempo de preparo"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imagensReceitaDetalhar" />
+
+        <TextView
+            android:id="@+id/detalharNomeAutorReceita"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="28dp"
+            android:text="nome do autor"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toTopOf="@+id/detalharIngredientesReceita"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detalharTempoReceita"
+            app:layout_constraintVertical_bias="0.0">
+
+        </TextView>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Rendimento"
+            android:textStyle="bold"
+            android:textColor="@color/colorAccent"
+            app:layout_constraintBottom_toTopOf="@+id/detalharPorcoesReceita"
+            app:layout_constraintEnd_toEndOf="@+id/detalharPorcoesReceita"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/detalharPorcoesReceita"
+            app:layout_constraintTop_toBottomOf="@+id/imagensReceitaDetalhar"
+            app:layout_constraintVertical_bias="1.0">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/detalharPorcoesReceita"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="48dp"
+            android:text="Porçoes"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.672"
+            app:layout_constraintStart_toEndOf="@+id/detalharTempoReceita"
+            app:layout_constraintTop_toBottomOf="@+id/imagensReceitaDetalhar" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView4"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50dp"
+            android:layout_marginBottom="10dp"
+            android:drawableStart="@drawable/ic_food_svgrepo_com"
+            android:drawablePadding="10dp"
+            android:text="Ingredientes"
+            android:textColor="@color/colorAccent"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/detalharIngredientesReceita"
+            app:layout_constraintEnd_toEndOf="@+id/detalharIngredientesReceita"
+            app:layout_constraintStart_toStartOf="@+id/detalharIngredientesReceita"
+            app:layout_constraintTop_toBottomOf="@+id/detalharNomeAutorReceita"
+            app:layout_constraintVertical_bias="1.0">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <TextView
+            android:id="@+id/detalharIngredientesReceita"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="30dp"
+            android:background="@drawable/arrendondado_textview"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Ingredientes"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/materialTextView3"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.503"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView4" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="10dp"
+            android:text="Preparo"
+            android:textColor="@color/colorAccent"
+            android:drawablePadding="10dp"
+            android:drawableStart="@drawable/ic_pan_svgrepo_com"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/detalharModoPreparoReceita"
+            app:layout_constraintEnd_toEndOf="@+id/detalharModoPreparoReceita"
+            app:layout_constraintHorizontal_bias="0.494"
+            app:layout_constraintStart_toStartOf="@+id/detalharModoPreparoReceita"
+            app:layout_constraintTop_toBottomOf="@+id/detalharIngredientesReceita"
+            app:layout_constraintVertical_bias="1.0">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <TextView
+            android:id="@+id/detalharModoPreparoReceita"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginEnd="30dp"
+            android:layout_marginBottom="352dp"
+            android:background="@drawable/arrendondado_textview"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="Modo de preparo"
+            android:textSize="14sp"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.504"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView3" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>
