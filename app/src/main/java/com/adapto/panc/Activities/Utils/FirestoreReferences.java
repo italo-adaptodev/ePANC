@@ -1,4 +1,4 @@
-package com.adapto.panc;
+package com.adapto.panc.Activities.Utils;
 
 public class FirestoreReferences {
 
@@ -10,6 +10,8 @@ public class FirestoreReferences {
     public static final String RESTAURANTECOLLECTION = "Restaurante";
     public static final String CULTIVARECOLLECTION = "Cultivare";
     public static final String CONSUMIDOR = "Consumidor";
+    public static final String RECEITA = "Receita";
+    public static final String CONVITESADMINISTRATIVOS = "ConviteEquipeAdministrativa";
 
     public String getVitrineProdutosCOLLECTION() {
         return VITRINEPRODUTOSCOLLECTION;
@@ -41,5 +43,13 @@ public class FirestoreReferences {
 
     public String getConsumidorCOLLECTION() {
         return CONSUMIDOR;
+    }
+
+    public String getReceitaCOLLECTION() {
+        return RECEITA;
+    }
+
+    public String getConviteEquipeAdministrativaCOLLECTION() {
+        return CONVITESADMINISTRATIVOS;
     }
 }
