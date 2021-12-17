@@ -1,6 +1,6 @@
 <resources>
     <string name="app_name">PANCApp</string>
-    <string name="aviso_convite">INFORME ABAIXO O IDENTIFICADOR DO USUARIO A SER CONVIDADO E O CARGO A SER OCUPADO</string>
+    <string name="aviso_convite">INFORME ABAIXO O IDENTIFICADOR DO USUARIO A SER CONVIDADO E O CARGO A SER OCUPADO, ASSIM COMO UMA JUSTIFICATIVA DO CONVITE</string>
     <string name="textoFunção">Escolha uma função que você mais se identifica</string>
     <string name="textoContatoProdutor">Informe seus dados para contato</string>
     <string name="textoInfoRestaurante">Informe os dados do estabelecimento</string>

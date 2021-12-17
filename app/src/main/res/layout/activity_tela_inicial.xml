@@ -9,7 +9,7 @@
     <include
         android:id="@+id/toolbar"
         layout="@layout/toolbar"
-        app:layout_constraintBottom_toTopOf="@+id/feedPrincipalRecV"
+        app:layout_constraintBottom_toTopOf="@+id/constraintLayoutRecyclerDuvida"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -37,32 +37,41 @@
         android:textColor="#000000"
         android:textSize="16dp"
         android:visibility="invisible"
-        app:layout_constraintBottom_toBottomOf="@+id/feedPrincipalRecV"
+        app:layout_constraintBottom_toBottomOf="@+id/constraintLayoutRecyclerDuvida"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/feedPrincipalRecV"
-        app:layout_constraintTop_toTopOf="@+id/feedPrincipalRecV">
+        app:layout_constraintStart_toStartOf="@+id/constraintLayoutRecyclerDuvida"
+        app:layout_constraintTop_toTopOf="@+id/constraintLayoutRecyclerDuvida">
 
     </com.google.android.material.textview.MaterialTextView>
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/feedPrincipalRecV"
-        android:layout_width="387dp"
-        android:visibility="invisible"
-        android:layout_height="556dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginBottom="12dp"
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayoutRecyclerDuvida"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
-        tools:listitem="@layout/cardview_feedprincipal">
+        app:layout_constraintEnd_toEndOf="@+id/coordinatorLayout"
+        app:layout_constraintStart_toStartOf="@+id/toolbar"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
-    </androidx.recyclerview.widget.RecyclerView>
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/feedPrincipalRecV"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            tools:listitem="@layout/cardview_feedprincipal">
+
+        </androidx.recyclerview.widget.RecyclerView>
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout"
         android:layout_width="match_parent"
         android:layout_height="90dp"
+        android:background="@null"
+        android:backgroundTint="@null"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
