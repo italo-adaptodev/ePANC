@@ -21,15 +21,16 @@ import android.widget.ProgressBar;
 
 import com.adapto.panc.Activities.ForumDuvida.CriarPostagemDuvidaActivity;
 import com.adapto.panc.Activities.ForumDuvida.DetalharPostagemForumActivity;
+import com.adapto.panc.Activities.ForumReceita.ListarReceitasActivity;
 import com.adapto.panc.Activities.Produto.Produtor_ListarProdutosActivity;
 import com.adapto.panc.Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity;
 import com.adapto.panc.Activities.Restaurante.Restaurante_ListarRestaurantesActivity;
-import com.adapto.panc.FirestoreReferences;
+import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Models.Database.PostagemForumDuvidas;
 import com.adapto.panc.Models.ViewHolder.PostagemForumHolder;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
-import com.adapto.panc.SnackBarPersonalizada;
+import com.adapto.panc.Activities.Utils.SnackBarPersonalizada;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
@@ -89,6 +90,7 @@ public class TelaInicialActivity extends AppCompatActivity {
         toolbar.setTitle("Panc - APP");
         bottomAppBar = findViewById(R.id.bottom_app_bar);
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        toolbar.setTitle("Fórum de Dúvidas");
         spinner = findViewById(R.id.progressBar1);
         spinner.setVisibility(View.VISIBLE);
         setSupportActionBar(toolbar);
@@ -160,10 +162,12 @@ public class TelaInicialActivity extends AppCompatActivity {
     @Override
     public boolean onMenuOpened(int featureId, Menu menu) {
 
-       /* if(!isUsuarioAdminstrador)
-            menu.getItem(3).setVisible(false);
+        if(!isUsuarioAdminstrador) {
+            menu.getItem(4).setVisible(false);
+            menu.getItem(7).setVisible(false);
+        }
         if(!isUsuarioRestaurante)
-            menu.getItem(4).setVisible(false);*/
+            menu.getItem(5).setVisible(false);
         return super.onMenuOpened(featureId, menu);
     }
 
@@ -209,6 +213,15 @@ public class TelaInicialActivity extends AppCompatActivity {
             case R.id.listarestaurantes:
                 startActivity(new Intent(this, Restaurante_ListarRestaurantesActivity.class));
                 break;
+
+            case R.id.listareceitas:
+                startActivity(new Intent(this, ListarReceitasActivity.class));
+                break;
+
+            case R.id.paineladministrativo:
+                startActivity(new Intent(this, PainelAdministrativoActivity.class));
+                break;
+
             default:
                 break;
         }
@@ -240,7 +253,7 @@ public class TelaInicialActivity extends AppCompatActivity {
 
     private void isUsuarioAtivo() {
         db.collection(firestoreReferences.getUsuariosCOLLECTION())
-                .whereEqualTo("id", usuarioID)
+                .whereEqualTo("identificador", usuarioID)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override

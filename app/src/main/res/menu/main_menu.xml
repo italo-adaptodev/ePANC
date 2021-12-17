@@ -23,7 +23,7 @@
 
     <item
         android:id="@+id/convite"
-        android:title="Convidar"
+        android:title="Convidar para equipe"
         android:icon="@drawable/ic_add_button"
         android:orderInCategory="4"
         />
@@ -40,6 +40,20 @@
         android:title="Restaurantes"
         android:icon="@drawable/ic_add_button"
         android:orderInCategory="6"
+        />
+
+    <item
+        android:id="@+id/listareceitas"
+        android:title="Receitas"
+        android:icon="@drawable/ic_add_button"
+        android:orderInCategory="7"
+        />
+
+    <item
+        android:id="@+id/paineladministrativo"
+        android:title="Painel Administrativo"
+        android:icon="@drawable/ic_add_button"
+        android:orderInCategory="8"
         />
 
 </menu>
