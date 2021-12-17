@@ -8,8 +8,10 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.RadioButton;
 
 import com.adapto.panc.Activities.Utils.FirestoreReferences;
+import com.adapto.panc.Models.Database.ConviteEquipeAdministrativa;
 import com.adapto.panc.Models.Database.MembroEquipe;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
@@ -30,8 +32,8 @@ import java.util.List;
 
 public class ConvidarActivity extends AppCompatActivity {
 
-    private CheckBox CBadministrador,  CBmoderador;
-    private TextInputLayout identificadorConvidado;
+    private RadioButton CBadministrador,  CBmoderador, RBpesquisador;
+    private TextInputLayout identificadorConvidado, justificativa;
     private Button btn_send;
     private FirebaseFirestore db;
     private SnackBarPersonalizada snackBarPersonalizada;
@@ -45,9 +47,11 @@ public class ConvidarActivity extends AppCompatActivity {
 
         db = FirebaseFirestore.getInstance();
         CBadministrador = findViewById(R.id.checkBox_administrador);
-        CBmoderador = findViewById(R.id.checkBox3_moderador);
+        CBmoderador = findViewById(R.id.checkBox_moderador);
+        RBpesquisador = findViewById(R.id.checkBox_pesquisador);
         btn_send = findViewById(R.id.btn_send);
         identificadorConvidado =  findViewById(R.id.idetificadorConvidado);
+        justificativa =  findViewById(R.id.justificativaConvite);
         snackBarPersonalizada = new SnackBarPersonalizada();
         loginSharedPreferences = new LoginSharedPreferences(this);
         firestoreReferences =  new FirestoreReferences();
@@ -56,10 +60,9 @@ public class ConvidarActivity extends AppCompatActivity {
             @Override
             public void onClick(final View v) {
 
-                if(!CBadministrador.isChecked() && !CBmoderador.isChecked()){
+                if(!CBadministrador.isChecked() && !CBmoderador.isChecked()  && !RBpesquisador.isChecked()){
                     snackBarPersonalizada.showMensagemLonga(v, "Marque alguma das opções!");
-                }else
-                    {
+                }else{
                     final List<String> cargos = new ArrayList<>();
                     if (CBadministrador.isChecked()) {
                         cargos.add("ADMINISTRADOR");
@@ -67,8 +70,12 @@ public class ConvidarActivity extends AppCompatActivity {
                     if (CBmoderador.isChecked()) {
                         cargos.add("MODERADOR");
                     }
+                    if (RBpesquisador.isChecked()) {
+                        cargos.add("PESQUISADOR");
+                    }
 
                     final String identificadorConvidado = ConvidarActivity.this.identificadorConvidado.getEditText().getText().toString();
+                    final String justificativaConvite = ConvidarActivity.this.justificativa.getEditText().getText().toString();
                     db.collection(firestoreReferences.getUsuariosCOLLECTION())
                             .whereEqualTo("identificador", identificadorConvidado)
                             .get()
@@ -90,14 +97,16 @@ public class ConvidarActivity extends AppCompatActivity {
                                                             snap1.getReference().update("cargosAdministrativos", cargos);
                                                             snackBarPersonalizada.showMensagemLonga(v, "Cargos atualizados com sucesso" );
                                                         }else{
-                                                            MembroEquipe membroEquipe = new MembroEquipe(snap.getString("identificador"), loginSharedPreferences.getIdentifier(),  cargos);
-                                                            FirebaseFirestore.getInstance().collection(firestoreReferences.getEquipeCOLLECTION())
-                                                                    .add(membroEquipe)
+                                                            ConviteEquipeAdministrativa conviteEquipeAdministrativa =
+                                                                    new ConviteEquipeAdministrativa(identificadorConvidado, justificativaConvite, cargos, loginSharedPreferences.getIdentifier());
+                                                            FirebaseFirestore.getInstance().collection(firestoreReferences.getConviteEquipeAdministrativaCOLLECTION())
+                                                                    .add(conviteEquipeAdministrativa)
                                                                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                                                                         @Override
                                                                         public void onSuccess(DocumentReference documentReference) {
                                                                             documentReference.update("timestamp", new Timestamp(new Date()));
-                                                                            snackBarPersonalizada.showMensagemLonga(v, "O usuario foi cadastrado como membro da Equipe Administrativa" );
+                                                                            documentReference.update("id", documentReference.getId());
+                                                                            snackBarPersonalizada.showMensagemLonga(v, "O convite foi enviado para análise." );
                                                                         }
                                                                     });
                                                         }
@@ -106,7 +115,6 @@ public class ConvidarActivity extends AppCompatActivity {
                                                 }).addOnFailureListener(new OnFailureListener() {
                                             @Override
                                             public void onFailure(@NonNull Exception e) {
-                                                Log.i("doc", "no");
                                             }
                                         });
 

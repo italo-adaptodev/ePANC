@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center"
+    android:layout_marginStart="10dp"
+
+    android:layout_marginTop="10dp"
+    android:layout_marginEnd="10dp"
+    android:elevation="5dp">
+
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/borda_roxa">
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/conviteEquipeAdministrativaNomeIntegrante"
+            android:layout_width="wrap_content"
+            android:layout_height="29dp"
+            android:padding="5dp"
+            android:textColor="#4B2759"
+            app:layout_constraintBottom_toTopOf="@+id/conviteEquipeAdministrativaIndicadoPor"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.593"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tagNome"
+            app:layout_constraintVertical_bias="0.0">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tagNome"
+            android:layout_width="wrap_content"
+            android:layout_height="29dp"
+            android:layout_marginTop="17dp"
+            android:padding="5dp"
+            android:text="Indicado:"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.052"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/conviteEquipeAdministrativaIndicadoPor"
+            android:layout_width="wrap_content"
+            android:layout_height="29dp"
+            android:layout_marginBottom="5dp"
+            android:padding="5dp"
+            android:textColor="#4B2759"
+            app:layout_constraintBottom_toTopOf="@+id/conviteEquipeAdministrativaCargosAdministrativos"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.585"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tagIndicado"
+            app:layout_constraintVertical_bias="1.0">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/conviteEquipeAdministrativaCargosAdministrativos"
+            android:layout_width="wrap_content"
+            android:layout_height="29dp"
+            android:layout_marginStart="20dp"
+            android:padding="5dp"
+            android:textColor="#4B2759"
+            app:layout_constraintBottom_toTopOf="@+id/conviteEquipeAdministrativaJustificativa"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/tagCargos"
+            app:layout_constraintVertical_bias="0.0">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tagCargos"
+            android:layout_width="wrap_content"
+            android:layout_height="29dp"
+            android:layout_marginBottom="60dp"
+            android:padding="5dp"
+            android:text="Cargos: "
+            android:textColor="#000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.057"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tagIndicado"
+            app:layout_constraintVertical_bias="0.081">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tagIndicado"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:padding="5dp"
+            android:text="Indicado por:"
+            android:textColor="#000000"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.06"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tagNome">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/tagJustificativa"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="6dp"
+            android:padding="5dp"
+
+            android:text="Justificativa"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+
+            app:layout_constraintHorizontal_bias="0.059"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tagCargos"
+            app:layout_constraintVertical_bias="0.091">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/conviteEquipeAdministrativaJustificativa"
+            android:layout_width="220dp"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="16dp"
+            android:inputType="textMultiLine"
+            android:autoSizeTextType="uniform"
+            android:padding="5dp"
+            android:textColor="#4B2759"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.54"
+            app:layout_constraintStart_toEndOf="@+id/tagJustificativa"
+            app:layout_constraintTop_toTopOf="@+id/tagJustificativa"
+            app:layout_constraintVertical_bias="0.0">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/negarconvite"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom"
+            android:layout_marginStart="100dp"
+            android:layout_marginBottom="10dp"
+            android:background="@null"
+            android:src="@drawable/ic__quit2"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/conviteEquipeAdministrativaJustificativa">
+
+        </androidx.appcompat.widget.AppCompatImageButton>
+
+        <androidx.appcompat.widget.AppCompatImageButton
+            android:id="@+id/aceitarconvite"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_gravity="bottom|right"
+            android:layout_marginBottom="10dp"
+            android:background="@null"
+            android:src="@drawable/ic_checked"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.568"
+            app:layout_constraintStart_toEndOf="@+id/negarconvite"
+            app:layout_constraintTop_toBottomOf="@+id/conviteEquipeAdministrativaJustificativa"
+            app:layout_constraintVertical_bias="0.476">
+
+        </androidx.appcompat.widget.AppCompatImageButton>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+
+
+
+</com.google.android.material.card.MaterialCardView>
