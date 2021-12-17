@@ -11,7 +11,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.Restaurante.EditarPrato"></activity>
+        <activity android:name=".Activities.ForumReceita.DetalharReceitaActivity"></activity>
+        <activity android:name=".Activities.PainelAdministrativoActivity" />
+        <activity android:name=".Activities.ForumReceita.CriarPostagemReceitaActivity" />
+        <activity android:name=".Activities.ForumReceita.ListarReceitasActivity" />
+        <activity android:name=".Activities.Restaurante.EditarInformacoesRestauranteDONOActivity" />
+        <activity android:name=".Activities.Restaurante.EditarPrato" />
         <activity android:name=".Activities.Restaurante.Restaurante_DetalharPratoActivity" />
         <activity android:name=".Activities.Restaurante.Restaurante_ListarRestaurantesActivity" />
         <activity android:name=".Activities.Restaurante.AdicionarPratoActivity" />
@@ -26,7 +31,7 @@
             android:screenOrientation="fullSensor"
             android:windowSoftInputMode="adjustPan" />
         <activity android:name=".Activities.ForumDuvida.CriarPostagemDuvidaActivity" />
-        <activity android:name=".WebViewConfig" />
+        <activity android:name=".Activities.Utils.WebViewConfig" />
         <activity android:name=".Activities.TelaInicialActivity" />
         <activity android:name=".Activities.ForumDuvida.DetalharPostagemForumActivity" />
         <activity android:name=".Activities.CadastroActivity" />

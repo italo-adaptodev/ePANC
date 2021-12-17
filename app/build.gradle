@@ -52,8 +52,8 @@ dependencies {
     implementation 'com.github.bumptech.glide:glide:4.10.0'
     implementation 'com.synnapps:carouselview:0.1.5'
     annotationProcessor 'com.github.bumptech.glide:compiler:4.8.0'
-    implementation 'me.abhinay.input:currency-edittext:1.1'
     implementation 'com.github.joielechong:countrycodepicker:2.4.2'
     annotationProcessor "com.github.bumptech.glide:compiler:4.9.0"
     implementation "com.github.firdausmaulan:GlideSlider:1.5.1"
+    implementation 'com.cottacush:CurrencyEditText:0.0.9'
 }
