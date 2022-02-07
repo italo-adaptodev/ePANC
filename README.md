@@ -15,7 +15,7 @@ Desenvolvido para projeto de doutorado da aluna Simone Montes, em parceria com p
 - Material Design
 - Android Studio
 
-#SCREENSHOTS 
+# SCREENSHOTS 
 
 ![Screenshot_20220207_000938](https://user-images.githubusercontent.com/44818719/152718971-f720938b-93a5-4e41-9210-6468df12f213.png)
 ![Screenshot_20220207_001052](https://user-images.githubusercontent.com/44818719/152718973-740ace28-1a2f-47b4-951a-42e7c04514b9.png)
