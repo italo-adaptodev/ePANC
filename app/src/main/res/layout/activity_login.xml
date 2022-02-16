@@ -4,18 +4,18 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.LoginActivity">
+    tools:context=".Activities.LoginActivity"
+    android:background="@drawable/background">
 
 
     <androidx.appcompat.widget.AppCompatImageView
-        android:layout_width="427dp"
-        android:layout_height="783dp"
-        android:src="@drawable/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.795">
+     >
 
     </androidx.appcompat.widget.AppCompatImageView>
 
@@ -137,8 +137,10 @@
                 android:id="@+id/imageView"
                 android:layout_width="97dp"
                 android:layout_height="97dp"
-                tools:layout_editor_absoluteX="93dp"
-                tools:layout_editor_absoluteY="16dp"
+                app:layout_constraintBottom_toTopOf="@+id/loginTextField"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
                 tools:srcCompat="@tools:sample/avatars" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>

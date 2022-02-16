@@ -22,7 +22,7 @@
         android:layout_height="wrap_content"
         android:text="Nenhum item encontrado"
         android:textColor="#000000"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerViewVitrine"
         app:layout_constraintEnd_toEndOf="parent"
@@ -45,14 +45,12 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewVitrine"
-        android:layout_width="387dp"
-        android:layout_height="556dp"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:visibility="invisible"
-        android:layout_marginTop="44dp"
-        android:layout_marginBottom="12dp"
         app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/coordinatorLayout"
+        app:layout_constraintStart_toStartOf="@id/toolbar"
         app:layout_constraintTop_toBottomOf="@+id/toolbar"
         tools:listitem="@layout/cardview_vitrine_produto">
 

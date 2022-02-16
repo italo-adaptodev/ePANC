@@ -200,7 +200,7 @@
             android:layout_marginBottom="76dp"
             android:layout_weight="1"
             android:text="Cadastrar prato"
-            android:textSize="10dp"
+            android:textSize="12sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.498"

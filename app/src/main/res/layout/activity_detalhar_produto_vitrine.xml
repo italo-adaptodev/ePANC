@@ -28,9 +28,10 @@
             android:layout_marginBottom="538dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-        </androidx.appcompat.widget.LinearLayoutCompat>
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0"></androidx.appcompat.widget.LinearLayoutCompat>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
@@ -50,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="#000000"
-                android:textSize="16dp"
+                android:textSize="20sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -61,11 +62,11 @@
 
             <TextView
                 android:id="@+id/precoProdutoDetalhar"
-                android:layout_width="40dp"
+                android:layout_width="wrap_content"
                 android:layout_height="19dp"
                 android:text=""
                 android:textColor="#000000"
-                android:textSize="14dp"
+                android:textSize="14sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -74,19 +75,6 @@
                 app:layout_constraintVertical_bias="0.384">
 
             </TextView>
-
-            <ImageButton
-                android:id="@+id/whatsappbtn"
-                android:layout_width="29dp"
-                android:layout_height="29dp"
-                android:background="@null"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.796"
-                app:layout_constraintStart_toEndOf="@+id/nomeProdutoDetalhar"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.21"
-                app:srcCompat="@drawable/ic_whatsapp" />
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -107,7 +95,7 @@
             android:id="@+id/materialTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
+            android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="Descrição"
             android:textColor="#000000"
@@ -128,9 +116,9 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="14dp"
             android:layout_marginEnd="10dp"
-            android:autoSizeTextType="uniform"
             android:inputType="textMultiLine"
             android:maxLines="3"
+            android:textSize="15sp"
             android:padding="10dp"
             android:textAlignment="viewStart"
             android:textColor="#000000"
@@ -156,49 +144,18 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="4dp"
+            android:layout_marginTop="10dp"
             android:text="Mais informações"
             android:textColor="#000000"
             android:textSize="16sp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.061"
+            app:layout_constraintHorizontal_bias="0.072"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/bar2"
-            app:layout_constraintVertical_bias="0.094">
+            app:layout_constraintVertical_bias="0.0">
 
         </com.google.android.material.textview.MaterialTextView>
-
-        <TextView
-            android:id="@+id/enderecoProdutorDetalhar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="44dp"
-            android:text=""
-            android:textColor="#000000"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.503"
-            app:layout_constraintStart_toEndOf="@+id/emailProdutorDetalhar"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView2"
-            app:layout_constraintVertical_bias="0.7" />
-
-        <com.google.android.material.textview.MaterialTextView
-
-            android:id="@+id/emailProdutorDetalhar"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="4dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="44dp"
-            android:text=""
-            android:textColor="#000000"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.061"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/materialTextView2"
-            app:layout_constraintVertical_bias="0.7" />
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/btnExpand"
@@ -217,6 +174,78 @@
             app:layout_constraintStart_toEndOf="@+id/materialTextView"
             app:layout_constraintTop_toBottomOf="@+id/bar1"
             app:layout_constraintVertical_bias="0.0" />
+
+
+        <ImageButton
+            android:id="@+id/whatsappbtn"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:layout_marginBottom="44dp"
+            android:background="@null"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:srcCompat="@drawable/ic_whatsapp" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView5"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="60dp"
+            android:labelFor="@id/emailProdutorDetalhar"
+            android:text="Email"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toTopOf="@+id/emailProdutorDetalhar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView2">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/emailProdutorDetalhar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="44dp"
+            android:text="dasdasdasdasd"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/materialTextView6"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView5" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView6"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:labelFor="@id/enderecoProdutorDetalhar"
+            android:text="Endereço"
+            android:textColor="#000000"
+            app:layout_constraintBottom_toTopOf="@+id/enderecoProdutorDetalhar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/enderecoProdutorDetalhar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="50dp"
+            android:text="dasdasdasdd"
+            android:textColor="#000000"
+            android:textSize="16sp"
+            app:layout_constraintBottom_toTopOf="@+id/whatsappbtn"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

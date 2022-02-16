@@ -6,6 +6,19 @@
     android:layout_height="match_parent"
     tools:context=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity">
 
+
+    <include
+        android:id="@+id/toolbarDetalharRestauranteDono"
+        layout="@layout/toolbar"
+        app:titleTextAppearance="@style/ToolbarTextSize"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.53"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent" />
+
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/infosMeuRest"
         android:layout_width="match_parent"
@@ -15,24 +28,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <TextView
-            android:id="@+id/nomeRestauranteMeuRest"
-            android:autoSizeTextType="uniform"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Restaurante do Tio Zé"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginRight="5dp"
-            android:textSize="16sp"
-            android:textColor="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/localizacaoRestaurante"
-            app:layout_constraintEnd_toStartOf="@+id/editarRestaurante"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@id/toolbarDetalharRestauranteDono">
 
         <ImageButton
             android:id="@+id/editarRestaurante"
@@ -50,37 +46,35 @@
             android:id="@+id/localizacaoRestaurante"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginRight="5dp"
+            android:layout_marginTop="16dp"
             android:autoSizeTextType="uniform"
             android:drawableStart="@drawable/ic_location"
             android:drawablePadding="5dp"
             android:text="LOCALIZAÇÃO"
             android:textColor="#000000"
             android:textSize="14sp"
-            app:layout_constraintBottom_toTopOf="@+id/numContatoRestaurante"
             app:layout_constraintEnd_toStartOf="@+id/editarRestaurante"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/nomeRestauranteMeuRest"
-            app:layout_constraintTop_toBottomOf="@+id/nomeRestauranteMeuRest"
-            app:layout_constraintVertical_bias="1.0" />
+            app:layout_constraintHorizontal_bias="0.051"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
         <com.google.android.material.textview.MaterialTextView
-            android:autoSizeTextType="uniform"
-            android:drawableStart="@drawable/ic_contact"
-            android:drawablePadding="5dp"
             android:id="@+id/numContatoRestaurante"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
+            android:autoSizeTextType="uniform"
+            android:drawableStart="@drawable/ic_contact"
+            android:drawablePadding="5dp"
             android:text="NUMERO"
             android:textColor="#000000"
             android:textSize="14sp"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/editarRestaurante"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/nomeRestauranteMeuRest"
-            app:layout_constraintTop_toBottomOf="@+id/localizacaoRestaurante" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.04"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/localizacaoRestaurante"
+            app:layout_constraintVertical_bias="1.0" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
@@ -103,7 +97,7 @@
         android:layout_height="wrap_content"
         android:text="Nenhum item encontrado"
         android:textColor="#000000"
-        android:textSize="16dp"
+        android:textSize="16sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/recyclerViewMeuRest"
         app:layout_constraintEnd_toEndOf="parent"
@@ -114,7 +108,7 @@
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewMeuRest"
-        android:layout_width="387dp"
+        android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_marginBottom="12dp"
         android:visibility="visible"
