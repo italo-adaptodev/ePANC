@@ -2,11 +2,14 @@ package com.adapto.panc.Activities.Restaurante;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageButton;
@@ -48,6 +51,12 @@ public class Restaurante_DetalharRestauranteActivity extends AppCompatActivity {
     private ImageButton editarRestaurante;
     private Intent addPratoIntent;
     private String restauranteListaID;
+    private Toolbar toolbar;
+    private SharedPreferences pref;
+    private SharedPreferences.Editor editor;
+    private int PRIVATE_MODE = 0;
+    private static final String PREF_NAME = "com.adapto.panc.Activities.Restaurante.PRATOS";
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,7 +69,6 @@ public class Restaurante_DetalharRestauranteActivity extends AppCompatActivity {
         recyclerViewMeuRest = findViewById(R.id.recyclerViewMeuRest);
         recyclerViewMeuRest.setLayoutManager(new LinearLayoutManager(this));
         textViewRecycler = findViewById(R.id.emptyRecyclerViewTXT);
-        nomeRestauranteMeuRest = findViewById(R.id.nomeRestauranteMeuRest);
         localizacaoRestaurante = findViewById(R.id.localizacaoRestaurante);
         numContatoRestaurante = findViewById(R.id.numContatoRestaurante);
         editarRestaurante = findViewById(R.id.editarRestaurante);
@@ -68,8 +76,20 @@ public class Restaurante_DetalharRestauranteActivity extends AppCompatActivity {
         addPratoIntent = new Intent(this.getBaseContext(), AdicionarPratoActivity.class);
         Intent intent = getIntent();
         restauranteListaID = intent.getStringExtra("restauranteIDDetalhe");
+        if(restauranteListaID == null){
+            pref = this.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+            restauranteListaID = pref.getString("last_restauranteID", "");
+        }
         restauranteDocRef = getRestaurante(restauranteListaID);
 
+        //region Toolbar
+        toolbar = findViewById(R.id.toolbarDetalharRestaurante);
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
+        //endregion
     }
 
 
@@ -88,7 +108,7 @@ public class Restaurante_DetalharRestauranteActivity extends AppCompatActivity {
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
                             restaurante[0] = snap.toObject(Restaurante.class);
-                            nomeRestauranteMeuRest.setText(snap.getString("nomeRestaurante"));
+                            toolbar.setTitle(snap.getString("nomeRestaurante"));
                             localizacaoRestaurante.setText(snap.getString("localizacao"));
                             numContatoRestaurante.setText(snap.getString("numContato"));
                             buildRecyclerView(snap.getId());
@@ -99,9 +119,7 @@ public class Restaurante_DetalharRestauranteActivity extends AppCompatActivity {
             @Override
             public void onComplete(@NonNull Task<QuerySnapshot> task) {
                 if(task.isComplete()){
-                    spinner.setVisibility(View.INVISIBLE);
-                    infosMeuRest.setVisibility(View.VISIBLE);
-                    recyclerViewMeuRest.setVisibility(View.VISIBLE);
+
                 }
             }
         });
@@ -125,6 +143,9 @@ public class Restaurante_DetalharRestauranteActivity extends AppCompatActivity {
                     textViewRecycler.setVisibility(View.INVISIBLE);
                 recyclerViewMeuRest.setAdapter(pratosAdapter);
                 restauranteID = documentSnapshot.getId();
+                spinner.setVisibility(View.INVISIBLE);
+                infosMeuRest.setVisibility(View.VISIBLE);
+                recyclerViewMeuRest.setVisibility(View.VISIBLE);
             }
         }).addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
             @Override

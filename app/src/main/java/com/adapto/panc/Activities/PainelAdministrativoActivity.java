@@ -56,7 +56,7 @@ public class PainelAdministrativoActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         usuarioID = new LoginSharedPreferences(getApplicationContext()).getIdentifier();
-//        getCargosUsuarioSolicitante();
+        getCargosUsuarioSolicitante();
         setContentView(R.layout.activity_painel_administrativo);
         snackBarPersonalizada = new SnackBarPersonalizada();
         v = findViewById(android.R.id.content);
@@ -204,7 +204,7 @@ public class PainelAdministrativoActivity extends AppCompatActivity {
                                     isUsuarioAdminstrador = true;
                                     query = db
                                             .collection(firestoreReferences.getConviteEquipeAdministrativaCOLLECTION()).orderBy("timestamp", Query.Direction.ASCENDING);
-                                }else{
+                                }else if(cargos.contains("MODERADOR")){
                                     List listaCargos = new ArrayList();
                                     listaCargos.add("MODERADOR");
                                     listaCargos.add("PESQUISADOR");

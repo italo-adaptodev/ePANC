@@ -150,7 +150,7 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity implemen
                 SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_1);
                 dateFormat.setTimeZone(TimeZone.getTimeZone("BRT"));
                 nomeProdutoDetalhar.setText(DS.getString("nome"));
-                precoProdutoDetalhar.setText(DS.getDouble("preco").toString());
+                precoProdutoDetalhar.setText(String.format("R$ %s", DS.getDouble("preco").toString()));
                 descricaoProdutoDetalhar.setText(DS.getString("descricao"));
 
             }

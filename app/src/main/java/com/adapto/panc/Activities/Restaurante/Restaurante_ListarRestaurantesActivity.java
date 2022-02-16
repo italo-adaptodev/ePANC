@@ -110,6 +110,9 @@ public class Restaurante_ListarRestaurantesActivity extends AppCompatActivity {
         toolbar.setTitle("Restaurantes");
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
         setSupportActionBar(toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
         //endregion
     }
 

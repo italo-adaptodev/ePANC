@@ -10,7 +10,9 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.lifecycle.LifecycleObserver;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -52,6 +54,8 @@ public class Restaurante_DetalharRestauranteDONOActivity extends AppCompatActivi
     private Intent addPratoIntent, editarInfosRestauranteIntent;
     private String restauranteListaID;
     private LifecycleObserver mObserver;
+    private Toolbar toolbar;
+
 
 
     @Override
@@ -65,7 +69,6 @@ public class Restaurante_DetalharRestauranteDONOActivity extends AppCompatActivi
         recyclerViewMeuRest = findViewById(R.id.recyclerViewMeuRest);
         recyclerViewMeuRest.setLayoutManager(new LinearLayoutManager(this));
         textViewRecycler = findViewById(R.id.emptyRecyclerViewTXT);
-        nomeRestauranteMeuRest = findViewById(R.id.nomeRestauranteMeuRest);
         localizacaoRestaurante = findViewById(R.id.localizacaoRestaurante);
         numContatoRestaurante = findViewById(R.id.numContatoRestaurante);
         editarRestaurante = findViewById(R.id.editarRestaurante);
@@ -90,6 +93,15 @@ public class Restaurante_DetalharRestauranteDONOActivity extends AppCompatActivi
             }
         });
 
+
+        //region Toolbar
+        toolbar = findViewById(R.id.toolbarDetalharRestauranteDono);
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
+        //endregion
     }
 
 
@@ -108,7 +120,7 @@ public class Restaurante_DetalharRestauranteDONOActivity extends AppCompatActivi
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
                             restaurante[0] = snap.toObject(Restaurante.class);
-                            nomeRestauranteMeuRest.setText(snap.getString("nomeRestaurante"));
+                            toolbar.setTitle(snap.getString("nomeRestaurante"));
                             localizacaoRestaurante.setText(snap.getString("localizacao"));
                             numContatoRestaurante.setText(snap.getString("numContato"));
                             restauranteID = restaurante[0].getId();
