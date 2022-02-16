@@ -11,38 +11,122 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-        <activity android:name=".Activities.ForumReceita.DetalharReceitaActivity"></activity>
-        <activity android:name=".Activities.PainelAdministrativoActivity" />
-        <activity android:name=".Activities.ForumReceita.CriarPostagemReceitaActivity" />
-        <activity android:name=".Activities.ForumReceita.ListarReceitasActivity" />
-        <activity android:name=".Activities.Restaurante.EditarInformacoesRestauranteDONOActivity" />
-        <activity android:name=".Activities.Restaurante.EditarPrato" />
-        <activity android:name=".Activities.Restaurante.Restaurante_DetalharPratoActivity" />
-        <activity android:name=".Activities.Restaurante.Restaurante_ListarRestaurantesActivity" />
-        <activity android:name=".Activities.Restaurante.AdicionarPratoActivity" />
-        <activity android:name=".Activities.Restaurante.Restaurante_DetalharRestauranteActivity" />
-        <activity android:name=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity" />
-        <activity android:name=".Activities.Produto.Produtor_DetalharProdutoActivity" />
-        <activity android:name=".Activities.Produto.Produtor_ListarProdutosActivity" />
-        <activity android:name=".Activities.Produto.Produtor_CadastrarProdutosActivity" />
-        <activity android:name=".Activities.ListarEquipeActivity" />
+
+        <activity
+            android:name=".Activities.ForumReceita.DetalharReceitaActivity"
+            android:parentActivityName=".Activities.ForumReceita.ListarReceitasActivity">
+        </activity>
+
+
+        <activity android:name=".Activities.PainelAdministrativoActivity"
+            android:parentActivityName=".Activities.TelaInicialActivity">
+        </activity>
+
+        <activity android:name=".Activities.ForumReceita.CriarPostagemReceitaActivity"
+            android:parentActivityName=".Activities.ForumReceita.ListarReceitasActivity">
+
+        </activity>
+
+        <activity android:name=".Activities.ForumReceita.ListarReceitasActivity"
+            android:parentActivityName=".Activities.TelaInicialActivity">
+
+        </activity>
+
+        <activity android:name=".Activities.Restaurante.EditarInformacoesRestauranteDONOActivity"
+            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity">
+
+        </activity>
+
+        <activity android:name=".Activities.Restaurante.EditarPrato"
+            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity">
+
+        </activity>
+
+        <activity android:name=".Activities.Restaurante.Restaurante_DetalharPratoActivity"
+            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteActivity">
+
+        </activity>
+
+        <activity android:name=".Activities.Restaurante.Restaurante_ListarRestaurantesActivity"
+            android:parentActivityName=".Activities.TelaInicialActivity">
+
+        </activity>
+
+        <activity android:name=".Activities.Restaurante.AdicionarPratoActivity"
+            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity">
+
+        </activity>
+
+        <activity android:name=".Activities.Restaurante.Restaurante_DetalharRestauranteActivity"
+            android:parentActivityName=".Activities.Restaurante.Restaurante_ListarRestaurantesActivity">
+
+        </activity>
+
+        <activity android:name=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity"
+            android:parentActivityName=".Activities.TelaInicialActivity">
+
+        </activity>
+
+        <activity android:name=".Activities.Produto.Produtor_DetalharProdutoActivity"
+            android:parentActivityName=".Activities.Produto.Produtor_ListarProdutosActivity">
+
+        </activity>
+
+        <activity android:name=".Activities.Produto.Produtor_ListarProdutosActivity"
+            android:parentActivityName=".Activities.TelaInicialActivity">
+
+        </activity>
+
+        <activity android:name=".Activities.Produto.Produtor_CadastrarProdutosActivity"
+            android:parentActivityName=".Activities.Produto.Produtor_ListarProdutosActivity">
+
+        </activity>
+
+        <activity android:name=".Activities.ListarEquipeActivity"
+            android:parentActivityName=".Activities.TelaInicialActivity">
+
+        </activity>
+
         <activity
             android:name=".Activities.ConvidarActivity"
+            android:parentActivityName=".Activities.TelaInicialActivity"
             android:screenOrientation="fullSensor"
-            android:windowSoftInputMode="adjustPan" />
-        <activity android:name=".Activities.ForumDuvida.CriarPostagemDuvidaActivity" />
-        <activity android:name=".Activities.Utils.WebViewConfig" />
-        <activity android:name=".Activities.TelaInicialActivity" />
-        <activity android:name=".Activities.ForumDuvida.DetalharPostagemForumActivity" />
-        <activity android:name=".Activities.CadastroActivity" />
-        <activity android:name=".Activities.LoginActivity" />
+            android:windowSoftInputMode="adjustPan">
+
+        </activity>
+
+        <activity android:name=".Activities.ForumDuvida.CriarPostagemDuvidaActivity"
+            android:parentActivityName=".Activities.TelaInicialActivity">
+        </activity>
+
+        <activity android:name=".Activities.Utils.WebViewConfig">
+
+        </activity>
+
+        <activity android:name=".Activities.TelaInicialActivity">
+
+        </activity>
+
+        <activity android:name=".Activities.ForumDuvida.DetalharPostagemForumActivity"
+            android:parentActivityName=".Activities.TelaInicialActivity">
+        </activity>
+
+        <activity android:name=".Activities.CadastroActivity">
+        </activity>
+
+        <activity android:name=".Activities.LoginActivity">
+
+        </activity>
+
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
+                <action android:name="android.intent.action.MAIN">
+                </action>
+                <category android:name="android.intent.category.LAUNCHER">
+                </category>
             </intent-filter>
         </activity>
+
     </application>
 
 </manifest>

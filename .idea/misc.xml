@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/drawable/ic_arrow_left.xml" value="0.2645" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/drawable/ic_close_black_24dp.xml" value="0.129" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_cadastro_produtor_infos.xml" value="0.2158403869407497" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_convidar.xml" value="0.25" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_detalhar_postagem_forum.xml" value="0.29444444444444445" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_editar_informacoes_restaurante_dono.xml" value="0.2158403869407497" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_editar_prato.xml" value="0.5" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_login.xml" value="0.23" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_produtor_cadastrar_produtos.xml" value="0.3245967741935484" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_restaurante__detalhar_prato.xml" value="0.2158403869407497" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_restaurante_detalharrestaurante.xml" value="0.3245967741935484" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_restaurante_detalharrestaurantedono.xml" value="0.5" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_restaurante_listar_restaurantes.xml" value="0.3245967741935484" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_tela_inicial.xml" value="0.22" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/toolbar.xml" value="0.2158403869407497" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/menu/main_menu.xml" value="0.29444444444444445" />
+      </map>
+    </option>
+  </component>
   <component name="NullableNotNullManager">
     <option name="myDefaultNullable" value="org.jetbrains.annotations.Nullable" />
     <option name="myDefaultNotNull" value="androidx.annotation.NonNull" />
@@ -43,7 +65,7 @@
       </value>
     </option>
   </component>
-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" default="true" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" project-jdk-name="1.8" project-jdk-type="JavaSDK">
     <output url="file://$PROJECT_DIR$/build/classes" />
   </component>
   <component name="ProjectType">

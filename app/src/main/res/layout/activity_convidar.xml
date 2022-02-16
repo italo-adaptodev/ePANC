@@ -11,162 +11,147 @@
     android:fitsSystemWindows="false"
     tools:ignore="ExtraText">
 
-    <ScrollView
-        android:layout_width="wrap_content"
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/justificativaConvite"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:ems="10"
+        android:inputType="textMultiLine"
+        android:textSize="14sp"
+        app:boxStrokeColor="@color/colorAccent"
+        app:layout_constraintBottom_toTopOf="@+id/radioGroup"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idetificadorConvidado">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Justificativa"
+            android:imeOptions="actionNext"
+            android:singleLine="false">
+
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <TextView
+            android:id="@+id/convite_expli"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@drawable/borda"
+            android:gravity="center_horizontal"
+            android:padding="15dp"
+            android:scrollbars="vertical"
+            android:text="@string/aviso_convite"
+            android:textColor="#00a800"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toTopOf="@+id/idetificadorConvidado"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/aviso_invite" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/idetificadorConvidado"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="50dp"
+        android:layout_marginBottom="47dp"
+        android:ems="10"
+        android:inputType="text"
+        android:textSize="14sp"
+        app:boxStrokeColor="@color/colorAccent"
+        app:layout_constraintBottom_toTopOf="@+id/justificativaConvite"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.493"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/convite_expli">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Identificador"
+            android:imeOptions="actionNext"
+            android:singleLine="true">
+
+        </com.google.android.material.textfield.TextInputEditText>
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.button.MaterialButton
+            android:id="@+id/btn_send"
+            android:layout_width="match_parent"
+            android:layout_height="50dp"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="100dp"
+            android:layout_marginStart="50dp"
+            android:layout_marginEnd="50dp"
+            android:backgroundTint="@color/colorAccent"
+            android:text="Enviar"
+            android:textSize="14sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroup"
+            app:layout_constraintVertical_bias="1.0" />
+
+        <TextView
+            android:id="@+id/aviso_invite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="8dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="8dp"
+            android:layout_marginBottom="3dp"
+            android:gravity="center"
+            android:text="ATENÇÃO"
+            android:textColor=" #FA410C"
+            android:textSize="17sp"
+            app:layout_constraintBottom_toTopOf="@+id/convite_expli"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+
+    <RadioGroup
+        android:id="@+id/radioGroup"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginEnd="50dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/btn_send"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toBottomOf="@+id/justificativaConvite">
 
-        <androidx.constraintlayout.widget.ConstraintLayout
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content">
+        <RadioButton
+            android:id="@+id/checkBox_administrador"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Administrador" />
 
+        <RadioButton
+            android:id="@+id/checkBox_moderador"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Moderador" />
 
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/justificativaConvite"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="328dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="30dp"
-                android:ems="10"
-                android:inputType="textMultiLine"
-                android:textSize="14sp"
-                app:boxStrokeColor="@color/colorAccent"
-                app:layout_constraintBottom_toTopOf="@+id/checkBox_administrador"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.493"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/idetificadorConvidado">
+        <androidx.appcompat.widget.AppCompatRadioButton
+            android:id="@+id/checkBox_pesquisador"
+            android:layout_width="match_parent"
+            android:layout_height="60dp"
+            android:text="Pesquisador">
 
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="328dp"
-                    android:layout_height="wrap_content"
-                    android:hint="Justificativa"
-                    android:imeOptions="actionNext"
-                    android:singleLine="false">
-
-                </com.google.android.material.textfield.TextInputEditText>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <TextView
-                android:id="@+id/convite_expli"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:background="@drawable/borda"
-                android:gravity="center_horizontal"
-                android:padding="15dp"
-                android:scrollbars="vertical"
-                android:text="@string/aviso_convite"
-                android:textColor="#00a800"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toTopOf="@+id/idetificadorConvidado"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/aviso_invite" />
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:id="@+id/idetificadorConvidado"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-                android:layout_width="328dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="20dp"
-                android:layout_marginBottom="47dp"
-                android:ems="10"
-                android:inputType="text"
-                android:textSize="14sp"
-                app:boxStrokeColor="@color/colorAccent"
-                app:layout_constraintBottom_toTopOf="@+id/justificativaConvite"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.492"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/convite_expli">
-
-                <com.google.android.material.textfield.TextInputEditText
-                    android:layout_width="328dp"
-                    android:layout_height="wrap_content"
-                    android:hint="Identificador"
-                    android:imeOptions="actionNext"
-                    android:singleLine="true">
-
-                </com.google.android.material.textfield.TextInputEditText>
-            </com.google.android.material.textfield.TextInputLayout>
-
-            <com.google.android.material.button.MaterialButton
-                android:id="@+id/btn_send"
-                android:layout_width="248dp"
-                android:layout_height="46dp"
-                android:layout_marginTop="30dp"
-                android:layout_marginBottom="100dp"
-                android:backgroundTint="@color/colorAccent"
-                android:text="Enviar"
-                android:textSize="14sp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.496"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/radioGroup"
-                app:layout_constraintVertical_bias="1.0" />
-
-            <TextView
-                android:id="@+id/aviso_invite"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="8dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginEnd="8dp"
-                android:layout_marginBottom="3dp"
-                android:gravity="center"
-                android:text="ATENÇÃO"
-                android:textColor=" #FA410C"
-                android:textSize="17sp"
-                app:layout_constraintBottom_toTopOf="@+id/convite_expli"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.498"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
-
-
-            <RadioGroup
-                android:id="@+id/radioGroup"
-                android:layout_width="230dp"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="50dp"
-                android:orientation="vertical"
-                app:layout_constraintBottom_toTopOf="@+id/btn_send"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/justificativaConvite">
-
-                <RadioButton
-                    android:id="@+id/checkBox_administrador"
-                    android:layout_width="160dp"
-                    android:layout_height="60dp"
-                    android:text="Administrador" />
-
-                <RadioButton
-                    android:id="@+id/checkBox_moderador"
-                    android:layout_width="160dp"
-                    android:layout_height="60dp"
-                    android:text="Moderador" />
-
-                <androidx.appcompat.widget.AppCompatRadioButton
-                    android:id="@+id/checkBox_pesquisador"
-                    android:layout_width="160dp"
-                    android:layout_height="60dp"
-                    android:text="Pesquisador">
-
-                </androidx.appcompat.widget.AppCompatRadioButton>
-            </RadioGroup>
-
-
-            />
-        </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-    </ScrollView>
-
-
-
+        </androidx.appcompat.widget.AppCompatRadioButton>
+    </RadioGroup>
 </androidx.constraintlayout.widget.ConstraintLayout>
