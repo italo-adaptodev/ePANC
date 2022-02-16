@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -42,8 +44,10 @@ public class Restaurante_DetalharPratoActivity extends AppCompatActivity impleme
     private FirestoreReferences firestoreReferences = new FirestoreReferences();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
     private Prato pratoEscolhido;
-    private TextView detalharPrato_nome,  detalharPrato_ingredientes, detalharPrato_preco;
+    private TextView detalharPrato_nome,  detalharPrato_ingredientes, detalharPrato_ingredientes_pancs, detalharPrato_preco;
     private LinearLayoutCompat detalharPrato_imagem;
+    private Toolbar toolbar;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,12 +55,26 @@ public class Restaurante_DetalharPratoActivity extends AppCompatActivity impleme
         setContentView(R.layout.activity_restaurante__detalhar_prato);
         detalharPrato_nome = findViewById(R.id.detalharPrato_nome);
         detalharPrato_ingredientes = findViewById(R.id.detalharPrato_ingredientes);
+        detalharPrato_ingredientes_pancs = findViewById(R.id.detalharPrato_ingredientes_pancs);
         detalharPrato_preco = findViewById(R.id.detalharPrato_preco);
         detalharPrato_imagem = findViewById(R.id.detalharPrato_imagem);
         Intent intent = getIntent();
         final String restauranteID = intent.getStringExtra("restauranteID");
         final int ListaPratoID = intent.getIntExtra("ListaPratoID", 0);
         getPrato(restauranteID,ListaPratoID);
+
+        //region Toolbar
+        toolbar = findViewById(R.id.toolbarDetalharPrato);
+        toolbar.setTitle("Sobre o prato");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
+        Intent intent2 = new Intent(getBaseContext(), Restaurante_DetalharRestauranteActivity.class);
+        intent2.putExtra("restauranteIDDetalhe", restauranteID);
+        //endregion
+
     }
 
     private void getPrato(String restauranteID, final int listaPratoID) {
@@ -68,6 +86,7 @@ public class Restaurante_DetalharPratoActivity extends AppCompatActivity impleme
                 pratoEscolhido = restaurante.getPratos().get(listaPratoID);
                 detalharPrato_nome.setText(pratoEscolhido.getNome());
                 detalharPrato_ingredientes.setText(pratoEscolhido.getDescricao());
+                detalharPrato_ingredientes_pancs.setText(pratoEscolhido.getIngredientesPANC());
                 detalharPrato_preco.setText("R$ " + pratoEscolhido.getPreco());
                 if(pratoEscolhido.getImagensID().size() > 1 ) {
                     setImagesCarousel(pratoEscolhido.getImagensID());

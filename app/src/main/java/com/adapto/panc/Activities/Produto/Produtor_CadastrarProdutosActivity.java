@@ -2,6 +2,7 @@ package com.adapto.panc.Activities.Produto;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 
 import android.app.ProgressDialog;
 import android.content.ClipData;
@@ -12,6 +13,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
+import androidx.appcompat.widget.Toolbar;
 
 import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Models.Database.Produtor_Produto;
@@ -51,6 +53,7 @@ public class Produtor_CadastrarProdutosActivity extends AppCompatActivity {
     private MaterialButton btnSelect, btnUpload;
     private TextInputLayout nomeProduto, descricaoProduto, observacoesProduto;
     private FirestoreReferences firestoreReferences =  new FirestoreReferences();
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +71,17 @@ public class Produtor_CadastrarProdutosActivity extends AppCompatActivity {
         storageReference = referenciaDatabase.getFirebaseStorage();
         snackBarPersonalizada = new SnackBarPersonalizada();
         filepaths = new ArrayList<>();
+        toolbar = findViewById(R.id.toolbarCadastrarProduto);
+
+        //region Toolbar
+        toolbar = findViewById(R.id.toolbar);
+        toolbar.setTitle("Cadastrar Produto");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
+        //endregion
 
         // on pressing btnSelect SelectImage() is called
         btnSelect.setOnClickListener(new View.OnClickListener() {

@@ -3,6 +3,7 @@ package com.adapto.panc.Adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Handler;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,6 +44,11 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
     private FirebaseFirestore db;
     private Activity activity;
     private Handler handler = new Handler();
+    SharedPreferences pref;
+    SharedPreferences.Editor editor;
+    int PRIVATE_MODE = 0;
+    private static final String PREF_NAME = "com.adapto.panc.Activities.Restaurante.PRATOS";
+
 
     public MeuRestaurantePratosAdapter(LayoutInflater inflater, Restaurante restaurante, Context context, boolean adm, Activity activity) {
         this.inflater = inflater;
@@ -51,6 +57,8 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
         this.adm = adm;
         db = FirebaseFirestore.getInstance();
         this.activity = activity;
+        pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        editor = pref.edit();
     }
 
     public MeuRestaurantePratosAdapter(LayoutInflater inflater, Restaurante restaurante, Context context) {
@@ -58,6 +66,8 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
         this.restaurante = restaurante;
         this.context = context;
         db = FirebaseFirestore.getInstance();
+        pref = context.getSharedPreferences(PREF_NAME, PRIVATE_MODE);
+        editor = pref.edit();
     }
 
     @Override
@@ -75,11 +85,11 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
     @Override
     public void onBindViewHolder(final FirestoreItemPratoHolder holder, final int position) {
         holder.setConfigsView(context);
-        Prato prato = restaurante.getPratos().get(position);
+        Prato prato = restaurante.getPratos().get(holder.getAdapterPosition());
         holder.nomePrato.setText(prato.getNome());
         holder.precoPrato.setText("R$ " + prato.getPreco());
         holder.ingredientesPANC.setText(prato.getIngredientesPANC());
-        holder.position = position;
+        holder.position = holder.getAdapterPosition();
         String imgID = prato.getImagensID().get(0);
         Glide.with(context)
                 .load(imgID)
@@ -91,7 +101,7 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
             holder.btnExcluirPrato.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    excluirPostagem(position, holder.view, activity);
+                    excluirPostagem(holder.getAdapterPosition(), holder.view, activity);
                 }
             });
             holder.itemView.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +109,7 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
                 public void onClick(View v) {
                     Intent intent = new Intent(context, EditarPrato.class);
                     intent.putExtra("restauranteID", restaurante.getId());
-                    intent.putExtra("ListaPratoID", position);
+                    intent.putExtra("ListaPratoID", holder.getAdapterPosition());
                     activity.startActivity(intent);
                 }
             });
@@ -109,7 +119,9 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
                 public void onClick(View v) {
                     Intent intent = new Intent(context, Restaurante_DetalharPratoActivity.class);
                     intent.putExtra("restauranteID", restaurante.getId());
-                    intent.putExtra("ListaPratoID", position);
+                    editor.putString("last_restauranteID", restaurante.getId());
+                    editor.commit();
+                    intent.putExtra("ListaPratoID", holder.getAdapterPosition());
                     activity.startActivity(intent);
                 }
             });

@@ -88,6 +88,7 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
     private String usuarioID;
     private boolean isUsuarioAdminstrador = false;
     private String postagemKey = null;
+    private boolean isUsuarioMembroEquipe = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -121,8 +122,8 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
                 if (TextUtils.isEmpty(comentario.getText())) {
                     comentario.requestFocus();
                 } else {
-                   /* if(checkIfAutor())
-                        nome += " (Autor)";*/
+                    if(isUsuarioMembroEquipe)
+                        nomeUsuarioComentario += " (Administração)";
                     enviarComentario(new FirestoreForumComentario(nomeUsuarioComentario, comentario.getText().toString()));
                 }
             }
@@ -333,6 +334,7 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                         if(queryDocumentSnapshots.size() > 0) {
+                            isUsuarioMembroEquipe = true;
                             for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
                                 String cargos = snap.get("cargosAdministrativos").toString();
                                 if(cargos.contains("ADMINISTRADOR")) {
@@ -351,6 +353,8 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
         });
         return isUsuarioAdminstrador;
     }
+
+
 /*
     private void excluirPostagem(String comentarioID) {
         db.collection(firestoreReferences.getPostagensForumPANCCOLLECTION()).document(postagemID)

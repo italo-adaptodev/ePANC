@@ -163,11 +163,10 @@ public class TelaInicialActivity extends AppCompatActivity {
     public boolean onMenuOpened(int featureId, Menu menu) {
 
         if(!isUsuarioAdminstrador) {
-            menu.getItem(4).setVisible(false);
             menu.getItem(7).setVisible(false);
         }
         if(!isUsuarioRestaurante)
-            menu.getItem(5).setVisible(false);
+            menu.getItem(4).setVisible(false);
         return super.onMenuOpened(featureId, menu);
     }
 
