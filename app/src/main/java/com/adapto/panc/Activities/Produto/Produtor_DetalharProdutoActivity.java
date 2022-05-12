@@ -20,6 +20,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
 
 import com.adapto.panc.Activities.Utils.FirestoreReferences;
@@ -73,6 +74,7 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity implemen
     private Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
     private ImageButton whatsappBtn;
     private LinearLayoutCompat linearLayoutImagem;
+    private Toolbar toolbar;
 
 
 
@@ -86,6 +88,7 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity implemen
         enderecoProdutorDetalhar = findViewById(R.id.enderecoProdutorDetalhar);
         descricaoProdutoDetalhar = findViewById(R.id.descricaoProdutoDetalhar);
         linearLayoutImagem = findViewById(R.id.imagensProdutoDetalhar);
+        toolbar = findViewById(R.id.toolbarDetalharProduto);
         scrollViewProduto = findViewById(R.id.scrollViewProduto);
         sampleImages = new ArrayList<>();
         uris = new ArrayList<>();
@@ -135,6 +138,15 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity implemen
 
             }
         });
+
+        //region Toolbar
+        toolbar.setTitle("Detalhar Produto");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
+        //endregion
     }
 
     private DocumentReference recuperarPostagem(String postagemKey) {

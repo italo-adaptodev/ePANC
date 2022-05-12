@@ -5,7 +5,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
@@ -14,9 +13,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.adapto.panc.Activities.TelaInicialActivity;
+import com.adapto.panc.Activities.ForumDuvida.ForumDuvidasActivity;
 import com.adapto.panc.Activities.Utils.FirestoreReferences;
-import com.adapto.panc.Models.Database.Prato;
 import com.adapto.panc.Models.Database.Produtor_Produto;
 import com.adapto.panc.Models.ViewHolder.Produtor_VitrineHolder;
 import com.adapto.panc.R;
@@ -31,15 +29,10 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.textview.MaterialTextView;
-import com.google.firebase.firestore.DocumentReference;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FieldValue;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
-
-import java.util.List;
 
 public class Produtor_ListarProdutosActivity extends AppCompatActivity {
 
@@ -238,7 +231,7 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, TelaInicialActivity.class));
+        startActivity(new Intent(this, ForumDuvidasActivity.class));
     }
 
 

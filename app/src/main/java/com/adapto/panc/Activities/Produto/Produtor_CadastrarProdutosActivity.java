@@ -74,7 +74,6 @@ public class Produtor_CadastrarProdutosActivity extends AppCompatActivity {
         toolbar = findViewById(R.id.toolbarCadastrarProduto);
 
         //region Toolbar
-        toolbar = findViewById(R.id.toolbar);
         toolbar.setTitle("Cadastrar Produto");
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
         setSupportActionBar(toolbar);
