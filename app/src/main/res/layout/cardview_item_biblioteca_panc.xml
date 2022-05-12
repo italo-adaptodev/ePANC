@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="16dp"
+    android:elevation="7dp"
+    android:id="@+id/cardviewItemBibliotecaPANC"
+    >
+<RelativeLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:id="@+id/itemBibliotecaPANCLinearLayoutBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone">
+        <ImageButton
+            android:id="@+id/itemBibliotecaPANCDeleteButton"
+            android:layout_width="35dp"
+            android:layout_height="26dp"
+            android:layout_gravity="end"
+            android:background="@null"
+            android:visibility="visible"
+            app:srcCompat="@android:drawable/ic_delete" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/itemBibliotecaPANCLinearLayoutCard"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#D8EEEAEA"
+        android:orientation="vertical"
+        android:padding="16dp"
+        >
+
+        <ImageView
+            android:id="@+id/itemBibliotecaPANCImagem"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:adjustViewBounds="true"
+            android:scaleType="centerCrop"
+            app:srcCompat="@drawable/pancdefault"
+            />
+
+
+        <TextView
+            android:id="@+id/itemBibliotecaPANCTitulo"
+            style="@style/TextAppearance.AppCompat.Body1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="12dp"
+            android:ellipsize="end"
+            android:maxLines="3"
+            android:text="Descrição da postagem" />
+
+    </LinearLayout>
+</RelativeLayout>
+
+
+</com.google.android.material.card.MaterialCardView>
