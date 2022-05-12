@@ -48,14 +48,14 @@ public class RestaurantesFiltradosAdapter extends RecyclerView.Adapter<Restauran
 
     @Override
     public void onBindViewHolder(RestauranteFiltradoHolder holder, int position) {
-        final Restaurante restaurante = restaurantes.get(position);
+        final Restaurante restaurante = restaurantes.get(holder.getAdapterPosition());
         String imgID = restaurante.getPratos().size() == 0 ? null : restaurante.getPratos().get(0).getImagensID().get(0);
         if(imgID != null)
             Glide.with(context)
                     .load(imgID)
                     .into(holder.restauranteListaImagem);
         holder.restauranteListaNome.setText(restaurante.getNomeRestaurante());
-        holder.position = position;
+        holder.position = holder.getAdapterPosition();
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

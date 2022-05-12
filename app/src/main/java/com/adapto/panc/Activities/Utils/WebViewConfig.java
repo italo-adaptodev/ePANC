@@ -1,6 +1,8 @@
 package com.adapto.panc.Activities.Utils;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.os.Bundle;
 import android.app.Activity;
@@ -12,15 +14,15 @@ import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
-import android.widget.Toast;
 
-import com.adapto.panc.Activities.TelaInicialActivity;
+import com.adapto.panc.Activities.ForumDuvida.ForumDuvidasActivity;
 import com.adapto.panc.R;
 
 public class WebViewConfig extends AppCompatActivity {
     private Context mContext;
     private Activity mActivity;
     private WebView mWebView;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,9 +32,7 @@ public class WebViewConfig extends AppCompatActivity {
         // Get the application context
         mContext = getApplicationContext();
         mActivity = this;
-
         mWebView = findViewById(R.id.web_view);
-
         mWebView.setVisibility(View.INVISIBLE);
         mWebView.getSettings().setJavaScriptEnabled(true);
         mWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
@@ -45,6 +45,8 @@ public class WebViewConfig extends AppCompatActivity {
         mWebView.getSettings().setSaveFormData(true);
         mWebView.getSettings().setSavePassword(true);
         mWebView.setWebChromeClient(new WebChromeClient());
+        toolbar = findViewById(R.id.toolbar);
+
 
         mWebView.setWebViewClient(new WebViewClient(){
             @Override
@@ -59,6 +61,13 @@ public class WebViewConfig extends AppCompatActivity {
             }
         });
 
+        toolbar.setTitle("Formulário");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
+
         Intent intent = getIntent();
         String URL = intent.getStringExtra("URL");
 
@@ -69,7 +78,7 @@ public class WebViewConfig extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, TelaInicialActivity.class);
+        Intent intent = new Intent(this, ForumDuvidasActivity.class);
         startActivity(intent);
     }
 }

@@ -19,16 +19,20 @@ public class ReceitaViewHolder extends RecyclerView.ViewHolder{
     public ImageView forumReceitaImagem;
     public ImageButton btnExcluirPostagem;
     public LinearLayout linearLayoutBtn, linearLayoutCard;
+    public View view;
+    public int position;
 
     public ReceitaViewHolder(@NonNull View itemView) {
         super(itemView);
+        this.view = itemView;
         forumReceitaImagem = itemView.findViewById(R.id.forumReceitaImagem);
         nome = itemView.findViewById(R.id.forumReceitaNome);
         forumReceitaInfos = itemView.findViewById(R.id.forumReceitaInfos);
         nomeAutor = itemView.findViewById(R.id.forumReceitaNomeAutor);
-        btnExcluirPostagem = itemView.findViewById(R.id.deletePostButton);
-        linearLayoutBtn = itemView.findViewById(R.id.linearLayoutBtn);
-        linearLayoutCard = itemView.findViewById(R.id.linearLayoutCard);
+        btnExcluirPostagem = itemView.findViewById(R.id.receitaDeleteButton);
+        linearLayoutBtn = itemView.findViewById(R.id.receitaListaLinearLayoutBtn);
+        linearLayoutCard = itemView.findViewById(R.id.receitaListaLinearLayoutCard);
+
 
     }
 

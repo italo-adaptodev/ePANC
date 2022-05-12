@@ -20,20 +20,17 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 
-import com.adapto.panc.Activities.TelaInicialActivity;
+import com.adapto.panc.Activities.ForumDuvida.ForumDuvidasActivity;
 import com.adapto.panc.Activities.Utils.FirestoreReferences;
-import com.adapto.panc.Adapters.MeuRestaurantePratosAdapter;
 import com.adapto.panc.Adapters.RestaurantesFiltradosAdapter;
 import com.adapto.panc.Models.Database.Restaurante;
 import com.adapto.panc.Models.ViewHolder.Restaurante_ListaHolder;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
-import com.adapto.panc.Activities.Utils.SnackBarPersonalizada;
 import com.bumptech.glide.Glide;
 import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
 import com.firebase.ui.firestore.FirestoreRecyclerOptions;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.appbar.MaterialToolbar;
@@ -193,7 +190,7 @@ public class Restaurante_ListarRestaurantesActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, TelaInicialActivity.class));
+        startActivity(new Intent(this, ForumDuvidasActivity.class));
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

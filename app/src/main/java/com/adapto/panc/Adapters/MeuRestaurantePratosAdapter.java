@@ -17,7 +17,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.adapto.panc.Activities.Restaurante.EditarPrato;
+import com.adapto.panc.Activities.Restaurante.EditarPratoActivity;
 import com.adapto.panc.Activities.Restaurante.Restaurante_DetalharPratoActivity;
 import com.adapto.panc.Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity;
 import com.adapto.panc.Activities.Utils.FirestoreReferences;
@@ -107,7 +107,7 @@ public class MeuRestaurantePratosAdapter extends RecyclerView.Adapter<MeuRestaur
             holder.itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Intent intent = new Intent(context, EditarPrato.class);
+                    Intent intent = new Intent(context, EditarPratoActivity.class);
                     intent.putExtra("restauranteID", restaurante.getId());
                     intent.putExtra("ListaPratoID", holder.getAdapterPosition());
                     activity.startActivity(intent);

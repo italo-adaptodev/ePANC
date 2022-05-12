@@ -12,6 +12,7 @@ public class FirestoreReferences {
     public static final String CONSUMIDOR = "Consumidor";
     public static final String RECEITA = "Receita";
     public static final String CONVITESADMINISTRATIVOS = "ConviteEquipeAdministrativa";
+    public static final String BIBLIOTECA = "Biblioteca";
 
     public String getVitrineProdutosCOLLECTION() {
         return VITRINEPRODUTOSCOLLECTION;
@@ -51,5 +52,9 @@ public class FirestoreReferences {
 
     public String getConviteEquipeAdministrativaCOLLECTION() {
         return CONVITESADMINISTRATIVOS;
+    }
+
+    public String getBibliotecaCOLLECTION() {
+        return BIBLIOTECA;
     }
 }

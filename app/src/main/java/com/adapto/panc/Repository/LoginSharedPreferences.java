@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 
 import com.adapto.panc.Activities.LoginActivity;
-import com.adapto.panc.Activities.TelaInicialActivity;
 
 public class LoginSharedPreferences {
 

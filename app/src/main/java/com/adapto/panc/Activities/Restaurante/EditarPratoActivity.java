@@ -26,10 +26,10 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 
-public class EditarPrato extends AppCompatActivity {
+public class EditarPratoActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Prato pratoEscolhido, pratoAlterado;
-    private TextInputLayout editarPratoNome, editarPratoIngredientes;
+    private TextInputLayout editarPratoNome, editarPratoIngredientes, editarPratoDescricao;
     private CurrencyEditText editarPratoPreco;
     private FirestoreReferences firestoreReferences = new FirestoreReferences();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -44,7 +44,8 @@ public class EditarPrato extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_editar_prato);
-        editarPratoIngredientes = findViewById(R.id.editarPratoIngredientes);
+        editarPratoIngredientes = findViewById(R.id.editarPratoingredientesPANC);
+        editarPratoDescricao = findViewById(R.id.editarPratodescricao);
         editarPratoNome = findViewById(R.id.editarPratoNome);
         editarPratoPreco = findViewById(R.id.editarPratoPreco);
         btnConfirmarAlteraçõesPrato = findViewById(R.id.btnConfirmarAlteraçõesPrato);
@@ -79,12 +80,14 @@ public class EditarPrato extends AppCompatActivity {
         //endregion
 
 
+
     }
 
     private void getInfosAlteradas() {
         pratoAlterado = new Prato();
         pratoAlterado.setNome(editarPratoNome.getEditText().getText().toString());
-        pratoAlterado.setDescricao(editarPratoIngredientes.getEditText().getText().toString());
+        pratoAlterado.setIngredientesPANC(editarPratoIngredientes.getEditText().getText().toString());
+        pratoAlterado.setDescricao(editarPratoDescricao.getEditText().getText().toString());
         Double precoDouble = editarPratoPreco.getNumericValue();
         pratoAlterado.setPreco(precoDouble.toString());
         pratoAlterado.setImagensID(pratoEscolhido.getImagensID());
@@ -109,7 +112,8 @@ public class EditarPrato extends AppCompatActivity {
                 restaurante = documentSnapshot.toObject(Restaurante.class);
                 pratoEscolhido = restaurante.getPratos().get(listaPratoID);
                 editarPratoNome.getEditText().setText(pratoEscolhido.getNome());
-                editarPratoIngredientes.getEditText().setText(pratoEscolhido.getDescricao());
+                editarPratoIngredientes.getEditText().setText(pratoEscolhido.getIngredientesPANC());
+                editarPratoDescricao.getEditText().setText(pratoEscolhido.getDescricao());
                 Double precoDouble = Double.parseDouble(pratoEscolhido.getPreco());
                 editarPratoPreco.setText(precoDouble.toString());
 

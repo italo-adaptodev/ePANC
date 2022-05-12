@@ -19,7 +19,9 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.appcompat.widget.Toolbar;
 import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -89,6 +91,7 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
     private boolean isUsuarioAdminstrador = false;
     private String postagemKey = null;
     private boolean isUsuarioMembroEquipe = false;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -102,6 +105,7 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
         postagemDetalhadaTexto = findViewById(R.id.detalhar_forum_texto);
         comentario = findViewById(R.id.forum_detalhar_comentario);
         btnEnviarComentario = findViewById(R.id.forum_btn_enviar_comentario);
+        toolbar = findViewById(R.id.toolbarDetalharPostagemForum);
         sampleImages = new ArrayList<>();
         uris = new ArrayList<>();
         v = findViewById(android.R.id.content);
@@ -130,6 +134,16 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
         });
 
         listenToDiffs();
+
+        //region Toolbar
+        toolbar = findViewById(R.id.toolbarDetalharPostagemForum);
+        toolbar.setTitle("Detalhar Postagem");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
+        //endregion
 
 
     }

@@ -4,6 +4,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.LinearLayoutCompat;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.annotation.SuppressLint;
 import android.content.Intent;
@@ -62,6 +64,7 @@ public class DetalharReceitaActivity extends AppCompatActivity  implements BaseS
     private DocumentReference documentReferenceReceita;
     public static final String DATE_FORMAT_1 = "dd MMM yyyy";
     private LinearLayoutCompat linearLayoutImagem;
+    private Toolbar toolbar;
 
 
     @Override
@@ -75,6 +78,7 @@ public class DetalharReceitaActivity extends AppCompatActivity  implements BaseS
         modopreparoReceita = findViewById(R.id.detalharModoPreparoReceita);
         nomeAutorReceita = findViewById(R.id.detalharNomeAutorReceita);
         linearLayoutImagem = findViewById(R.id.imagensReceitaDetalhar);
+        toolbar =  findViewById(R.id.toolbarDetalharReceita);
         scrollView = findViewById(R.id.scrollViewReceita);
         v = findViewById(android.R.id.content);
         uris = new ArrayList<>();
@@ -85,6 +89,15 @@ public class DetalharReceitaActivity extends AppCompatActivity  implements BaseS
         ScrollView sv = findViewById(R.id.scrollViewReceita);
         sv.scrollTo(0, 0);
         documentReferenceReceita = recuperarReceita(receitaKey);
+
+        //region Toolbar
+        toolbar.setTitle("Detalhar Receita");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
+        //endregion
     }
 
     private DocumentReference recuperarReceita(String receitaKey) {

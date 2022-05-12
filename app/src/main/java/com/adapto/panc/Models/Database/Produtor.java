@@ -1,7 +1,7 @@
 package com.adapto.panc.Models.Database;
 
 public class Produtor {
-    private String numContato, localizacao, email, usuarioID;
+    private String numContato, localizacao, email, usuarioID, id;
     private String questionarioURL;
 
     public Produtor(String numContato, String localizacao, String email, String usuarioID) {
@@ -12,6 +12,14 @@ public class Produtor {
     }
 
     public Produtor() {
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getNumContato() {
