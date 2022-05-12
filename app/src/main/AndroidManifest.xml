@@ -11,122 +11,89 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:usesCleartextTraffic="true">
-
+        <activity
+            android:name=".Activities.BibliotecaPANC.DetalharItemBibliotecaPANCActivity"
+            android:parentActivityName=".Activities.BibliotecaPANC.ListarItensBibliotecaPANCActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.BibliotecaPANC.ListarItensBibliotecaPANCActivity"
+            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.BibliotecaPANC.CriarItemBibliotecaPANCActivity"
+            android:exported="false" />
+        <activity
+            android:name=".Activities.TelaInicialActivity"
+            android:exported="false" />
         <activity
             android:name=".Activities.ForumReceita.DetalharReceitaActivity"
-            android:parentActivityName=".Activities.ForumReceita.ListarReceitasActivity">
-        </activity>
-
-
-        <activity android:name=".Activities.PainelAdministrativoActivity"
-            android:parentActivityName=".Activities.TelaInicialActivity">
-        </activity>
-
-        <activity android:name=".Activities.ForumReceita.CriarPostagemReceitaActivity"
-            android:parentActivityName=".Activities.ForumReceita.ListarReceitasActivity">
-
-        </activity>
-
-        <activity android:name=".Activities.ForumReceita.ListarReceitasActivity"
-            android:parentActivityName=".Activities.TelaInicialActivity">
-
-        </activity>
-
-        <activity android:name=".Activities.Restaurante.EditarInformacoesRestauranteDONOActivity"
-            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity">
-
-        </activity>
-
-        <activity android:name=".Activities.Restaurante.EditarPrato"
-            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity">
-
-        </activity>
-
-        <activity android:name=".Activities.Restaurante.Restaurante_DetalharPratoActivity"
-            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteActivity">
-
-        </activity>
-
-        <activity android:name=".Activities.Restaurante.Restaurante_ListarRestaurantesActivity"
-            android:parentActivityName=".Activities.TelaInicialActivity">
-
-        </activity>
-
-        <activity android:name=".Activities.Restaurante.AdicionarPratoActivity"
-            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity">
-
-        </activity>
-
-        <activity android:name=".Activities.Restaurante.Restaurante_DetalharRestauranteActivity"
-            android:parentActivityName=".Activities.Restaurante.Restaurante_ListarRestaurantesActivity">
-
-        </activity>
-
-        <activity android:name=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity"
-            android:parentActivityName=".Activities.TelaInicialActivity">
-
-        </activity>
-
-        <activity android:name=".Activities.Produto.Produtor_DetalharProdutoActivity"
-            android:parentActivityName=".Activities.Produto.Produtor_ListarProdutosActivity">
-
-        </activity>
-
-        <activity android:name=".Activities.Produto.Produtor_ListarProdutosActivity"
-            android:parentActivityName=".Activities.TelaInicialActivity">
-
-        </activity>
-
-        <activity android:name=".Activities.Produto.Produtor_CadastrarProdutosActivity"
-            android:parentActivityName=".Activities.Produto.Produtor_ListarProdutosActivity">
-
-        </activity>
-
-        <activity android:name=".Activities.ListarEquipeActivity"
-            android:parentActivityName=".Activities.TelaInicialActivity">
-
-        </activity>
-
+            android:parentActivityName=".Activities.ForumReceita.ListarReceitasActivity" />
+        <activity
+            android:name=".Activities.PainelAdministrativoActivity"
+            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
+        <activity
+            android:name=".Activities.ForumReceita.CriarPostagemReceitaActivity"
+            android:parentActivityName=".Activities.ForumReceita.ListarReceitasActivity" />
+        <activity
+            android:name=".Activities.ForumReceita.ListarReceitasActivity"
+            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
+        <activity
+            android:name=".Activities.Restaurante.EditarInformacoesRestauranteDONOActivity"
+            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity" />
+        <activity
+            android:name=".Activities.Restaurante.EditarPratoActivity"
+            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity" />
+        <activity
+            android:name=".Activities.Restaurante.Restaurante_DetalharPratoActivity"
+            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteActivity" />
+        <activity
+            android:name=".Activities.Restaurante.Restaurante_ListarRestaurantesActivity"
+            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
+        <activity
+            android:name=".Activities.Restaurante.AdicionarPratoActivity"
+            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity" />
+        <activity
+            android:name=".Activities.Restaurante.Restaurante_DetalharRestauranteActivity"
+            android:parentActivityName=".Activities.Restaurante.Restaurante_ListarRestaurantesActivity" />
+        <activity
+            android:name=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity"
+            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
+        <activity
+            android:name=".Activities.Produto.Produtor_DetalharProdutoActivity"
+            android:parentActivityName=".Activities.Produto.Produtor_ListarProdutosActivity" />
+        <activity
+            android:name=".Activities.Produto.Produtor_ListarProdutosActivity"
+            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
+        <activity
+            android:name=".Activities.Produto.Produtor_CadastrarProdutosActivity"
+            android:parentActivityName=".Activities.Produto.Produtor_ListarProdutosActivity" />
+        <activity
+            android:name=".Activities.ListarEquipeActivity"
+            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
         <activity
             android:name=".Activities.ConvidarActivity"
-            android:parentActivityName=".Activities.TelaInicialActivity"
+            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity"
             android:screenOrientation="fullSensor"
-            android:windowSoftInputMode="adjustPan">
-
-        </activity>
-
-        <activity android:name=".Activities.ForumDuvida.CriarPostagemDuvidaActivity"
-            android:parentActivityName=".Activities.TelaInicialActivity">
-        </activity>
-
-        <activity android:name=".Activities.Utils.WebViewConfig">
-
-        </activity>
-
-        <activity android:name=".Activities.TelaInicialActivity">
-
-        </activity>
-
-        <activity android:name=".Activities.ForumDuvida.DetalharPostagemForumActivity"
-            android:parentActivityName=".Activities.TelaInicialActivity">
-        </activity>
-
-        <activity android:name=".Activities.CadastroActivity">
-        </activity>
-
-        <activity android:name=".Activities.LoginActivity">
-
-        </activity>
-
+            android:windowSoftInputMode="adjustPan" />
+        <activity
+            android:name=".Activities.ForumDuvida.CriarPostagemDuvidaActivity"
+            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
+        <activity
+            android:name=".Activities.Utils.WebViewConfig"
+            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
+        <activity android:name=".Activities.ForumDuvida.ForumDuvidasActivity" />
+        <activity
+            android:name=".Activities.ForumDuvida.DetalharPostagemForumActivity"
+            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
+        <activity android:name=".Activities.CadastroActivity" />
+        <activity android:name=".Activities.LoginActivity" />
         <activity android:name=".Activities.MainActivity">
             <intent-filter>
-                <action android:name="android.intent.action.MAIN">
-                </action>
-                <category android:name="android.intent.category.LAUNCHER">
-                </category>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

@@ -12,12 +12,12 @@
     android:layout_height="wrap_content">
 
     <LinearLayout
-        android:id="@+id/linearLayoutBtn"
+        android:id="@+id/receitaListaLinearLayoutBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:visibility="gone">
         <ImageButton
-            android:id="@+id/deletePostButton"
+            android:id="@+id/receitaDeleteButton"
             android:layout_width="35dp"
             android:layout_height="26dp"
             android:layout_gravity="end"
@@ -28,7 +28,7 @@
 
 
     <LinearLayout
-        android:id="@+id/linearLayoutCard"
+        android:id="@+id/receitaListaLinearLayoutCard"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="#D8EEEAEA"

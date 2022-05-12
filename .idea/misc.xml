@@ -5,20 +5,43 @@
       <map>
         <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/drawable/ic_arrow_left.xml" value="0.2645" />
         <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/drawable/ic_close_black_24dp.xml" value="0.129" />
-        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_cadastro_produtor_infos.xml" value="0.2158403869407497" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_adicionar_prato_a_restaurante.xml" value="0.33" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_cadastro.xml" value="0.67" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_cadastro2.xml" value="0.44625" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_cadastro_cargos.xml" value="0.44625" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_cadastro_produtor_infos.xml" value="0.75" />
         <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_convidar.xml" value="0.25" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_criar_item_biblioteca_panc.xml" value="0.371875" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_criar_item_glossario.xml" value="0.371875" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_criar_postagem_duvida.xml" value="0.371875" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_criar_postagem_receita.xml" value="0.371875" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_detalhar_item_biblioteca_panc.xml" value="0.33" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_detalhar_item_glossario.xml" value="0.5" />
         <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_detalhar_postagem_forum.xml" value="0.29444444444444445" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_detalhar_produto_vitrine.xml" value="0.44625" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_detalhar_receita.xml" value="0.22" />
         <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_editar_informacoes_restaurante_dono.xml" value="0.2158403869407497" />
         <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_editar_prato.xml" value="0.5" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_forum_duvidas.xml" value="0.371875" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_listar_itens_biblioteca_panc.xml" value="0.371875" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_listar_itens_glossario.xml" value="0.371875" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_listar_receitas.xml" value="0.371875" />
         <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_login.xml" value="0.23" />
         <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_produtor_cadastrar_produtos.xml" value="0.3245967741935484" />
         <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_restaurante__detalhar_prato.xml" value="0.2158403869407497" />
         <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_restaurante_detalharrestaurante.xml" value="0.3245967741935484" />
         <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_restaurante_detalharrestaurantedono.xml" value="0.5" />
         <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_restaurante_listar_restaurantes.xml" value="0.3245967741935484" />
-        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_tela_inicial.xml" value="0.22" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_tela_inicial.xml" value="0.33" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/activity_web_view_config.xml" value="0.5" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/cardview_feedprincipal.xml" value="0.3828125" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/cardview_forum_receita.xml" value="0.3828125" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/cardview_item_biblioteca_panc.xml" value="0.371875" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/cardview_item_glossario.xml" value="0.3592375366568915" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/cardview_restaurante_lista.xml" value="0.371875" />
         <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/layout/toolbar.xml" value="0.2158403869407497" />
         <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/menu/main_menu.xml" value="0.29444444444444445" />
+        <entry key="..\:/Users/itlac/Desktop/androidapps/PANC/app/src/main/res/menu/toolbar_search_menu.xml" value="0.3828125" />
       </map>
     </option>
   </component>

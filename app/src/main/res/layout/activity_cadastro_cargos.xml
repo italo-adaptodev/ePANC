@@ -79,7 +79,8 @@
                     android:id="@+id/radioCultivare"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="Cultivare" />
+                    android:text="Cultivare"
+                    android:visibility="gone" />
 
             </RadioGroup>
 
