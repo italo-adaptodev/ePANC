@@ -56,4 +56,11 @@
         android:orderInCategory="8"
         />
 
+    <item
+        android:id="@+id/biblioteca"
+        android:title="Biblioteca Científica"
+        android:icon="@drawable/ic_add_button"
+        android:orderInCategory="9"
+        />
+
 </menu>
