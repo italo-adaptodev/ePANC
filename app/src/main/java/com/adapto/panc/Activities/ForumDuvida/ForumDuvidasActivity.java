@@ -1,4 +1,4 @@
-package com.adapto.panc.Activities;
+package com.adapto.panc.Activities.ForumDuvida;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.RequiresApi;
@@ -19,9 +19,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.adapto.panc.Activities.ForumDuvida.CriarPostagemDuvidaActivity;
-import com.adapto.panc.Activities.ForumDuvida.DetalharPostagemForumActivity;
+import com.adapto.panc.Activities.ConvidarActivity;
 import com.adapto.panc.Activities.ForumReceita.ListarReceitasActivity;
+import com.adapto.panc.Activities.BibliotecaPANC.ListarItensBibliotecaPANCActivity;
+import com.adapto.panc.Activities.ListarEquipeActivity;
+import com.adapto.panc.Activities.LoginActivity;
+import com.adapto.panc.Activities.PainelAdministrativoActivity;
 import com.adapto.panc.Activities.Produto.Produtor_ListarProdutosActivity;
 import com.adapto.panc.Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity;
 import com.adapto.panc.Activities.Restaurante.Restaurante_ListarRestaurantesActivity;
@@ -46,7 +49,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class TelaInicialActivity extends AppCompatActivity {
+public class ForumDuvidasActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private FloatingActionButton criarPostagemFAB;
@@ -78,7 +81,7 @@ public class TelaInicialActivity extends AppCompatActivity {
             new LoginSharedPreferences(getBaseContext()).logoutUser();
         }
         isUsuarioAtivo();
-        setContentView(R.layout.activity_tela_inicial);
+        setContentView(R.layout.activity_forum_duvidas);
         recyclerView = findViewById(R.id.feedPrincipalRecV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setVisibility(View.INVISIBLE);
@@ -94,6 +97,7 @@ public class TelaInicialActivity extends AppCompatActivity {
         spinner = findViewById(R.id.progressBar1);
         spinner.setVisibility(View.VISIBLE);
         setSupportActionBar(toolbar);
+
         criarPostagemFAB.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
             @Override
@@ -219,6 +223,10 @@ public class TelaInicialActivity extends AppCompatActivity {
 
             case R.id.paineladministrativo:
                 startActivity(new Intent(this, PainelAdministrativoActivity.class));
+                break;
+
+            case R.id.biblioteca:
+                startActivity(new Intent(this, ListarItensBibliotecaPANCActivity.class));
                 break;
 
             default:

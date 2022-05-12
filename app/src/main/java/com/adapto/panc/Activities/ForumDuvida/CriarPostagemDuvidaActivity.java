@@ -13,7 +13,6 @@ import android.provider.MediaStore;
 import android.view.View;
 import android.widget.ImageView;
 
-import com.adapto.panc.Activities.TelaInicialActivity;
 import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Models.Database.PostagemForumDuvidas;
 import com.adapto.panc.R;
@@ -267,7 +266,7 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
                     }).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentReference> task) {
-                    Intent intent = new Intent(CriarPostagemDuvidaActivity.this, TelaInicialActivity.class);
+                    Intent intent = new Intent(CriarPostagemDuvidaActivity.this, ForumDuvidasActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
 
