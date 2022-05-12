@@ -4,18 +4,26 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.SearchView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
+import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.adapto.panc.Activities.TelaInicialActivity;
+import com.adapto.panc.Activities.ForumDuvida.ForumDuvidasActivity;
 import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Activities.Utils.SnackBarPersonalizada;
+import com.adapto.panc.Adapters.ReceitasFiltradasAdapter;
 import com.adapto.panc.Models.Database.Receita;
 import com.adapto.panc.Models.ViewHolder.ReceitaViewHolder;
 import com.adapto.panc.R;
@@ -34,6 +42,9 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class ListarReceitasActivity extends AppCompatActivity {
 
     private FloatingActionButton criarPostagemFAB;
@@ -49,6 +60,10 @@ public class ListarReceitasActivity extends AppCompatActivity {
     private ProgressBar spinner;
     private boolean isUsuarioAutorReceita = false;
     private MaterialTextView textViewRecycler;
+    private List<Receita> receitasList;
+    private Toolbar toolbar;
+    private ReceitasFiltradasAdapter receitasFiltradasAdapter;
+    private String identifier;
 
 
     @Override
@@ -64,6 +79,8 @@ public class ListarReceitasActivity extends AppCompatActivity {
         v = findViewById(android.R.id.content);
         spinner = findViewById(R.id.progressBar1);
         spinner.setVisibility(View.VISIBLE);
+        identifier = new LoginSharedPreferences(this).getIdentifier();
+
 
         //region RECYCLER VIEW POSTAGENS
         Query query = db
@@ -75,6 +92,13 @@ public class ListarReceitasActivity extends AppCompatActivity {
                 if(task.getResult().size() < 1){
                     textViewRecycler.setVisibility(View.VISIBLE);
                 }
+            }
+        });
+
+        query.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                receitasList = queryDocumentSnapshots.toObjects(Receita.class);
             }
         });
 
@@ -93,6 +117,16 @@ public class ListarReceitasActivity extends AppCompatActivity {
             }
         });
 
+        //region Toolbar
+        toolbar = findViewById(R.id.toolbar_listar_receitas);
+        toolbar.setTitle("Receitas");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
+        //endregion
+
     }
 
     @Override
@@ -109,7 +143,7 @@ public class ListarReceitasActivity extends AppCompatActivity {
 
     private boolean getCargosUsuarioSolicitante() {
         db.collection(collections.getEquipeCOLLECTION())
-                .whereEqualTo("usuarioID",   new LoginSharedPreferences(this).getIdentifier())
+                .whereEqualTo("usuarioID",   identifier)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -147,7 +181,7 @@ public class ListarReceitasActivity extends AppCompatActivity {
 
     private void getPermissaoAutorReceita() {
         db.collection(collections.getReceitaCOLLECTION())
-                .whereEqualTo("autor_usuarioID",   new LoginSharedPreferences(this).getIdentifier())
+                .whereEqualTo("autor_usuarioID", identifier)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -163,12 +197,13 @@ public class ListarReceitasActivity extends AppCompatActivity {
 
     private Runnable task = new Runnable() {
         public void run() {
-
             adapter = new FirestoreRecyclerAdapter<Receita, ReceitaViewHolder>(options) {
                 @Override
                 public void onBindViewHolder(ReceitaViewHolder holder, int position, final Receita model) {
-
-                    holder.setConfigsView(isUsuarioAdminstrador, isUsuarioAutorReceita, getBaseContext());
+                    if(identifier.equals(model.getAutor_usuarioID()))
+                        holder.setConfigsView(isUsuarioAdminstrador, true, getBaseContext());
+                    else
+                        holder.setConfigsView(isUsuarioAdminstrador, false, getBaseContext());
                     String imgID = model.getImagensID().get(0);
                     if(imgID != null)
                         Glide.with(getBaseContext())
@@ -176,6 +211,7 @@ public class ListarReceitasActivity extends AppCompatActivity {
                                 .into(holder.forumReceitaImagem);
                     holder.nome.setText(model.getNomeReceita());
                     holder.forumReceitaInfos.setText("Tempo de preparo: " + model.getTempoPreparo());
+
                     holder.nomeAutor.setText("Por: " + model.getNomeAutor());
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
@@ -211,8 +247,48 @@ public class ListarReceitasActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, TelaInicialActivity.class));
+        startActivity(new Intent(this, ForumDuvidasActivity.class));
     }
 
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.toolbar_search_menu, menu);
+        MenuItem searchViewItem = menu.findItem(R.id.app_bar_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchViewItem);
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                searchView.clearFocus();
+                List<Receita> escolhidas = new ArrayList<>();
+                for (Receita receita : receitasList) {
+                    if (receita.getIngredientes().contains(query))
+                        if (!escolhidas.contains(receita))
+                            escolhidas.add(receita);
+                }
+                if(escolhidas.size() == 0)
+                    textViewRecycler.setVisibility(View.VISIBLE);
+                receitasFiltradasAdapter = new ReceitasFiltradasAdapter(getLayoutInflater(), escolhidas, getBaseContext(), ListarReceitasActivity.this, isUsuarioAdminstrador, identifier);
+                recyclerView.setAdapter(receitasFiltradasAdapter);
+                return false;
+
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
+
+        searchView.setOnCloseListener(new SearchView.OnCloseListener() {
+            @Override
+            public boolean onClose() {
+                recyclerView.setAdapter(adapter);
+                textViewRecycler.setVisibility(View.INVISIBLE);
+                return false;
+            }
+        });
+
+        return super.onCreateOptionsMenu(menu);
+    }
 
 }
