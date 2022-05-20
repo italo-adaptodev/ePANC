@@ -4,8 +4,74 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Activities.ForumDuvida.CriarPostagemDuvidaActivity">
+    tools:context=".Activities.ForumDuvida.CriarPostagemDuvidaActivity"
+    android:layout_gravity="center"
+    >
 
+    <include
+        android:id="@+id/toolbarCriarPostagemForum"
+        layout="@layout/toolbar"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:titleTextAppearance="@style/ToolbarTextSize" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/postagem_duvida_titulo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textMultiLine"
+        app:hintAnimationEnabled="true"
+        android:background="@null"
+        app:hintTextColor="@color/colorAccent"
+        android:hint="Título da postagem"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarCriarPostagemForum">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="textStart"
+            android:textColorHint="@color/colorAccent"
+            />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/postagem_duvida_text"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@null"
+        android:ems="10"
+        android:gravity="start"
+        android:hint="Detalhe sua dúvida aqui (opcional)"
+        android:inputType="textMultiLine|textCapSentences"
+        android:minHeight="300dp"
+        app:boxStrokeColor="@color/colorAccent"
+        app:hintAnimationEnabled="true"
+        app:hintTextColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/postagem_duvida_titulo"
+        app:layout_constraintVertical_bias="0.09">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            android:background="@null"
+            android:gravity="start"
+            android:minHeight="300dp"
+            android:textAlignment="textStart"
+            android:textColorHint="@color/colorAccent" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnChoose"
@@ -16,10 +82,10 @@
         android:text="Adicionar imagens"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintHorizontal_bias="0.151"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/postagem_duvida_text"
-        app:layout_constraintVertical_bias="0.046" />
+        app:layout_constraintVertical_bias="0.058" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/btnUpload"
@@ -30,32 +96,10 @@
         android:textSize="12sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout"
-        app:layout_constraintVertical_bias="0.554" />
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/postagem_duvida_text"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="345dp"
-        android:layout_height="237dp"
-        android:layout_marginTop="40dp"
-        android:ems="10"
-        android:gravity="start"
-        android:inputType="textMultiLine|textCapSentences"
-        app:boxStrokeColor="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:gravity="start"
-            android:hint="Escreva aqui sua dúvida" />
-    </com.google.android.material.textfield.TextInputLayout>
+        app:layout_constraintHorizontal_bias="0.555"
+        app:layout_constraintStart_toEndOf="@+id/btnChoose"
+        app:layout_constraintTop_toBottomOf="@+id/postagem_duvida_text"
+        app:layout_constraintVertical_bias="0.104" />
 
     <TableLayout
         android:id="@+id/tableLayout"
@@ -65,10 +109,10 @@
         android:layout_marginEnd="17dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
+        app:layout_constraintHorizontal_bias="0.333"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/btnChoose"
-        app:layout_constraintVertical_bias="0.13">
+        app:layout_constraintVertical_bias="0.144">
 
         <TableRow
             android:layout_width="match_parent"
@@ -105,9 +149,9 @@
         </TableRow>
 
         <TableRow
-            android:layout_marginTop="5dp"
             android:layout_width="match_parent"
-            android:layout_height="155dp">
+            android:layout_height="155dp"
+            android:layout_marginTop="5dp">
 
             <androidx.appcompat.widget.AppCompatImageView
                 android:id="@+id/forumDuvidaimg4"
@@ -140,6 +184,8 @@
 
 
     </TableLayout>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

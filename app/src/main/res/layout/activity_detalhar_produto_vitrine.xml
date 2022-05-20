@@ -42,8 +42,8 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintVertical_bias="0.0"></androidx.appcompat.widget.LinearLayoutCompat>
+            app:layout_constraintTop_toBottomOf="@id/toolbarDetalharProduto"
+            app:layout_constraintVertical_bias="0.0" />
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout2"
@@ -63,7 +63,7 @@
                 android:layout_height="wrap_content"
                 android:text=""
                 android:textColor="#000000"
-                android:textSize="20sp"
+                android:textSize="25sp"
                 android:textStyle="bold"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -75,10 +75,10 @@
             <TextView
                 android:id="@+id/precoProdutoDetalhar"
                 android:layout_width="wrap_content"
-                android:layout_height="19dp"
-                android:text=""
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="10dp"
                 android:textColor="#000000"
-                android:textSize="14sp"
+                android:textSize="20sp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
@@ -90,17 +90,16 @@
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 
-        <View
-            android:id="@+id/bar1"
-            android:layout_width="match_parent"
-            android:layout_height="3dp"
-            android:background="#C15E356E"
-            app:layout_constraintBottom_toBottomOf="parent"
+        <include
+            layout="@layout/barra_divisoria"
+            android:layout_marginTop="4dp"
+            android:layout_marginBottom="10dp"
+            app:layout_constraintBottom_toTopOf="@+id/materialTextView"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/constraintLayout2"
-            app:layout_constraintVertical_bias="0.008" />
+            android:layout_width="match_parent"
+            android:layout_height="3dp" />
 
 
         <com.google.android.material.textview.MaterialTextView
@@ -110,8 +109,9 @@
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:text="Descrição"
+            android:textStyle="bold"
             android:textColor="#000000"
-            android:textSize="16sp"
+            android:textSize="20sp"
             app:layout_constraintBottom_toTopOf="@+id/descricaoProdutoDetalhar"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.05"
@@ -126,10 +126,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
-            android:layout_marginTop="14dp"
+            android:layout_marginTop="15dp"
             android:layout_marginEnd="10dp"
             android:inputType="textMultiLine"
-            android:maxLines="3"
             android:textSize="15sp"
             android:padding="10dp"
             android:textAlignment="viewStart"
@@ -139,17 +138,51 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/materialTextView" />
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/observacaoProdutoDetalhar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="12dp"
+            android:text="Observações"
+            android:textColor="#000000"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.056"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descricaoProdutoDetalhar">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/textoObservacao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="15dp"
+            android:layout_marginEnd="10dp"
+            android:inputType="textMultiLine"
+            android:padding="10dp"
+            android:textAlignment="viewStart"
+            android:textColor="#000000"
+            android:textSize="15sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="@+id/descricaoProdutoDetalhar"
+            app:layout_constraintTop_toBottomOf="@id/observacaoProdutoDetalhar" />
+
         <View
             android:id="@+id/bar2"
             android:layout_width="match_parent"
             android:layout_height="3dp"
+            android:layout_marginTop="15dp"
             android:background="#C15E356E"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/descricaoProdutoDetalhar"
-            app:layout_constraintVertical_bias="0.09" />
+            app:layout_constraintTop_toBottomOf="@+id/textoObservacao"
+            app:layout_constraintVertical_bias="0.0" />
 
         <com.google.android.material.textview.MaterialTextView
             android:id="@+id/materialTextView2"
@@ -169,35 +202,18 @@
 
         </com.google.android.material.textview.MaterialTextView>
 
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/btnExpand"
-            style="@style/Widget.MaterialComponents.Button.OutlinedButton"
-            android:layout_width="122dp"
-            android:layout_height="42dp"
-            android:text="Expandir"
-            android:textColor="@color/colorAccent"
-            app:iconTint="@color/colorAccent"
-            android:textSize="12sp"
-            app:icon="@drawable/ic_down_arrow"
-            app:iconSize="15dp"
-            app:layout_constraintBottom_toTopOf="@+id/bar2"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.952"
-            app:layout_constraintStart_toEndOf="@+id/materialTextView"
-            app:layout_constraintTop_toBottomOf="@+id/bar1"
-            app:layout_constraintVertical_bias="0.0" />
-
-
         <ImageButton
             android:id="@+id/whatsappbtn"
             android:layout_width="50dp"
             android:layout_height="50dp"
             android:layout_marginBottom="44dp"
             android:background="@null"
-            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintBottom_toTopOf="@id/materialTextView5"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintHorizontal_bias="0.498"
+            android:layout_marginTop="20dp"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView2"
             app:srcCompat="@drawable/ic_whatsapp" />
 
         <com.google.android.material.textview.MaterialTextView
@@ -208,7 +224,7 @@
             android:labelFor="@id/emailProdutorDetalhar"
             android:text="Email"
             android:textColor="#000000"
-            app:layout_constraintBottom_toTopOf="@+id/emailProdutorDetalhar"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/materialTextView2">
@@ -236,6 +252,7 @@
             android:layout_marginBottom="5dp"
             android:labelFor="@id/enderecoProdutorDetalhar"
             android:text="Endereço"
+            android:textStyle="bold"
             android:textColor="#000000"
             app:layout_constraintBottom_toTopOf="@+id/enderecoProdutorDetalhar"
             app:layout_constraintEnd_toEndOf="parent"
@@ -254,7 +271,7 @@
             android:text="dasdasdasdd"
             android:textColor="#000000"
             android:textSize="16sp"
-            app:layout_constraintBottom_toTopOf="@+id/whatsappbtn"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.501"
             app:layout_constraintStart_toStartOf="parent" />

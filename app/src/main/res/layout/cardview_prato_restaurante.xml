@@ -86,18 +86,35 @@
                     app:layout_constraintStart_toEndOf="@+id/restaurantePratoImagem"
                     app:layout_constraintTop_toBottomOf="@+id/restaurantePratoNome" />
 
+
                 <com.google.android.material.textview.MaterialTextView
-                    android:id="@+id/restaurantePratoIngredientesPANC"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/materialTextView7"
+                    android:layout_width="129dp"
                     android:layout_height="wrap_content"
-                    android:text="Ingredientes PANC"
-                    android:textSize="14sp"
-                    style="@style/TextAppearance.AppCompat.Body1"
-                    app:layout_constraintBottom_toBottomOf="@+id/restaurantePratoImagem"
+                    android:layout_marginTop="24dp"
+                    android:layout_marginEnd="52dp"
+                    android:labelFor="@id/restaurantePratoIngredientesPANC"
+                    android:text="PANCS PRESENTES"
+                    android:textColor="#000000"
                     app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.241"
+                    app:layout_constraintHorizontal_bias="0.833"
                     app:layout_constraintStart_toEndOf="@+id/restaurantePratoImagem"
                     app:layout_constraintTop_toBottomOf="@+id/restaurantePratoPreco">
+
+                </com.google.android.material.textview.MaterialTextView>
+
+                <com.google.android.material.textview.MaterialTextView
+                    android:id="@+id/restaurantePratoIngredientesPANC"
+                    style="@style/TextAppearance.AppCompat.Body1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="3dp"
+                    android:text="Ingredientes PANC"
+                    android:textSize="14sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.185"
+                    app:layout_constraintStart_toEndOf="@+id/restaurantePratoImagem"
+                    app:layout_constraintTop_toBottomOf="@+id/materialTextView7">
 
                 </com.google.android.material.textview.MaterialTextView>
 

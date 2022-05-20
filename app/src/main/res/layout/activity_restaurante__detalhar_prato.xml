@@ -46,6 +46,7 @@
             android:scaleType="fitXY"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="@+id/progress"
             app:layout_constraintTop_toTopOf="parent"
             app:srcCompat="@drawable/pancdefault">
@@ -83,6 +84,75 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView8"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:labelFor="@id/detalharPrato_ingredientes"
+            android:text="Ingredientes"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detalharPrato_nome">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <TextView
+            android:id="@+id/detalharPrato_ingredientes"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="50dp"
+            android:padding="5dp"
+            android:text="Ingredientes"
+            android:textColor="#535353"
+            android:textSize="18sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView8" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/materialTextView9"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:labelFor="@id/detalharPrato_ingredientes"
+            android:text="Ingredientes PANCS"
+            android:textColor="@color/colorPrimaryDark"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/detalharPrato_ingredientes">
+
+        </com.google.android.material.textview.MaterialTextView>
+
+        <TextView
+            android:id="@+id/detalharPrato_ingredientes_pancs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="5dp"
+            android:layout_marginEnd="50dp"
+            android:padding="5dp"
+            android:text="Pancs"
+            android:textColor="#535353"
+            android:textSize="18sp"
+            app:layout_constrainedWidth="true"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/materialTextView9"
+            app:layout_constraintVertical_bias="0.0" />
+
         <TextView
             android:id="@+id/detalharPrato_preco"
             android:layout_width="wrap_content"
@@ -97,69 +167,6 @@
             app:layout_constraintVertical_bias="0.257">
 
         </TextView>
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:labelFor="@id/detalharPrato_ingredientes"
-            android:text="Ingredientes"
-            android:textSize="12sp"
-            android:textColor="@color/colorPrimaryDark"
-            app:layout_constraintBottom_toTopOf="@+id/detalharPrato_ingredientes"
-            app:layout_constraintEnd_toEndOf="@+id/detalharPrato_ingredientes"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/detalharPrato_ingredientes">
-
-        </com.google.android.material.textview.MaterialTextView>
-
-        <TextView
-            android:id="@+id/detalharPrato_ingredientes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="44dp"
-            android:layout_marginEnd="50dp"
-            android:padding="5dp"
-            android:text="Ingredientes"
-            android:textColor="#535353"
-            android:textSize="18sp"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.102"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detalharPrato_nome" />
-
-        <com.google.android.material.textview.MaterialTextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:labelFor="@id/detalharPrato_ingredientes"
-            android:text="Ingredientes PANCS"
-            android:textColor="@color/colorPrimaryDark"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/detalharPrato_ingredientes_pancs"
-            app:layout_constraintEnd_toEndOf="@+id/detalharPrato_ingredientes_pancs"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="@+id/detalharPrato_ingredientes_pancs">
-
-        </com.google.android.material.textview.MaterialTextView>
-
-        <TextView
-            android:id="@+id/detalharPrato_ingredientes_pancs"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="50dp"
-            android:padding="5dp"
-            android:text="Pancs"
-            android:textColor="#535353"
-            android:textSize="18sp"
-            app:layout_constrainedWidth="true"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.089"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/detalharPrato_ingredientes"
-            app:layout_constraintVertical_bias="0.126" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

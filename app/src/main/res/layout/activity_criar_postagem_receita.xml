@@ -40,7 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="60dp"
+            android:layout_marginTop="44dp"
             android:layout_marginEnd="20dp"
             android:hint="Rendimento"
             app:boxStrokeColor="@color/colorAccent"
@@ -154,15 +154,66 @@
 
                 <androidx.appcompat.widget.AppCompatImageView
                     android:id="@+id/forumReceitaimg1"
-                    android:layout_width="match_parent"
+                    android:layout_width="120dp"
                     android:layout_marginEnd="5dp"
                     android:adjustViewBounds="true"
-                    android:maxHeight="200dp">
+                    android:maxHeight="120dp">
+
+                </androidx.appcompat.widget.AppCompatImageView>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/forumReceitaimg2"
+                    android:layout_width="120dp"
+                    android:layout_marginEnd="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="120dp">
+
+                </androidx.appcompat.widget.AppCompatImageView>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/forumReceitaimg3"
+                    android:layout_width="120dp"
+                    android:layout_marginEnd="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="120dp">
+
 
                 </androidx.appcompat.widget.AppCompatImageView>
 
 
             </TableRow>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="155dp"
+                android:layout_marginTop="5dp">
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/forumReceitaimg4"
+                    android:layout_width="120dp"
+                    android:layout_marginEnd="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="120dp">
+
+                </androidx.appcompat.widget.AppCompatImageView>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/forumReceitaimg5"
+                    android:layout_width="120dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="120dp">
+
+                </androidx.appcompat.widget.AppCompatImageView>
+
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/forumReceitaimg6"
+                    android:layout_width="120dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="120dp" />
+            </TableRow>
+
         </TableLayout>
 
         <com.google.android.material.button.MaterialButton

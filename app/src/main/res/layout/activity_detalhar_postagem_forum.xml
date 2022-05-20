@@ -38,14 +38,12 @@
     <ScrollView
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
-        android:layout_height="675dp"
+        android:layout_height="wrap_content"
         app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/toolbarDetalharPostagemForum"
         app:layout_constraintVertical_bias="0.0">
-
-
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ConstraintLayoutDetalharForum"
@@ -60,110 +58,159 @@
                 android:layout_width="match_parent"
                 android:layout_height="60dp"
                 android:visibility="visible"
-                app:layout_constraintBottom_toBottomOf="@+id/linearlayoutImagem"
+                app:layout_constraintBottom_toBottomOf="@+id/linearlayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="@+id/linearlayoutImagem" />
-
-            <androidx.appcompat.widget.LinearLayoutCompat
-                android:id="@+id/linearlayoutImagem"
-                android:layout_width="match_parent"
-                android:layout_height="250dp"
-                android:layout_marginBottom="538dp"
-                app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-            </androidx.appcompat.widget.LinearLayoutCompat>
-
+                app:layout_constraintTop_toTopOf="@+id/linearlayout" />
 
             <TextView
-                android:id="@+id/detalhar_forum_texto"
-                android:layout_width="320dp"
+                android:id="@+id/detalhar_forum_titulo"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autoSizeTextType="uniform"
                 android:padding="5dp"
-                android:text=""
-                android:textColor="#000"
-                android:textSize="15sp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:gravity="center"
+                android:textColor="@color/colorAccent"
+                android:textSize="20sp"
+                android:textStyle="bold"
+                app:layout_constraintBottom_toTopOf="@id/linearlayout"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.465"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearlayoutImagem"
+                app:layout_constraintTop_toTopOf="@+id/ConstraintLayoutDetalharForum"
                 app:layout_constraintVertical_bias="0.024" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:id="@+id/detalhar_forum_texto"
+                android:textSize="15sp"
+                android:padding="5dp"
+                android:textColor="@color/colorAccent"
+                app:layout_constraintTop_toBottomOf="@id/detalhar_forum_titulo"
+                app:layout_constraintBottom_toTopOf="@id/linearlayout"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"/>
+
+            <LinearLayout
+                android:id="@+id/linearlayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="start"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintVertical_bias="0.07"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linearlayoutimagem"
+                    android:layout_width="match_parent"
+                    android:layout_height="500dp"
+                    android:visibility="gone">
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+                <androidx.appcompat.widget.LinearLayoutCompat
+                    android:id="@+id/linearlayoutimagembound"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:visibility="gone">
+
+                </androidx.appcompat.widget.LinearLayoutCompat>
+
+            </LinearLayout>
+
+
 
             <RelativeLayout
                 android:id="@+id/relative"
-                android:layout_width="340dp"
-                android:layout_height="35dp"
-                android:layout_margin="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
                 android:layout_marginTop="5dp"
                 android:layout_marginBottom="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/detalhar_forum_texto"
+                app:layout_constraintTop_toBottomOf="@+id/linearlayout"
                 app:layout_constraintVertical_bias="0.013">
 
-                <TextView
-
-                    android:id="@+id/detalhar_forum_autor"
-                    android:layout_width="140dp"
+                <LinearLayout
+                    android:id="@+id/linearforumautor"
+                    android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_alignParentStart="true"
-                    
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true"
-                    
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="4dp"
-                    
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="196dp"
-                    
-                    android:layout_marginBottom="0dp"
-                    android:background="@drawable/arrendondado_textview"
-                    android:foregroundGravity="center"
-                    android:gravity="center"
-                    android:lines="1"
-                    android:text=""
-                    android:textColor="#000"
-                    android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/detalhar_forum_data"
-                    app:layout_constraintHorizontal_bias="0.434"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintVertical_bias="0.733" />
+                    android:layout_marginEnd="100dp"
+                    android:layout_toStartOf="@+id/lineardetalhar_forum_data"
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:labelFor="@+id/detalhar_forum_autor"
+                        android:text="Postado por"
+                        android:textStyle="bold"
+                        android:gravity="center"
+                        android:textColor="@color/colorAccent">
 
-                <TextView
-                    android:id="@+id/detalhar_forum_data"
-                    android:layout_width="160dp"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentStart="true"
-                    
-                    android:layout_alignParentTop="true"
+                    </TextView>
+                    <TextView
+                        android:id="@+id/detalhar_forum_autor"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="start"
+                        android:foregroundGravity="center"
+                        android:gravity="center"
+                        android:lines="1"
+                        android:padding="3dp"
+                        android:text=""
+                        android:textColor="#000"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toStartOf="@+id/detalhar_forum_data"
+                        app:layout_constraintHorizontal_bias="0.434"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintVertical_bias="0.733" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:id="@+id/lineardetalhar_forum_data"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
-                    
-                    android:layout_alignParentBottom="true"
-                    android:layout_gravity="start"
-                    android:layout_marginStart="203dp"
-                    
-                    android:layout_marginTop="0dp"
-                    android:layout_marginEnd="3dp"
-                    
-                    android:layout_marginBottom="0dp"
-                    android:background="@drawable/arrendondado_textview"
-                    android:gravity="center"
-                    android:text=""
-                    android:textColor="#000"
-                    android:textSize="15sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.574"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintVertical_bias="0.803" />
+                    android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:labelFor="@+id/detalhar_forum_data"
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold"
+                        android:text="Postado em">
+
+                    </TextView>
+                    <TextView
+                        android:id="@+id/detalhar_forum_data"
+                        android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
+                        android:layout_gravity="start"
+                        android:layout_alignParentBottom="true"
+                        android:padding="3dp"
+                        android:gravity="center"
+                        android:textColor="#000"
+                        android:textSize="15sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintHorizontal_bias="0.574"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintVertical_bias="0.803" />
+                </LinearLayout>
+
+
+
 
 
             </RelativeLayout>
