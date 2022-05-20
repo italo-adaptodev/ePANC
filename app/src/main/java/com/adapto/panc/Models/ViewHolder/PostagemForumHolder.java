@@ -15,7 +15,7 @@ import com.adapto.panc.R;
 
 public class PostagemForumHolder extends RecyclerView.ViewHolder{
 
-    public TextView  postagemForumDesc;
+    public TextView  postagemForumTitulo;
     public ImageView postagemForumImagem;
     public ImageButton btnExcluirPostagem;
     public LinearLayout linearLayoutBtn, linearLayoutCard;
@@ -23,7 +23,7 @@ public class PostagemForumHolder extends RecyclerView.ViewHolder{
     public PostagemForumHolder(@NonNull View itemView) {
         super(itemView);
         postagemForumImagem = itemView.findViewById(R.id.postagemForumImagem);
-        postagemForumDesc = itemView.findViewById(R.id.postagemForumDescricao);
+        postagemForumTitulo = itemView.findViewById(R.id.postagemForumTitulo);
         btnExcluirPostagem = itemView.findViewById(R.id.deletePostButton);
         linearLayoutBtn = itemView.findViewById(R.id.linearLayoutBtn);
         linearLayoutCard = itemView.findViewById(R.id.linearLayoutCard);

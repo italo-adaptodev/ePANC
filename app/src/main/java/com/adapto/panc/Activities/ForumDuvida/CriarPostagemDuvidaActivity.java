@@ -2,6 +2,8 @@ package com.adapto.panc.Activities.ForumDuvida;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.app.ProgressDialog;
 import android.content.ClipData;
@@ -44,25 +46,27 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
     private final int PICK_IMAGE_REQUEST = 22;
     private SnackBarPersonalizada snackBarPersonalizada;
     private ReferenciaDatabase referenciaDatabase;
-    private TextInputLayout textoPostagemForum;
+    private TextInputLayout textoPostagemForum, tituloPostagemForum;
     private View v;
     StorageReference storageReference;
     private List<ImageView> imageViews;
     private List<Uri> filepaths;
     private String postagemID;
     private FirestoreReferences firestoreReferences;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_criar_postagem_duvida);
+        setContentView(R.layout.activity_criar_postagem_forum_duvida);
 
         // initialise views
         btnSelect = findViewById(R.id.btnChoose);
         btnUpload = findViewById(R.id.btnUpload);
         addImageviews();
         textoPostagemForum =  findViewById(R.id.postagem_duvida_text);
+        tituloPostagemForum =  findViewById(R.id.postagem_duvida_titulo);
         v = findViewById(android.R.id.content);
         referenciaDatabase = new ReferenciaDatabase();
         storageReference = referenciaDatabase.getFirebaseStorage();
@@ -84,10 +88,24 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                if ((tituloPostagemForum.getEditText().getText().toString().isEmpty() || textoPostagemForum.getEditText().getText().toString().isEmpty())) {
+                    new SnackBarPersonalizada().showMensagemLonga(v, "Preencha todos os campos obrigatórios!");
+                    return;
+                }
                 uploadImages();
 
             }
         });
+
+        //region Toolbar
+        toolbar = findViewById(R.id.toolbarCriarPostagemForum);
+        toolbar.setTitle("Criar Postagem");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
+        //endregion
     }
 
     private void addImageviews() {
@@ -200,8 +218,7 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         imagens.add(uri.toString());
-                                        if(imagens.size() == filepaths.size())
-                                            uploadPostagem(imagens);
+
                                     }
                                 });
 
@@ -231,12 +248,12 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
                                 });
 
         }
-
+        uploadPostagem(imagens);
     }
 
     private void uploadPostagem(final List<String> imagens) {
             PostagemForumDuvidas postagemForumDuvidas = new PostagemForumDuvidas(textoPostagemForum.getEditText().getText().toString(),
-                    new LoginSharedPreferences(getApplicationContext()).getIdentifier(), imagens, Timestamp.now());
+                    new LoginSharedPreferences(getApplicationContext()).getIdentifier(), imagens, Timestamp.now(),  tituloPostagemForum.getEditText().getText().toString());
             FirebaseFirestore.getInstance().collection(firestoreReferences.getPostagensForumPANCCOLLECTION())
                     .add(postagemForumDuvidas)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

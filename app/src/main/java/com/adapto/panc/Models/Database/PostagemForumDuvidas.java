@@ -10,19 +10,28 @@ import java.util.List;
 @Keep
 public class PostagemForumDuvidas {
 
-    private String postagemForumTexto;
+    private String postagemForumTexto, postagemForumTitulo;
     private String usuarioID;
     private List<String> imagensID;
     private String postagemID;
     private Timestamp timestamp;
     private List<FirestoreForumComentario> comentarios;
 
-    public PostagemForumDuvidas(String postagemForumTexto, String usuarioID, List<String> imagensID, Timestamp timestamp) {
+    public PostagemForumDuvidas(String postagemForumTexto, String usuarioID, List<String> imagensID, Timestamp timestamp, String postagemForumTitulo) {
         this.postagemForumTexto = postagemForumTexto;
         this.usuarioID = usuarioID;
         this.imagensID = imagensID;
         this.timestamp = timestamp;
         this.comentarios = new ArrayList<>();
+        this.postagemForumTitulo = postagemForumTitulo;
+    }
+
+    public String getPostagemForumTitulo() {
+        return postagemForumTitulo;
+    }
+
+    public void setPostagemForumTitulo(String postagemForumTitulo) {
+        this.postagemForumTitulo = postagemForumTitulo;
     }
 
     public PostagemForumDuvidas(){}

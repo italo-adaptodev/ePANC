@@ -7,11 +7,13 @@ import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
@@ -70,7 +72,7 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
         ViewPagerEx.OnPageChangeListener {
 
     private ArrayList<FirestoreForumComentario> arrayList;
-    private TextView postagemDetalhadaAutor, postagemDetalhadaData,postagemDetalhadaTexto;
+    private TextView postagemDetalhadaAutor, postagemDetalhadaData,postagemDetalhadaTexto, postagemDetalhadaTitulo;
     private RecyclerView recyclerViewComentarios;
     private EditText comentario;
     private ImageButton btnEnviarComentario;
@@ -86,7 +88,8 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
     private FirestoreReferences firestoreReferences = new FirestoreReferences();
     private ProgressBar spinner;
     private ConstraintLayout constraintLayoutDetalharForum;
-    private LinearLayoutCompat linearLayoutImagem;
+    private LinearLayout linearLayout;
+    private LinearLayoutCompat linearLayoutImagem, linearLayoutImagembound;
     private String usuarioID;
     private boolean isUsuarioAdminstrador = false;
     private String postagemKey = null;
@@ -101,8 +104,11 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
         postagemDetalhadaData = findViewById(R.id.detalhar_forum_data);
         recyclerViewComentarios = findViewById(R.id.recyclerview_detalhar_respostas_forum);
         recyclerViewComentarios.setLayoutManager(new LinearLayoutManager(this));
-        linearLayoutImagem = findViewById(R.id.linearlayoutImagem);
+        linearLayout = findViewById(R.id.linearlayout);
+        linearLayoutImagem = findViewById(R.id.linearlayoutimagem);
+        linearLayoutImagembound = findViewById(R.id.linearlayoutimagembound);
         postagemDetalhadaTexto = findViewById(R.id.detalhar_forum_texto);
+        postagemDetalhadaTitulo = findViewById(R.id.detalhar_forum_titulo);
         comentario = findViewById(R.id.forum_detalhar_comentario);
         btnEnviarComentario = findViewById(R.id.forum_btn_enviar_comentario);
         toolbar = findViewById(R.id.toolbarDetalharPostagemForum);
@@ -136,7 +142,6 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
         listenToDiffs();
 
         //region Toolbar
-        toolbar = findViewById(R.id.toolbarDetalharPostagemForum);
         toolbar.setTitle("Detalhar Postagem");
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
         setSupportActionBar(toolbar);
@@ -196,6 +201,7 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
                 dateFormat.setTimeZone(TimeZone.getTimeZone("BRT"));
                 postagemDetalhadaData.setText(dateFormat.format(data));
                 postagemDetalhadaTexto.setText(DS.get("postagemForumTexto").toString());
+                postagemDetalhadaTitulo.setText(DS.get("postagemForumTitulo").toString());
                 postagemForumDuvidas = DS.toObject(PostagemForumDuvidas.class);
                 forumAdapter = new ForumComentarioAdapter(getLayoutInflater(), postagemForumDuvidas.getComentarios(),getBaseContext(), isUsuarioAdminstrador, DetalharPostagemForumActivity.this, postagemKey);
                 recyclerViewComentarios.setAdapter(forumAdapter);
@@ -229,11 +235,9 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
         SliderLayout sliderLayout = new SliderLayout(this);
         sliderLayout.stopAutoCycle();
         sliderLayout.setMinimumWidth(LinearLayout.LayoutParams.MATCH_PARENT);
-        sliderLayout.setMinimumHeight(250);
-        sliderLayout.setMinimumHeight(250);
-
+        sliderLayout.setMinimumHeight(500);
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress);
-
+        linearLayoutImagem.setVisibility(View.VISIBLE);
         linearLayoutImagem.addView(sliderLayout);
         RequestOptions requestOptions = new RequestOptions();
         requestOptions.centerCrop()
@@ -273,9 +277,9 @@ public class DetalharPostagemForumActivity extends AppCompatActivity implements 
 
     private void setImage(String uri){
         ImageView imageView = new ImageView(this);
-        imageView.setMaxWidth(LinearLayout.LayoutParams.MATCH_PARENT);
-        imageView.setMaxHeight(250);
-        linearLayoutImagem.addView(imageView);
+        imageView.setAdjustViewBounds(true);
+        linearLayoutImagembound.setVisibility(View.VISIBLE);
+        linearLayoutImagembound.addView(imageView);
         final ProgressBar progressBar = (ProgressBar) findViewById(R.id.progress);
 
         Glide.with(getBaseContext())

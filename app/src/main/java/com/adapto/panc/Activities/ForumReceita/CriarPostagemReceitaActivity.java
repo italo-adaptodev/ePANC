@@ -91,6 +91,12 @@ public class CriarPostagemReceitaActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                if ((nome.getEditText().getText().toString().isEmpty() || tempoPreparoReceita.getEditText().getText().toString().isEmpty())
+                || rendimentoReceita.getEditText().getText().toString().isEmpty() || ingredientesReceita.getEditText().getText().toString().isEmpty()
+                        || modoPreparoReceita.getEditText().getText().toString().isEmpty()) {
+                    new SnackBarPersonalizada().showMensagemLonga(v, "Preencha todos os campos obrigatórios!");
+                    return;
+                }
                 uploadImages();
             }
         });
@@ -99,7 +105,17 @@ public class CriarPostagemReceitaActivity extends AppCompatActivity {
     private void addImageviews() {
         imageViews = new ArrayList<>();
         img1 = findViewById(R.id.forumReceitaimg1);
+        img2 = findViewById(R.id.forumReceitaimg2);
+        img3 = findViewById(R.id.forumReceitaimg3);
+        img4 = findViewById(R.id.forumReceitaimg4);
+        img5 = findViewById(R.id.forumReceitaimg5);
+        img6 = findViewById(R.id.forumReceitaimg6);
         imageViews.add(img1);
+        imageViews.add(img2);
+        imageViews.add(img3);
+        imageViews.add(img4);
+        imageViews.add(img5);
+        imageViews.add(img6);
     }
 
     // Select Image method

@@ -57,7 +57,7 @@ import java.util.TimeZone;
 
 public class Produtor_DetalharProdutoActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener {
 
-    private TextView nomeProdutorDetalhar, nomeProdutoDetalhar, precoProdutoDetalhar, emailProdutorDetalhar, enderecoProdutorDetalhar,
+    private TextView nomeProdutorDetalhar, nomeProdutoDetalhar, precoProdutoDetalhar, emailProdutorDetalhar, enderecoProdutorDetalhar, observacaoProdutoDetalhar,
             descricaoProdutoDetalhar;
     public static final String DATE_FORMAT_1 = "dd MMM yyyy";
     private DocumentReference postagem;
@@ -87,6 +87,7 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity implemen
         emailProdutorDetalhar = findViewById(R.id.emailProdutorDetalhar);
         enderecoProdutorDetalhar = findViewById(R.id.enderecoProdutorDetalhar);
         descricaoProdutoDetalhar = findViewById(R.id.descricaoProdutoDetalhar);
+        observacaoProdutoDetalhar = findViewById(R.id.textoObservacao);
         linearLayoutImagem = findViewById(R.id.imagensProdutoDetalhar);
         toolbar = findViewById(R.id.toolbarDetalharProduto);
         scrollViewProduto = findViewById(R.id.scrollViewProduto);
@@ -100,10 +101,10 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity implemen
         ScrollView sv = findViewById(R.id.scrollViewProduto);
         sv.scrollTo(0, 0);
         postagem = recuperarPostagem(postagemKey);
-        btnExpand = findViewById(R.id.btnExpand);
+//        btnExpand = findViewById(R.id.btnExpand);
         whatsappBtn = findViewById(R.id.whatsappbtn);
 
-        btnExpand.setOnClickListener(new View.OnClickListener() {
+       /* btnExpand.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(isCollapsed){
@@ -113,14 +114,16 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity implemen
                         btnExpand.setClickable(true);
 
                     descricaoProdutoDetalhar.setMaxLines(Integer.MAX_VALUE);
+                    observacaoProdutoDetalhar.setMaxLines(Integer.MAX_VALUE);
                     setTextWithSmoothAnimation(btnExpand, "Encolher", R.drawable.ic_uparrow);
                 }else{
                     descricaoProdutoDetalhar.setMaxLines(MAX_LINES_COLLAPSED);
+                    observacaoProdutoDetalhar.setMaxLines(0);
                     setTextWithSmoothAnimation(btnExpand, "Expandir", R.drawable.ic_down_arrow);
                 }
                 isCollapsed = !isCollapsed;
             }
-        });
+        });*/
 
         applyLayoutTransition();
 
@@ -164,6 +167,7 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity implemen
                 nomeProdutoDetalhar.setText(DS.getString("nome"));
                 precoProdutoDetalhar.setText(String.format("R$ %s", DS.getDouble("preco").toString()));
                 descricaoProdutoDetalhar.setText(DS.getString("descricao"));
+                observacaoProdutoDetalhar.setText(DS.getString("observacao"));
 
             }
         }).addOnFailureListener(new OnFailureListener() {
