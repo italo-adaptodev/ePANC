@@ -11,6 +11,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.text.SpannableStringBuilder;
 import android.view.View;
 import android.widget.ImageView;
 import androidx.appcompat.widget.Toolbar;
@@ -41,7 +42,7 @@ import java.util.UUID;
 
 public class Produtor_CadastrarProdutosActivity extends AppCompatActivity {
 
-    private CurrencyEditText precoProduto;
+    private TextInputLayout precoProduto;
     private ImageView img1, img2, img3, img4, img5, img6 ;
     private List<ImageView> imageViews;
     private final int PICK_IMAGE_REQUEST = 22;
@@ -60,7 +61,7 @@ public class Produtor_CadastrarProdutosActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_produtor_cadastrar_produtos);
         addImageviews();
-        precoProduto = (CurrencyEditText) findViewById(R.id.precoProduto);
+        precoProduto = findViewById(R.id.precoProduto);
         btnSelect = findViewById(R.id.btnChoose);
         btnUpload = findViewById(R.id.btnUpload);
         v = findViewById(android.R.id.content);
@@ -96,6 +97,11 @@ public class Produtor_CadastrarProdutosActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                if ((nomeProduto.getEditText().getText().toString().isEmpty() || descricaoProduto.getEditText().getText().toString().isEmpty())
+                        || observacoesProduto.getEditText().getText().toString().isEmpty() ) {
+                    new SnackBarPersonalizada().showMensagemLonga(v, "Preencha todos os campos obrigatórios!");
+                    return;
+                }
                 uploadImages();
             }
         });
@@ -246,10 +252,12 @@ public class Produtor_CadastrarProdutosActivity extends AppCompatActivity {
 
     private void uploadPostagem(final List<String> imagens) {
         String nome, desc, obs;
+        Double preco;
         nome = nomeProduto.getEditText().getText().toString();
         desc = descricaoProduto.getEditText().getText().toString();
         obs = observacoesProduto.getEditText().getText().toString();
-        Produtor_Produto produto = new Produtor_Produto(nome, new LoginSharedPreferences(getApplicationContext()).getIdentifier(),desc, obs, precoProduto.getNumericValue(), imagens, Timestamp.now());
+        preco = Double.parseDouble(precoProduto.getEditText().getText().toString().replace(",", "."));
+        Produtor_Produto produto = new Produtor_Produto(nome, new LoginSharedPreferences(getApplicationContext()).getIdentifier(),desc, obs,preco, imagens, Timestamp.now());
         FirebaseFirestore.getInstance().collection(firestoreReferences.getVitrineProdutosCOLLECTION())
                 .add(produto)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

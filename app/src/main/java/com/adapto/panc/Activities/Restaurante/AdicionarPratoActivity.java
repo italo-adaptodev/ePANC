@@ -51,7 +51,7 @@ public class AdicionarPratoActivity extends AppCompatActivity {
     private StorageReference storageReference;
     private MaterialButton btnSelect, btnUpload;
     private TextInputLayout nomePrato, descricaoPrato, ingredientesPANC, precoPrato;
-    private EditText precoPratoEditText;
+    private TextInputLayout precoPratoEditText;
     private FirestoreReferences firestoreReferences =  new FirestoreReferences();
     private String restauranteID;
     private DocumentReference restauranteDocRef;
@@ -78,20 +78,16 @@ public class AdicionarPratoActivity extends AppCompatActivity {
         restauranteDocRef = getRestauranteByID();
 
         // on pressing btnSelect SelectImage() is called
-        btnSelect.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v)
-            {
-                SelectImage();
-            }
-        });
+        btnSelect.setOnClickListener(v -> SelectImage());
 
         // on pressing btnUpload uploadImage() is called
         btnUpload.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v)
             {
-                if(filepaths.size() == 0)
+
+                if(nomePrato.getEditText().getText().toString().isEmpty() || descricaoPrato.getEditText().getText().toString().isEmpty()
+                        || ingredientesPANC.getEditText().getText().toString().isEmpty() )
                     snackBarPersonalizada.showMensagemLonga(v, "Não foi possível adiciona o prato. Por favor, selecione pelo menos 1 imagem para visualização dos usuários");
                 else
                     uploadImages();
@@ -249,7 +245,7 @@ public class AdicionarPratoActivity extends AppCompatActivity {
         nome = nomePrato.getEditText().getText().toString();
         descricao = descricaoPrato.getEditText().getText().toString();
         ingredientes = ingredientesPANC.getEditText().getText().toString();
-        Double preco = Double.parseDouble(precoPratoEditText.getText().toString());
+        Double preco = Double.parseDouble(precoPratoEditText.getEditText().getText().toString().replace(",", "."));
         Prato novoPrato = new Prato(nome, descricao, ingredientes, restauranteID, preco.toString() , imagens, Timestamp.now());
         restauranteDocRef
                 .update("pratos", FieldValue.arrayUnion(novoPrato))
@@ -286,7 +282,7 @@ public class AdicionarPratoActivity extends AppCompatActivity {
     private boolean verificarCamposUsuario() {
 
         if(nomePrato.getEditText().getText().toString().isEmpty() || descricaoPrato.getEditText().getText().toString().isEmpty()
-                || precoPratoEditText.getText().toString().isEmpty()) {
+                || precoPratoEditText.getEditText().getText().toString().isEmpty()) {
             new SnackBarPersonalizada().showMensagemLonga(v, "Preencha todos os campos corretamente!");
             return false;
         }

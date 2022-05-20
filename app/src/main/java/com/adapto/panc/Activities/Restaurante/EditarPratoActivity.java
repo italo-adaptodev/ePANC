@@ -16,7 +16,6 @@ import com.adapto.panc.Models.Database.Restaurante;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.ReferenciaDatabase;
 import com.adapto.panc.Activities.Utils.SnackBarPersonalizada;
-import com.cottacush.android.currencyedittext.CurrencyEditText;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.button.MaterialButton;
@@ -30,10 +29,10 @@ public class EditarPratoActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private Prato pratoEscolhido, pratoAlterado;
     private TextInputLayout editarPratoNome, editarPratoIngredientes, editarPratoDescricao;
-    private CurrencyEditText editarPratoPreco;
+    private TextInputLayout editarPratoPreco;
     private FirestoreReferences firestoreReferences = new FirestoreReferences();
     private FirebaseFirestore db = FirebaseFirestore.getInstance();
-    private MaterialButton btnConfirmarAlteraçõesPrato;
+    private MaterialButton btnConfirmarAlteracoesPrato;
     private ReferenciaDatabase referenciaDatabase;
     private String restauranteID;
     private Restaurante restaurante;
@@ -48,7 +47,7 @@ public class EditarPratoActivity extends AppCompatActivity {
         editarPratoDescricao = findViewById(R.id.editarPratodescricao);
         editarPratoNome = findViewById(R.id.editarPratoNome);
         editarPratoPreco = findViewById(R.id.editarPratoPreco);
-        btnConfirmarAlteraçõesPrato = findViewById(R.id.btnConfirmarAlteraçõesPrato);
+        btnConfirmarAlteracoesPrato = findViewById(R.id.btnConfirmarAlteraçõesPrato);
         referenciaDatabase = new ReferenciaDatabase();
         v = findViewById(android.R.id.content);
 
@@ -70,12 +69,9 @@ public class EditarPratoActivity extends AppCompatActivity {
         //endregion
 
         //region ClickListener
-        btnConfirmarAlteraçõesPrato.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getInfosAlteradas();
-                updateListaPratosFirestore();
-            }
+        btnConfirmarAlteracoesPrato.setOnClickListener(v -> {
+            getInfosAlteradas();
+            updateListaPratosFirestore();
         });
         //endregion
 
@@ -88,36 +84,32 @@ public class EditarPratoActivity extends AppCompatActivity {
         pratoAlterado.setNome(editarPratoNome.getEditText().getText().toString());
         pratoAlterado.setIngredientesPANC(editarPratoIngredientes.getEditText().getText().toString());
         pratoAlterado.setDescricao(editarPratoDescricao.getEditText().getText().toString());
-        Double precoDouble = editarPratoPreco.getNumericValue();
+        Double precoDouble = Double.parseDouble(editarPratoPreco.getEditText().getText().toString().replace(",","."));
         pratoAlterado.setPreco(precoDouble.toString());
         pratoAlterado.setImagensID(pratoEscolhido.getImagensID());
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem menuItem) {
-        switch (menuItem.getItemId()) {
-            case android.R.id.home:
-                Intent homeIntent = new Intent(this, Restaurante_DetalharRestauranteDONOActivity.class);
-                homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                startActivity(homeIntent);
+        if (menuItem.getItemId() == android.R.id.home) {
+            Intent homeIntent = new Intent(this, Restaurante_DetalharRestauranteDONOActivity.class);
+            homeIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            startActivity(homeIntent);
         }
         return (super.onOptionsItemSelected(menuItem));
     }
 
     private void getPratoEscolhido(String restauranteID, final int listaPratoID) {
         DocumentReference docRef = db.collection(firestoreReferences.getRestauranteCOLLECTION()).document(restauranteID);
-        docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
-            @Override
-            public void onSuccess(DocumentSnapshot documentSnapshot) {
-                restaurante = documentSnapshot.toObject(Restaurante.class);
-                pratoEscolhido = restaurante.getPratos().get(listaPratoID);
-                editarPratoNome.getEditText().setText(pratoEscolhido.getNome());
-                editarPratoIngredientes.getEditText().setText(pratoEscolhido.getIngredientesPANC());
-                editarPratoDescricao.getEditText().setText(pratoEscolhido.getDescricao());
-                Double precoDouble = Double.parseDouble(pratoEscolhido.getPreco());
-                editarPratoPreco.setText(precoDouble.toString());
+        docRef.get().addOnSuccessListener(documentSnapshot -> {
+            restaurante = documentSnapshot.toObject(Restaurante.class);
+            pratoEscolhido = restaurante.getPratos().get(listaPratoID);
+            editarPratoNome.getEditText().setText(pratoEscolhido.getNome());
+            editarPratoIngredientes.getEditText().setText(pratoEscolhido.getIngredientesPANC());
+            editarPratoDescricao.getEditText().setText(pratoEscolhido.getDescricao());
+            Double precoDouble = Double.parseDouble(pratoEscolhido.getPreco());
+            editarPratoPreco.getEditText().setText(precoDouble.toString());
 
-            }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
