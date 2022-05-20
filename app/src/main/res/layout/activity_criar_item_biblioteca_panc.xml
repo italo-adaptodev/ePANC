@@ -1,185 +1,196 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".Activities.BibliotecaPANC.CriarItemBibliotecaPANCActivity">
 
-    <include
-        android:id="@+id/toolbarCriarItemBiblioteca"
-        layout="@layout/toolbar"
-        app:titleTextAppearance="@style/ToolbarTextSize"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.53"
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent" />
 
-
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/itemBibliotecaPANCTitulo_criar_item"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="68dp"
-        android:layout_marginEnd="30dp"
-        android:ems="10"
-        android:inputType="textMultiLine|textCapSentences"
-        app:boxStrokeColor="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/toolbarCriarItemBiblioteca">
+        android:layout_height="wrap_content">
 
-        <com.google.android.material.textfield.TextInputEditText
+        <include
+            android:id="@+id/toolbarCriarItemBiblioteca"
+            layout="@layout/toolbar"
+            app:titleTextAppearance="@style/ToolbarTextSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.53"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
+
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/itemBibliotecaPANCTitulo_criar_item"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="68dp"
+            android:layout_marginEnd="30dp"
+            android:ems="10"
+            android:inputType="textMultiLine|textCapSentences"
+            app:boxStrokeColor="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarCriarItemBiblioteca">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_gravity="start"
+                android:gravity="start"
+                android:hint="Titulo do item">
+
+            </com.google.android.material.textfield.TextInputEditText>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/itemBibliotecaPANCDescri_criar_item"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="52dp"
+            android:layout_marginEnd="30dp"
+
+            android:ems="10"
             android:gravity="start"
-            android:hint="Titulo do item">
+            android:inputType="textMultiLine|textCapSentences"
+            app:boxStrokeColor="@color/colorAccent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/itemBibliotecaPANCTitulo_criar_item">
 
-        </com.google.android.material.textfield.TextInputEditText>
-    </com.google.android.material.textfield.TextInputLayout>
+            <com.google.android.material.textfield.TextInputEditText
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="start"
+                android:minHeight="150dp"
+                android:gravity="start"
+                android:hint="Descrição" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-    <com.google.android.material.textfield.TextInputLayout
-        android:id="@+id/itemBibliotecaPANCDescri_criar_item"
-        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
-        android:layout_marginTop="52dp"
-        android:layout_marginEnd="30dp"
-        android:ems="10"
-        android:gravity="start"
-        android:inputType="textMultiLine|textCapSentences"
-        app:boxStrokeColor="@color/colorAccent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemBibliotecaPANCTitulo_criar_item">
+        <TableLayout
+            android:id="@+id/tableLayout"
+            android:layout_width="380dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:layout_marginStart="17dp"
+            android:layout_marginEnd="17dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.333"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/btnChoose"
+            app:layout_constraintVertical_bias="1.0">
 
-        <com.google.android.material.textfield.TextInputEditText
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="start"
-            android:gravity="start"
-            android:hint="Descrição" />
-    </com.google.android.material.textfield.TextInputLayout>
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
 
-    <TableLayout
-        android:id="@+id/tableLayout"
-        android:layout_width="380dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="17dp"
-        android:layout_marginEnd="17dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.666"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/btnChoose"
-        app:layout_constraintVertical_bias="0.13">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/itemBibliotecaImg1"
+                    android:layout_width="120dp"
+                    android:layout_marginEnd="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="120dp">
 
-        <TableRow
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+                </androidx.appcompat.widget.AppCompatImageView>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/itemBibliotecaImg1"
-                android:layout_width="120dp"
-                android:layout_marginEnd="5dp"
-                android:adjustViewBounds="true"
-                android:maxHeight="120dp">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/itemBibliotecaImg2"
+                    android:layout_width="120dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="120dp">
 
-            </androidx.appcompat.widget.AppCompatImageView>
+                </androidx.appcompat.widget.AppCompatImageView>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/itemBibliotecaImg2"
-                android:layout_width="120dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:adjustViewBounds="true"
-                android:maxHeight="120dp">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/itemBibliotecaImg3"
+                    android:layout_width="120dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="120dp">
 
-            </androidx.appcompat.widget.AppCompatImageView>
+                </androidx.appcompat.widget.AppCompatImageView>
+            </TableRow>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/itemBibliotecaImg3"
-                android:layout_width="120dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:adjustViewBounds="true"
-                android:maxHeight="120dp">
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="155dp"
+                android:layout_marginTop="5dp">
 
-            </androidx.appcompat.widget.AppCompatImageView>
-        </TableRow>
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/itemBibliotecaImg4"
+                    android:layout_width="120dp"
+                    android:layout_marginEnd="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="120dp">
 
-        <TableRow
-            android:layout_marginTop="5dp"
-            android:layout_width="match_parent"
-            android:layout_height="155dp">
+                </androidx.appcompat.widget.AppCompatImageView>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/itemBibliotecaImg4"
-                android:layout_width="120dp"
-                android:layout_marginEnd="5dp"
-                android:adjustViewBounds="true"
-                android:maxHeight="120dp">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/itemBibliotecaImg5"
+                    android:layout_width="120dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="120dp">
 
-            </androidx.appcompat.widget.AppCompatImageView>
+                </androidx.appcompat.widget.AppCompatImageView>
 
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/itemBibliotecaImg5"
-                android:layout_width="120dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:adjustViewBounds="true"
-                android:maxHeight="120dp">
+                <androidx.appcompat.widget.AppCompatImageView
+                    android:id="@+id/itemBibliotecaImg6"
+                    android:layout_width="120dp"
+                    android:layout_marginStart="5dp"
+                    android:layout_marginEnd="5dp"
+                    android:adjustViewBounds="true"
+                    android:maxHeight="120dp" />
 
-            </androidx.appcompat.widget.AppCompatImageView>
-
-            <androidx.appcompat.widget.AppCompatImageView
-                android:id="@+id/itemBibliotecaImg6"
-                android:layout_width="120dp"
-                android:layout_marginStart="5dp"
-                android:layout_marginEnd="5dp"
-                android:adjustViewBounds="true"
-                android:maxHeight="120dp" />
-
-        </TableRow>
+            </TableRow>
 
 
-    </TableLayout>
+        </TableLayout>
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnChoose"
-        android:layout_width="222dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:layout_weight="1"
-        android:text="Adicionar imagens"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.497"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/itemBibliotecaPANCDescri_criar_item"
-        app:layout_constraintVertical_bias="0.111" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnChoose"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="30dp"
+            android:layout_marginTop="16dp"
+            android:layout_weight="1"
+            android:text="Adicionar imagens"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/itemBibliotecaPANCDescri_criar_item"
+            app:layout_constraintVertical_bias="0.285" />
 
-    <com.google.android.material.button.MaterialButton
-        android:id="@+id/btnUpload"
-        android:layout_width="124dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:text="Enviar postagem"
-        android:textSize="12sp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.498"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tableLayout"
-        app:layout_constraintVertical_bias="0.128" />
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/btnUpload"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginEnd="30dp"
+            android:layout_marginStart="10dp"
+            android:text="Enviar postagem"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="@+id/btnChoose"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.387"
+            app:layout_constraintStart_toEndOf="@+id/btnChoose"
+            app:layout_constraintTop_toBottomOf="@+id/itemBibliotecaPANCDescri_criar_item"
+            app:layout_constraintVertical_bias="1.0" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+
+</ScrollView>

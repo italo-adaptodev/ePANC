@@ -41,7 +41,7 @@
             android:layout_marginTop="40dp"
             android:text="Titulo do item"
             android:textColor="@color/colorAccent"
-            android:textSize="20sp"
+            android:textSize="30sp"
             android:textStyle="bold"
             app:layout_constraintBottom_toTopOf="@+id/descricaoItemBiblioteca"
             app:layout_constraintEnd_toEndOf="parent"
@@ -55,29 +55,68 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginLeft="20dp"
-            android:layout_marginTop="108dp"
+            android:layout_marginTop="80dp"
             android:layout_marginRight="20dp"
-            android:layout_marginBottom="198dp"
+            android:autoLink="web"
             android:inputType="textMultiLine"
+            android:linksClickable="true"
             android:text="Descricao do item"
             android:textColor="@color/colorAccent"
+            android:textColorLink="#0645AD"
             android:textSize="20sp"
             android:textStyle="bold"
-            app:layout_constraintBottom_toTopOf="@+id/imagemItemBiblioteca"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.6"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tituloItemBiblioteca" />
+
+
+        <TextView
+            android:id="@+id/autorItemBiblioteca"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Autor"
+            android:textColor="@color/colorAccent"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/descricaoItemBiblioteca"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.301"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tituloItemBiblioteca"
+            app:layout_constraintVertical_bias="0.0">
+
+        </TextView>
+
+        <TextView
+            android:id="@+id/dataPostagemItemBiblioteca"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text="Data"
+            android:textColor="@color/colorAccent"
+            android:textSize="16dp"
+            android:textStyle="bold"
+            app:layout_constraintBottom_toTopOf="@+id/descricaoItemBiblioteca"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.515"
+            app:layout_constraintStart_toEndOf="@id/autorItemBiblioteca"
+            app:layout_constraintTop_toBottomOf="@+id/tituloItemBiblioteca"
+            app:layout_constraintVertical_bias="0.0" />
 
         <androidx.appcompat.widget.LinearLayoutCompat
             android:id="@+id/imagemItemBiblioteca"
             android:layout_width="match_parent"
             android:layout_height="250dp"
             android:layout_marginBottom="50dp"
+            android:layout_marginTop="50dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/descricaoItemBiblioteca"
+            app:layout_constraintVertical_bias="0.0" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 
 

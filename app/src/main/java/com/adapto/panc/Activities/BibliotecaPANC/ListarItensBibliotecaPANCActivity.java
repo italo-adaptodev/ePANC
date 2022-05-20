@@ -205,7 +205,7 @@ public class ListarItensBibliotecaPANCActivity extends AppCompatActivity {
                         holder.setConfigsView(isUsuarioAdminstrador, true, getBaseContext());
                     else
                         holder.setConfigsView(isUsuarioAdminstrador, false, getBaseContext());
-                    String imgID = model.getImagensID().get(0);
+                    String imgID = (model.getImagensID() == null || model.getImagensID().isEmpty()) ? null : model.getImagensID().get(0) ;
                     if(imgID != null)
                         Glide.with(getBaseContext())
                                 .load(imgID)

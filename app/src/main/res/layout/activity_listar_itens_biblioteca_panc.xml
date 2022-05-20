@@ -50,13 +50,13 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/listarItensBibliotecaPANCRecView"
         android:layout_width="match_parent"
-        android:visibility="invisible"
+        android:visibility="visible"
         android:layout_height="0dp"
         app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar_listar_itens_biblioteca_PANC"
-        tools:listitem="@layout/cardview_forum_receita"
+        tools:listitem="@layout/cardview_item_biblioteca_panc"
         android:clickable="true"
         android:focusable="true">
 

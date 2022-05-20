@@ -36,16 +36,22 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.TimeZone;
 
 public class DetalharItemBibliotecaPANCActivity extends AppCompatActivity implements BaseSliderView.OnSliderClickListener, ViewPagerEx.OnPageChangeListener{
 
-    private TextView tituloItemBiblioteca, descricaoItemBiblioteca;
+    private TextView tituloItemBiblioteca, descricaoItemBiblioteca, autorItemBiblioteca, dataItemBiblioteca;
     private ImageView imagemItemBiblioteca;
     private FirebaseFirestore db;
     private FirestoreReferences collections;
@@ -61,9 +67,10 @@ public class DetalharItemBibliotecaPANCActivity extends AppCompatActivity implem
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_detalhar_item_biblioteca_panc);
-
         tituloItemBiblioteca = findViewById(R.id.tituloItemBiblioteca);
         descricaoItemBiblioteca = findViewById(R.id.descricaoItemBiblioteca);
+        autorItemBiblioteca = findViewById(R.id.autorItemBiblioteca);
+        dataItemBiblioteca = findViewById(R.id.dataPostagemItemBiblioteca);
         linearLayoutImagem = findViewById(R.id.imagemItemBiblioteca);
         toolbar = findViewById(R.id.toolbarDetalharItemBiblioteca);
         v = findViewById(android.R.id.content);
@@ -94,6 +101,12 @@ public class DetalharItemBibliotecaPANCActivity extends AppCompatActivity implem
                 uris = (List<String>) documentSnapshot.get("imagensID");
                 tituloItemBiblioteca.setText(documentSnapshot.getString("itemBibliotecaTitulo"));
                 descricaoItemBiblioteca.setText(documentSnapshot.getString("itemBibliotecaDesc"));
+                getNomeAutorPostagem(documentSnapshot.getString("usuarioID"));
+                Timestamp timestamp = (Timestamp) documentSnapshot.get("timestamp");
+                Date data = timestamp.toDate();
+                SimpleDateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT_1);
+                dateFormat.setTimeZone(TimeZone.getTimeZone("BRT"));
+                dataItemBiblioteca.setText(dateFormat.format(data));
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override
@@ -104,13 +117,27 @@ public class DetalharItemBibliotecaPANCActivity extends AppCompatActivity implem
             @Override
             public void onComplete(@NonNull Task<DocumentSnapshot> task) {
                 if(task.isComplete())
-                    if(uris.size() > 1)
-                        setImagesCarousel(uris);
-                    else
-                        setImage(uris.get(0));
+                    if(uris.size() > 0) {
+                        if (uris.size() > 1)
+                            setImagesCarousel(uris);
+                        else
+                            setImage(uris.get(0));
+                    }
             }
         });
         return reference;
+    }
+
+    private void getNomeAutorPostagem(String usuarioID) {
+        db.collection(collections.getUsuariosCOLLECTION()).whereEqualTo("identificador", usuarioID).get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (QueryDocumentSnapshot snap : queryDocumentSnapshots) {
+                            autorItemBiblioteca.setText(snap.getString("nome"));
+                        }
+                    }
+                });
     }
 
     @SuppressLint("CheckResult")

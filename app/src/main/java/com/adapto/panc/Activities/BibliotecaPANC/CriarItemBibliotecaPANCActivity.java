@@ -61,8 +61,8 @@ public class CriarItemBibliotecaPANCActivity extends AppCompatActivity {
         btnSelect = findViewById(R.id.btnChoose);
         btnUpload = findViewById(R.id.btnUpload);
         addImageviews();
-        itemBibliotecaDesc =  findViewById(R.id.itemBibliotecaPANCTitulo_criar_item);
-        itemBibliotecaTitulo = findViewById(R.id.itemBibliotecaPANCDescri_criar_item);
+        itemBibliotecaDesc =  findViewById(R.id.itemBibliotecaPANCDescri_criar_item);
+        itemBibliotecaTitulo = findViewById(R.id.itemBibliotecaPANCTitulo_criar_item);
         v = findViewById(android.R.id.content);
         referenciaDatabase = new ReferenciaDatabase();
         storageReference = referenciaDatabase.getFirebaseStorage();
@@ -84,8 +84,11 @@ public class CriarItemBibliotecaPANCActivity extends AppCompatActivity {
             @Override
             public void onClick(View v)
             {
+                if ((itemBibliotecaTitulo.getEditText().getText().toString().isEmpty() || itemBibliotecaDesc.getEditText().getText().toString().isEmpty())) {
+                    new SnackBarPersonalizada().showMensagemLonga(v, "Preencha todos os campos obrigatórios!");
+                    return;
+                }
                 uploadImages();
-
             }
         });
     }
@@ -200,8 +203,7 @@ public class CriarItemBibliotecaPANCActivity extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Uri uri) {
                                     imagens.add(uri.toString());
-                                    if(imagens.size() == filepaths.size())
-                                        uploadPostagem(imagens);
+
                                 }
                             });
 
@@ -231,7 +233,7 @@ public class CriarItemBibliotecaPANCActivity extends AppCompatActivity {
                             });
 
         }
-
+        uploadPostagem(imagens);
     }
 
     private void uploadPostagem(final List<String> imagens) {

@@ -39,7 +39,8 @@
         <ImageView
             android:id="@+id/itemBibliotecaPANCImagem"
             android:layout_width="match_parent"
-            android:layout_height="200dp"
+            android:layout_height="wrap_content"
+            android:maxHeight="200dp"
             android:adjustViewBounds="true"
             android:scaleType="centerCrop"
             app:srcCompat="@drawable/pancdefault"
@@ -53,6 +54,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="12dp"
             android:ellipsize="end"
+            android:textStyle="bold"
+            android:textSize="18dp"
             android:maxLines="3"
             android:text="Descrição da postagem" />
 

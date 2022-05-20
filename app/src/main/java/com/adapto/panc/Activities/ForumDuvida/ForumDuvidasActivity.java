@@ -298,7 +298,7 @@ public class ForumDuvidasActivity extends AppCompatActivity {
                         Glide.with(getBaseContext())
                                 .load(imgID)
                                 .into(holder.postagemForumImagem);
-                    holder.postagemForumDesc.setText(model.getPostagemForumTexto());
+                    holder.postagemForumTitulo.setText(model.getPostagemForumTitulo());
                     holder.itemView.setOnClickListener(new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
