@@ -30,8 +30,8 @@ public class PostagemForumHolder extends RecyclerView.ViewHolder{
 
     }
 
-    public void setConfigsView(boolean adm, Context baseContext){
-        if(adm){
+    public void setConfigsView(boolean adm, boolean autor, Context baseContext){
+        if(adm || autor){
             linearLayoutBtn.setVisibility(View.VISIBLE);
             RelativeLayout.LayoutParams layoutParams = new RelativeLayout.LayoutParams(LinearLayout.LayoutParams. MATCH_PARENT ,
             LinearLayout.LayoutParams. MATCH_PARENT );

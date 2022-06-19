@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 
-import com.adapto.panc.Activities.ForumDuvida.ForumDuvidasActivity;
+import com.adapto.panc.Activities.TelaInicial.TelaInicial;
 import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Activities.Utils.SnackBarPersonalizada;
 import com.adapto.panc.Adapters.ItemBibliotecaPANCAdapter;
@@ -44,6 +44,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class ListarItensBibliotecaPANCActivity extends AppCompatActivity {
 
@@ -58,12 +59,13 @@ public class ListarItensBibliotecaPANCActivity extends AppCompatActivity {
     private FirestoreReferences collections;
     private Handler handler = new Handler();
     private ProgressBar spinner;
-    private boolean isUsuarioAutorReceita = false;
     private MaterialTextView textViewRecycler;
     private List<ItemBiblioteca> itemBibliotecaList;
     private Toolbar toolbar;
     private ItemBibliotecaPANCAdapter itensFiltradosAdapter;
     private String identifier;
+    private boolean permissaoPostagemCientifica = false;
+
 
 
     @Override
@@ -72,8 +74,7 @@ public class ListarItensBibliotecaPANCActivity extends AppCompatActivity {
         setContentView(R.layout.activity_listar_itens_biblioteca_panc);
         db = FirebaseFirestore.getInstance();
         collections = new FirestoreReferences();
-        getPermissaoAutorReceita();
-        getCargosUsuarioSolicitante();
+        getPermissaoCientifica();
         recyclerView = findViewById(R.id.listarItensBibliotecaPANCRecView);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         textViewRecycler = findViewById(R.id.emptyRecyclerViewTXT);
@@ -81,6 +82,7 @@ public class ListarItensBibliotecaPANCActivity extends AppCompatActivity {
         spinner = findViewById(R.id.progressBar1);
         spinner.setVisibility(View.VISIBLE);
         identifier = new LoginSharedPreferences(this).getIdentifier();
+        getCargosUsuarioSolicitante();
 
 
         //region RECYCLER VIEW POSTAGENS
@@ -114,7 +116,10 @@ public class ListarItensBibliotecaPANCActivity extends AppCompatActivity {
         criarPostagemFAB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(criarPostagemIntent);
+                if(!permissaoPostagemCientifica)
+                    new SnackBarPersonalizada().showMensagemLonga(v, "Você não possui permissão para cadastrar um item na biblioteca!");
+                else
+                    startActivity(criarPostagemIntent);
             }
         });
 
@@ -180,21 +185,7 @@ public class ListarItensBibliotecaPANCActivity extends AppCompatActivity {
         });
     }
 
-    private void getPermissaoAutorReceita() {
-        db.collection(collections.getBibliotecaCOLLECTION())
-                .whereEqualTo("autor_usuarioID", identifier)
-                .get()
-                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                    @Override
-                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        if(queryDocumentSnapshots.size() > 0) {
-                            isUsuarioAutorReceita = true;
 
-                        }
-                        handler.postDelayed(task, 1000);
-                    }
-                });
-    }
 
     private Runnable task = new Runnable() {
         public void run() {
@@ -245,7 +236,7 @@ public class ListarItensBibliotecaPANCActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, ForumDuvidasActivity.class));
+        startActivity(new Intent(this, TelaInicial.class));
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -259,7 +250,8 @@ public class ListarItensBibliotecaPANCActivity extends AppCompatActivity {
                 searchView.clearFocus();
                 List<ItemBiblioteca> escolhidas = new ArrayList<>();
                 for (ItemBiblioteca itemBiblioteca : itemBibliotecaList) {
-                    if (itemBiblioteca.getItemBibliotecaDesc().contains(query))
+                    if (itemBiblioteca.getItemBibliotecaDesc().toLowerCase().contains(query.toLowerCase())
+                            || itemBiblioteca.getItemBibliotecaTitulo().toLowerCase().contains(query.toLowerCase()))
                         if (!escolhidas.contains(itemBiblioteca))
                             escolhidas.add(itemBiblioteca);
                 }
@@ -287,6 +279,23 @@ public class ListarItensBibliotecaPANCActivity extends AppCompatActivity {
         });
 
         return super.onCreateOptionsMenu(menu);
+    }
+
+    private void getPermissaoCientifica() {
+        db.collection(collections.getEquipeCOLLECTION())
+                .whereEqualTo("usuarioID",   new LoginSharedPreferences(this).getIdentifier())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if(queryDocumentSnapshots.size() > 0) {
+                            String cargos = queryDocumentSnapshots.getDocuments().get(0).get("cargosAdministrativos").toString();
+                            if(cargos.contains("PESQUISADOR"))
+                                permissaoPostagemCientifica = true;
+
+                        }
+                    }
+                });
     }
 
 }

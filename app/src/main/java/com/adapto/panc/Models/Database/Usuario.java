@@ -10,7 +10,7 @@ import java.util.List;
 public class Usuario {
 
     private String identificador, nome, senha, id;
-
+    private boolean docLido;
     public Usuario(String identificador, String senha, String nome) {
         this.identificador = identificador;
         this.senha = senha;
@@ -49,5 +49,13 @@ public class Usuario {
 
     public void setId(String id) {
         this.id = id;
+    }
+
+    public boolean isDocLido() {
+        return docLido;
+    }
+
+    public void setDocLido(boolean docLido) {
+        this.docLido = docLido;
     }
 }
