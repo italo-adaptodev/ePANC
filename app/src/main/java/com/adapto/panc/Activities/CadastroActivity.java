@@ -1,32 +1,25 @@
 package com.adapto.panc.Activities;
 
+import android.app.Dialog;
+import android.content.Intent;
+import android.os.Bundle;
+import android.view.View;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.Dialog;
-import android.content.Intent;
-import android.os.Bundle;
-import android.os.Handler;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.RadioButton;
-import android.widget.RadioGroup;
-
-import com.adapto.panc.Activities.ForumReceita.DetalharReceitaActivity;
+import com.adapto.panc.Activities.TelaInicial.TelaInicial;
 import com.adapto.panc.Activities.Utils.FirestoreReferences;
-import com.adapto.panc.Models.Database.Produtor;
-import com.adapto.panc.Models.Database.Receita;
-import com.adapto.panc.Models.Database.Restaurante;
-import com.adapto.panc.Models.Database.Usuario;
-import com.adapto.panc.Models.ViewHolder.ReceitaViewHolder;
-import com.adapto.panc.R;
-import com.adapto.panc.Repository.LoginSharedPreferences;
 import com.adapto.panc.Activities.Utils.SnackBarPersonalizada;
 import com.adapto.panc.Activities.Utils.WebViewConfig;
-import com.bumptech.glide.Glide;
-import com.firebase.ui.firestore.FirestoreRecyclerAdapter;
+import com.adapto.panc.Models.Database.Produtor;
+import com.adapto.panc.Models.Database.Restaurante;
+import com.adapto.panc.Models.Database.Usuario;
+import com.adapto.panc.R;
+import com.adapto.panc.Repository.LoginSharedPreferences;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
@@ -40,9 +33,6 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.Objects;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 public class CadastroActivity extends AppCompatActivity {
 
@@ -67,7 +57,7 @@ public class CadastroActivity extends AppCompatActivity {
     private View cadastro_cargos = null, infoProdutor = null, infoRestaurante = null, infoConsumidor = null, infoCultivare = null;
     private AlertDialog alertDialog = null;
     private boolean ok;
-
+    private Intent telaInicialIntent;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +65,10 @@ public class CadastroActivity extends AppCompatActivity {
         cadastro_cargos = getLayoutInflater().inflate(R.layout.activity_cadastro_cargos, null);
         infoProdutor = getLayoutInflater().inflate(R.layout.activity_cadastro_produtor_infos, null);
         infoRestaurante = getLayoutInflater().inflate(R.layout.activity_cadastro_restaurante_infos, null);
+        db = FirebaseFirestore.getInstance();
+        db.clearPersistence();
+        telaInicialIntent = new Intent(this, TelaInicial.class);
+
 
         //region Primeira view
         nomeCadastroUsuario = findViewById(R.id.nomeCadastro);
@@ -91,8 +85,6 @@ public class CadastroActivity extends AppCompatActivity {
         //endregion
 
         snackbar = new SnackBarPersonalizada();
-        loginCadastroUsuario.setHelperTextEnabled(true);
-        loginCadastroUsuario.setHelperText("Telefone com DDD ou email");
         v = findViewById(android.R.id.content);
         radioProdutor = cadastro_cargos.findViewById(R.id.radioProdutor);
         radioConsumidor = cadastro_cargos.findViewById(R.id.radioConsumidor);
@@ -118,9 +110,9 @@ public class CadastroActivity extends AppCompatActivity {
                 int selectedId = radioGroup.getCheckedRadioButtonId();
 
                 if (selectedId == radioConsumidor.getId()) {
-                    createFirestoreCommonUser(getCamposUsuario(), CONSUMIDOR_FLAG);
+                    createFirestoreConsumidorUser(getCamposUsuario());
                 } else if (selectedId == radioCultivare.getId()) {
-                    createFirestoreCommonUser(getCamposUsuario(), CULTIVARE_FLAG);
+                    createFirestoreCultivareUser(getCamposUsuario());
                 } else if (selectedId == radioProdutor.getId()) {
                     setContentView(infoProdutor);
                 } else if (selectedId == radioRestaurante.getId()) {
@@ -133,21 +125,19 @@ public class CadastroActivity extends AppCompatActivity {
         cadastroProdutorInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createFirestoreCommonUser(getCamposUsuario(), PRODUTOR_FLAG);
+                createFirestoreProdutorUser(getCamposUsuario());
             }
         });
 
         cadastroRestauranteInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                createFirestoreCommonUser(getCamposUsuario(), RESTAURANTE_FLAG);
+                createFirestoreRestauranteUser(getCamposUsuario());
             }
         });
 
 
         //endregion
-
-        db = FirebaseFirestore.getInstance();
 
 
 
@@ -185,40 +175,94 @@ public class CadastroActivity extends AppCompatActivity {
             });
     }
 
-    private void createFirestoreCommonUser(Usuario novoUsuario, String userSpecificClass){
+    private void createFirestoreConsumidorUser(Usuario novoUsuario){
         db.collection(fsRefs.getUsuariosCOLLECTION()).add(novoUsuario)
-                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                .addOnSuccessListener(documentReference -> documentReference
+                        .update("id", documentReference.getId())
+                        .addOnSuccessListener(aVoid -> {
+                            loginSessionManager.createLoginSession(novoUsuario.getIdentificador());
+                            usuarioID = novoUsuario.getIdentificador();
+                            startIntentQuestionario(URL_CONSUMIDOR);
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                snackbar.showMensagemLonga(v, e.getMessage());
+
+                            }
+                        }))
+                .addOnFailureListener(new OnFailureListener() {
                     @Override
-                    public void onSuccess(final DocumentReference documentReference) {
-                        documentReference
-                                .update("id", documentReference.getId())
-                                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                    @Override
-                                    public void onSuccess(Void aVoid) {
-                                        loginSessionManager.createLoginSession(novoUsuario.getIdentificador());
-                                        usuarioID = novoUsuario.getIdentificador();
-
-                                        switch (userSpecificClass) {
-                                            case CONSUMIDOR_FLAG:
-                                                startIntentQuestionario(URL_CONSUMIDOR);
-                                            case PRODUTOR_FLAG:
-                                                createFirestoreProdutor(getCamposInfoProdutor());
-                                            case RESTAURANTE_FLAG:
-                                                createFirestoreRestaurante(getCamposInfoRestaurante());
-                                            case CULTIVARE_FLAG:
-                                                createFirestoreCultivare();
-                                        }
-                                    }
-                                })
-                                .addOnFailureListener(new OnFailureListener() {
-                                    @Override
-                                    public void onFailure(@NonNull Exception e) {
-                                        snackbar.showMensagemLonga(v, e.getMessage());
-
-                                    }
-                                });
+                    public void onFailure(@NonNull Exception e) {
+                        snackbar.showMensagemLonga(v, e.getMessage());
                     }
-                })
+                });
+    }
+
+    private void createFirestoreProdutorUser(Usuario novoUsuario){
+        db.collection(fsRefs.getUsuariosCOLLECTION()).add(novoUsuario)
+                .addOnSuccessListener(documentReference -> documentReference
+                        .update("id", documentReference.getId())
+                        .addOnSuccessListener(aVoid -> {
+                            loginSessionManager.createLoginSession(novoUsuario.getIdentificador());
+                            usuarioID = novoUsuario.getIdentificador();
+                            createFirestoreProdutor(getCamposInfoProdutor());
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                snackbar.showMensagemLonga(v, e.getMessage());
+
+                            }
+                        }))
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        snackbar.showMensagemLonga(v, e.getMessage());
+                    }
+                });
+    }
+
+    private void createFirestoreRestauranteUser(Usuario novoUsuario){
+        db.collection(fsRefs.getUsuariosCOLLECTION()).add(novoUsuario)
+                .addOnSuccessListener(documentReference -> documentReference
+                        .update("id", documentReference.getId())
+                        .addOnSuccessListener(aVoid -> {
+                            loginSessionManager.createLoginSession(novoUsuario.getIdentificador());
+                            usuarioID = novoUsuario.getIdentificador();
+                            createFirestoreRestaurante(getCamposInfoRestaurante());
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                snackbar.showMensagemLonga(v, e.getMessage());
+
+                            }
+                        }))
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        snackbar.showMensagemLonga(v, e.getMessage());
+                    }
+                });
+    }
+
+    private void createFirestoreCultivareUser(Usuario novoUsuario){
+        db.collection(fsRefs.getUsuariosCOLLECTION()).add(novoUsuario)
+                .addOnSuccessListener(documentReference -> documentReference
+                        .update("id", documentReference.getId())
+                        .addOnSuccessListener(aVoid -> {
+                            loginSessionManager.createLoginSession(novoUsuario.getIdentificador());
+                            usuarioID = novoUsuario.getIdentificador();
+                            createFirestoreCultivare();
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                snackbar.showMensagemLonga(v, e.getMessage());
+
+                            }
+                        }))
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
@@ -231,7 +275,6 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     private void createFirestoreProdutor(final Produtor novoProdutor) {
-        Task<DocumentSnapshot> query = db.collection(fsRefs.getUsuariosCOLLECTION()).document(usuarioID).get();
         db.collection(fsRefs.getProdutorCOLLECTION())
                 .add(novoProdutor)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -255,7 +298,6 @@ public class CadastroActivity extends AppCompatActivity {
     }
 
     private void createFirestoreRestaurante(final Restaurante novoRestaurante) {
-        Task<DocumentSnapshot> query = db.collection(fsRefs.getUsuariosCOLLECTION()).document(usuarioID).get();
             db.collection(fsRefs.getRestauranteCOLLECTION())
                     .add(novoRestaurante)
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -265,7 +307,7 @@ public class CadastroActivity extends AppCompatActivity {
                                     .update("id", documentReference.getId()).addOnSuccessListener(new OnSuccessListener<Void>() {
                                 @Override
                                 public void onSuccess(Void aVoid) {
-                                    startIntentQuestionario(URL_CONSUMIDOR);
+                                    startActivity(telaInicialIntent);
                                 }
                             });
                         }
@@ -277,49 +319,6 @@ public class CadastroActivity extends AppCompatActivity {
                         }
                     });
     }
-
-    /*private void createFirestoreConsumidor(final Usuario novoUsuario) {
-        Task<QuerySnapshot> query = db.collection(fsRefs.getUsuariosCOLLECTION()).get();
-        if(query.isSuccessful()) {
-                query.addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                @Override
-                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                    for (final QueryDocumentSnapshot snap : queryDocumentSnapshots) {
-                        if (snap.getString("identificador").equals(novoUsuario.getIdentificador()))
-                            snackbar.showMensagemLonga(v, "Identificador em uso ou inválido");
-                        else
-                            db.collection(fsRefs.getUsuariosCOLLECTION())
-                                    .add(novoUsuario)
-                                    .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
-                                        @Override
-                                        public void onSuccess(final DocumentReference documentReference) {
-                                            documentReference
-                                                    .update("id", documentReference.getId())
-                                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                                        @Override
-                                                        public void onSuccess(Void aVoid) {
-                                                            loginSessionManager.createLoginSession(novoUsuario.getIdentificador());
-                                                            usuarioID = documentReference.getId();
-                                                        }
-                                                    })
-                                                    .addOnFailureListener(new OnFailureListener() {
-                                                        @Override
-                                                        public void onFailure(@NonNull Exception e) {
-                                                        }
-                                                    });
-                                        }
-                                    })
-                                    .addOnFailureListener(new OnFailureListener() {
-                                        @Override
-                                        public void onFailure(@NonNull Exception e) {
-                                            snackbar.showMensagemLonga(v, e.getMessage());
-                                        }
-                                    });
-                    }
-                }
-            });
-        }
-    }*/
 
     private void startIntentQuestionario(final String URL) {
         showAlerta();
@@ -337,10 +336,10 @@ public class CadastroActivity extends AppCompatActivity {
 
     private void showAlerta() {
         alertDialog = new MaterialAlertDialogBuilder(this)
-                .setTitle("SEJA BEM VINDO!")
+                .setTitle("SEJA BEM VINDO(A)!")
                 .setMessage("Você agora será redirecionado para preencher um formulário direcionado " +
-                        "ao projeto de mestrado. Por favor, preencha todos os campos e confirme o envio." +
-                        "Caso não queira preencher o envio, basta clicar no botão 'Voltar' no topo da página")
+                        "a esse projeto. Por favor, preencha todos os campos e confirme o envio\n\n." +
+                        "Caso não queira preencher o formulário, basta clicar no botão 'X' no topo da página")
                 .setCancelable(false)
                 .setPositiveButton("Ok", null)
                 .show();
@@ -358,7 +357,7 @@ public class CadastroActivity extends AppCompatActivity {
         localInfoProdutor = infoProdutor.findViewById(R.id.localInfoProdutor);
         emailInfoProdutor = infoProdutor.findViewById(R.id.emailInfoProdutor);
 
-        return new Produtor(Objects.requireNonNull(telInfoProdutor.getEditText()).getText().toString(),
+        return new Produtor("55" + telInfoProdutor.getEditText().getText().toString(),
                 Objects.requireNonNull(localInfoProdutor.getEditText()).getText().toString(),
                 Objects.requireNonNull(emailInfoProdutor.getEditText()).getText().toString(), Objects.requireNonNull(loginCadastroUsuario.getEditText()).getText().toString());
     }
