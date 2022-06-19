@@ -5,6 +5,7 @@ import android.animation.LayoutTransition;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -49,6 +50,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -71,7 +74,7 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity implemen
     private final boolean INITIAL_IS_COLLAPSED = true;
     private boolean isCollapsed = INITIAL_IS_COLLAPSED;
     private ScrollView scrollViewProduto;
-    private Intent whatsappIntent = new Intent(Intent.ACTION_SEND);
+    private Intent whatsappIntent = new Intent(Intent.ACTION_VIEW);
     private ImageButton whatsappBtn;
     private LinearLayoutCompat linearLayoutImagem;
     private Toolbar toolbar;
@@ -101,49 +104,14 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity implemen
         ScrollView sv = findViewById(R.id.scrollViewProduto);
         sv.scrollTo(0, 0);
         postagem = recuperarPostagem(postagemKey);
-//        btnExpand = findViewById(R.id.btnExpand);
         whatsappBtn = findViewById(R.id.whatsappbtn);
-
-       /* btnExpand.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(isCollapsed){
-                    if(canBeCollapsed())
-                        btnExpand.setClickable(false);
-                    else
-                        btnExpand.setClickable(true);
-
-                    descricaoProdutoDetalhar.setMaxLines(Integer.MAX_VALUE);
-                    observacaoProdutoDetalhar.setMaxLines(Integer.MAX_VALUE);
-                    setTextWithSmoothAnimation(btnExpand, "Encolher", R.drawable.ic_uparrow);
-                }else{
-                    descricaoProdutoDetalhar.setMaxLines(MAX_LINES_COLLAPSED);
-                    observacaoProdutoDetalhar.setMaxLines(0);
-                    setTextWithSmoothAnimation(btnExpand, "Expandir", R.drawable.ic_down_arrow);
-                }
-                isCollapsed = !isCollapsed;
-            }
-        });*/
 
         applyLayoutTransition();
 
-        whatsappBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                whatsappIntent.putExtra(Intent.EXTRA_TEXT, "Ola! Me interessei pelo produto " +nomeProdutoDetalhar.getText() + " que vi no aplicativo PANCApp." +
-                        "Como podemos acertar uma compra? Aguardo resposta.");
 
-                if (whatsappIntent.resolveActivity(getPackageManager()) == null) {
-                    Toast.makeText(Produtor_DetalharProdutoActivity.this, "Whatsapp not installed.", Toast.LENGTH_SHORT).show();
-                    return;
-                }
-                startActivity(whatsappIntent);
-
-            }
-        });
 
         //region Toolbar
-        toolbar.setTitle("Detalhar Produto");
+        toolbar.setTitle("Sobre o Produto");
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
         setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -216,13 +184,30 @@ public class Produtor_DetalharProdutoActivity extends AppCompatActivity implemen
                 });
     }
 
-    private void createIntentMensagem(String numContato) {
+    private void createIntentMensagem(String numContato){
+        String message = "Ola! Me interessei pelo produto " +nomeProdutoDetalhar.getText() + " que vi no aplicativo e-Panc." +
+                "Como podemos acertar uma compra? Aguardo resposta.";
+        String phone = numContato; //Number without with country code and without '+' prifix
+        phone = phone.replace("-", "").replace(" ", "");
+        String url = null;
+        try {
+            url = "https://wa.me/"+ phone +"?text=" + URLEncoder.encode(message, "UTF-8");
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        whatsappIntent.setData(Uri.parse(url));
+        String finalUrl = url;
+        whatsappBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (whatsappIntent.resolveActivity(getPackageManager()) != null) {
+                    startActivity(whatsappIntent);
 
-        whatsappIntent.setType("text/plain");
-        whatsappIntent.setPackage("com.whatsapp");
-        String smsNumber = numContato; //Number without with country code and without '+' prifix
-        whatsappIntent.putExtra("jid", smsNumber + "@s.whatsapp.net");
-
+                }else{
+                    Toast.makeText(Produtor_DetalharProdutoActivity.this, finalUrl, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
     }
 
