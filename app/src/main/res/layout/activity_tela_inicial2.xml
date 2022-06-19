@@ -1,0 +1,278 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    tools:context=".Activities.TelaInicial.TelaInicial">
+
+    <include
+        android:id="@+id/toolbarTelaInicial"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.53" />
+
+    <ScrollView
+        android:id="@+id/scrollviewTelaInicial"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/coordinatorLayout"
+        app:layout_constraintTop_toBottomOf="@id/toolbarTelaInicial"
+        tools:context=".Activities.TelaInicial.TelaInicial">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/textViewForum"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/telainicialRVDuvidas"
+                android:paddingTop="10dp"
+                android:text="Forum de Discussão"
+                android:textColor="@color/colorAccent"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/emptyDuvida"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sem postagens no momento"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/telainicialRVDuvidas"
+                app:layout_constraintEnd_toEndOf="@+id/telainicialRVDuvidas"
+                app:layout_constraintStart_toStartOf="@+id/telainicialRVDuvidas"
+                app:layout_constraintTop_toBottomOf="@+id/textViewForum">
+
+            </TextView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/telainicialRVDuvidas"
+                android:layout_width="match_parent"
+                android:layout_height="204dp"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewForum"
+                tools:listitem="@layout/cardview_telainicial">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:layout_marginTop="10dp"
+                android:id="@+id/textViewProdutos"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/telainicialRVProdutos"
+                android:paddingTop="10dp"
+                android:text="Produtos Agrícolas PANC"
+                android:textColor="@color/colorAccent"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/telainicialRVDuvidas">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/emptyProduto"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sem postagens no momento"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/telainicialRVProdutos"
+                app:layout_constraintEnd_toEndOf="@+id/telainicialRVProdutos"
+                app:layout_constraintStart_toStartOf="@+id/telainicialRVProdutos"
+                app:layout_constraintTop_toBottomOf="@+id/textViewProdutos">
+
+            </TextView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/telainicialRVProdutos"
+                android:layout_width="match_parent"
+                android:layout_height="204dp"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewProdutos"
+                tools:listitem="@layout/cardview_telainicial">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/textViewReceitas"
+                android:layout_width="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/telainicialRVReceita"
+                android:paddingTop="10dp"
+                android:text="Receitas PANC"
+                android:textColor="@color/colorAccent"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/telainicialRVProdutos">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/emptyReceita"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sem postagens no momento"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/telainicialRVReceita"
+                app:layout_constraintEnd_toEndOf="@+id/telainicialRVReceita"
+                app:layout_constraintStart_toStartOf="@+id/telainicialRVReceita"
+                app:layout_constraintTop_toBottomOf="@+id/textViewReceitas">
+
+            </TextView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/telainicialRVReceita"
+                android:layout_width="match_parent"
+                android:layout_height="204dp"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewReceitas"
+                tools:listitem="@layout/cardview_telainicial">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/textViewRestaurantes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/telainicialRVRestaurante"
+                android:paddingTop="10dp"
+                android:layout_marginTop="10dp"
+                android:text="Restaurantes PANC"
+                android:textColor="@color/colorAccent"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/telainicialRVReceita">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/emptyRestaurante"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sem postagens no momento"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/telainicialRVRestaurante"
+                app:layout_constraintEnd_toEndOf="@+id/telainicialRVRestaurante"
+                app:layout_constraintStart_toStartOf="@+id/telainicialRVRestaurante"
+                app:layout_constraintTop_toBottomOf="@+id/textViewRestaurantes">
+
+            </TextView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/telainicialRVRestaurante"
+                android:layout_width="match_parent"
+                android:layout_height="204dp"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewRestaurantes"
+                tools:listitem="@layout/cardview_telainicial">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+            <TextView
+                android:id="@+id/textViewBiblioteca"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:labelFor="@id/telainicialRVBiblioteca"
+                android:paddingTop="10dp"
+                android:text="Biblioteca PANC"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/colorAccent"
+                android:textSize="15sp"
+                android:textStyle="bold"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/telainicialRVRestaurante">
+
+            </TextView>
+
+            <TextView
+                android:id="@+id/emptyBiblioteca"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Sem postagens no momento"
+                android:visibility="invisible"
+                app:layout_constraintBottom_toBottomOf="@+id/telainicialRVBiblioteca"
+                app:layout_constraintEnd_toEndOf="@+id/telainicialRVBiblioteca"
+                app:layout_constraintStart_toStartOf="@+id/telainicialRVBiblioteca"
+                app:layout_constraintTop_toBottomOf="@+id/textViewBiblioteca">
+
+            </TextView>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/telainicialRVBiblioteca"
+                android:layout_width="match_parent"
+                android:layout_height="204dp"
+                android:orientation="horizontal"
+                android:paddingBottom="10dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.0"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textViewBiblioteca"
+                tools:listitem="@layout/cardview_telainicial">
+
+            </androidx.recyclerview.widget.RecyclerView>
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+
+    </ScrollView>
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom"
+        android:background="@null"
+        android:backgroundTint="@null"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <com.google.android.material.bottomappbar.BottomAppBar
+            android:id="@+id/bottom_app_bar_telainicial"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            app:backgroundTint="@color/colorPrimary"
+            app:fabAlignmentMode="center" />
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+
