@@ -2,27 +2,36 @@ package com.adapto.panc.Activities.Utils;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.core.app.NavUtils;
 import androidx.core.content.ContextCompat;
 
+import android.app.Dialog;
+import android.net.Uri;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.view.MenuItem;
 import android.view.View;
+import android.webkit.DownloadListener;
 import android.webkit.WebChromeClient;
 import android.webkit.WebSettings;
 import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
-import com.adapto.panc.Activities.ForumDuvida.ForumDuvidasActivity;
+import com.adapto.panc.Activities.CadastroActivity;
+import com.adapto.panc.Activities.TelaInicial.TelaInicial;
 import com.adapto.panc.R;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class WebViewConfig extends AppCompatActivity {
     private Context mContext;
     private Activity mActivity;
     private WebView mWebView;
     private Toolbar toolbar;
+    private String nomeJanela, URL;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,15 +44,7 @@ public class WebViewConfig extends AppCompatActivity {
         mWebView = findViewById(R.id.web_view);
         mWebView.setVisibility(View.INVISIBLE);
         mWebView.getSettings().setJavaScriptEnabled(true);
-        mWebView.getSettings().setRenderPriority(WebSettings.RenderPriority.HIGH);
-        mWebView.getSettings().setCacheMode(WebSettings.LOAD_CACHE_ELSE_NETWORK);
-        mWebView.getSettings().setAppCacheEnabled(true);
-        mWebView.getSettings().setDomStorageEnabled(true);
-        mWebView.getSettings().setLayoutAlgorithm(WebSettings.LayoutAlgorithm.NARROW_COLUMNS);
-        mWebView.getSettings().setUseWideViewPort(true);
-        mWebView.getSettings().setEnableSmoothTransition(true);
-        mWebView.getSettings().setSaveFormData(true);
-        mWebView.getSettings().setSavePassword(true);
+        mWebView.getSettings().setLoadWithOverviewMode(true);
         mWebView.setWebChromeClient(new WebChromeClient());
         toolbar = findViewById(R.id.toolbar);
 
@@ -61,24 +62,43 @@ public class WebViewConfig extends AppCompatActivity {
             }
         });
 
-        toolbar.setTitle("Formulário");
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        Intent intent = getIntent();
+        URL = intent.getStringExtra("URL");
+        nomeJanela = intent.getStringExtra("nomeJanela");
+        if(nomeJanela == null)
+            toolbar.setTitle("Formulário");
+        else {
+            toolbar.setTitle(nomeJanela);
+
+        }
         setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
-        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
 
-        Intent intent = getIntent();
-        String URL = intent.getStringExtra("URL");
 
         mWebView.loadUrl(URL);
 
+
     }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            // Respond to the action bar's Up/Home button
+            case android.R.id.home:
+                NavUtils.navigateUpFromSameTask(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
+    }
 
     @Override
     public void onBackPressed() {
-        Intent intent = new Intent(this, ForumDuvidasActivity.class);
+        Intent intent = new Intent(this, TelaInicial.class);
         startActivity(intent);
     }
+
+
 }
