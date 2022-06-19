@@ -7,4 +7,6 @@
         android:background="@color/colorPrimary"
         android:minHeight="?attr/actionBarSize"
         android:theme="@style/AppTheme"
+
+        style="@style/ToolbarTextSize"
         />

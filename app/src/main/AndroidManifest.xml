@@ -1,99 +1,180 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.adapto.panc">
+
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
+
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="true"
-        android:icon="@mipmap/ic_launcher"
+        android:icon="@mipmap/icon_pancs"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
+        android:roundIcon="@mipmap/icon_pancs_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
-        android:usesCleartextTraffic="true">
+        android:usesCleartextTraffic="true"
+        tools:targetApi="m">
+
+
+        <activity
+            android:name=".Activities.ForumDuvida.ListarPostagemForumDuvidaActivity"
+            android:parentActivityName=".Activities.TelaInicial.TelaInicial"
+            android:exported="false"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            />
+        <activity
+            android:name=".Activities.TelaInicial.TelaInicial"
+            android:exported="false"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:label="@string/title_activity_tela_inicial2"
+            android:theme="@style/AppTheme" />
         <activity
             android:name=".Activities.BibliotecaPANC.DetalharItemBibliotecaPANCActivity"
-            android:parentActivityName=".Activities.BibliotecaPANC.ListarItensBibliotecaPANCActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".Activities.BibliotecaPANC.ListarItensBibliotecaPANCActivity" />
         <activity
             android:name=".Activities.BibliotecaPANC.ListarItensBibliotecaPANCActivity"
-            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity"
-            android:exported="false" />
+            android:exported="false"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"
+            android:parentActivityName=".Activities.TelaInicial.TelaInicial" />
         <activity
             android:name=".Activities.BibliotecaPANC.CriarItemBibliotecaPANCActivity"
-            android:exported="false" />
-        <activity
-            android:name=".Activities.TelaInicialActivity"
-            android:exported="false" />
+            android:parentActivityName=".Activities.BibliotecaPANC.ListarItensBibliotecaPANCActivity"
+            android:exported="false"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.ForumReceita.DetalharReceitaActivity"
-            android:parentActivityName=".Activities.ForumReceita.ListarReceitasActivity" />
+            android:parentActivityName=".Activities.ForumReceita.ListarReceitasActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.PainelAdministrativoActivity"
-            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
+            android:parentActivityName=".Activities.TelaInicial.TelaInicial"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.ForumReceita.CriarPostagemReceitaActivity"
-            android:parentActivityName=".Activities.ForumReceita.ListarReceitasActivity" />
+            android:parentActivityName=".Activities.ForumReceita.ListarReceitasActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.ForumReceita.ListarReceitasActivity"
-            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
+            android:parentActivityName=".Activities.TelaInicial.TelaInicial"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.Restaurante.EditarInformacoesRestauranteDONOActivity"
-            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity" />
+            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.Restaurante.EditarPratoActivity"
-            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity" />
+            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.Restaurante.Restaurante_DetalharPratoActivity"
-            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteActivity" />
+            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.Restaurante.Restaurante_ListarRestaurantesActivity"
-            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
+            android:parentActivityName=".Activities.TelaInicial.TelaInicial"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.Restaurante.AdicionarPratoActivity"
-            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity" />
+            android:parentActivityName=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.Restaurante.Restaurante_DetalharRestauranteActivity"
-            android:parentActivityName=".Activities.Restaurante.Restaurante_ListarRestaurantesActivity" />
+            android:parentActivityName=".Activities.Restaurante.Restaurante_ListarRestaurantesActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity"
-            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
+            android:parentActivityName=".Activities.TelaInicial.TelaInicial"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.Produto.Produtor_DetalharProdutoActivity"
-            android:parentActivityName=".Activities.Produto.Produtor_ListarProdutosActivity" />
+            android:parentActivityName=".Activities.Produto.Produtor_ListarProdutosActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.Produto.Produtor_ListarProdutosActivity"
-            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
+            android:parentActivityName=".Activities.TelaInicial.TelaInicial"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.Produto.Produtor_CadastrarProdutosActivity"
-            android:parentActivityName=".Activities.Produto.Produtor_ListarProdutosActivity" />
+            android:parentActivityName=".Activities.Produto.Produtor_ListarProdutosActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".Activities.ListarEquipeActivity"
-            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
+            android:parentActivityName=".Activities.TelaInicial.TelaInicial"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.ConvidarActivity"
-            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity"
-            android:screenOrientation="fullSensor"
-            android:windowSoftInputMode="adjustPan" />
+            android:parentActivityName=".Activities.TelaInicial.TelaInicial"
+            android:windowSoftInputMode="adjustPan"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.ForumDuvida.CriarPostagemDuvidaActivity"
-            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
+            android:parentActivityName=".Activities.ForumDuvida.ListarPostagemForumDuvidaActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".Activities.Utils.WebViewConfig"
-            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
-        <activity android:name=".Activities.ForumDuvida.ForumDuvidasActivity" />
+            android:parentActivityName=".Activities.TelaInicial.TelaInicial"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+
         <activity
             android:name=".Activities.ForumDuvida.DetalharPostagemForumActivity"
-            android:parentActivityName=".Activities.ForumDuvida.ForumDuvidasActivity" />
-        <activity android:name=".Activities.CadastroActivity" />
-        <activity android:name=".Activities.LoginActivity" />
-        <activity android:name=".Activities.MainActivity">
+            android:parentActivityName=".Activities.ForumDuvida.ListarPostagemForumDuvidaActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.CadastroActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".Activities.LoginActivity"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".Activities.MainActivity"
+            android:exported="true"
+            android:configChanges="orientation"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+
         </activity>
     </application>
+
+    <queries>
+
+        <package android:name="com.whatsapp" />
+        <package android:name="com.whatsapp.w4b" />
+
+    </queries>
 
 </manifest>

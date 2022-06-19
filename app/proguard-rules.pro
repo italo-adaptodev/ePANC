@@ -19,3 +19,12 @@
 # If you keep the line number information, uncomment this to
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
+-keep public class com.adapto.panc.Models.** {
+  public protected *;
+}
+-keep public class com.adapto.panc.Repository.** {
+  public protected *;
+}
+-keep public class com.adapto.panc.Adapters.** {
+  public protected *;
+}
