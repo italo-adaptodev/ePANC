@@ -65,13 +65,13 @@
 
             <ImageView
                 android:id="@+id/imageView3"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 app:layout_constraintBottom_toTopOf="@+id/textView"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:src="@drawable/e_panc_transp" />
 
             <com.google.android.material.textfield.TextInputLayout
                 android:id="@+id/contatoInfoProdutor"
@@ -82,6 +82,7 @@
                 android:focusableInTouchMode="true"
                 android:textColorHint="@color/colorAccent"
                 app:boxStrokeWidth="2dp"
+                app:prefixText="55"
                 app:hintTextColor="@color/colorAccent"
                 app:layout_constraintBottom_toTopOf="@+id/emailInfoProdutor"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -93,6 +94,7 @@
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:hint="Telefone/Whatsapp"
+                    android:inputType="phone"
                     android:textColor="@color/colorAccent"
                     android:textCursorDrawable="@drawable/color_cursor">
 
@@ -108,6 +110,7 @@
                 android:focusableInTouchMode="true"
                 android:textColorHint="@color/colorAccent"
                 app:boxStrokeWidth="2dp"
+
                 app:hintTextColor="@color/colorAccent"
                 app:layout_constraintBottom_toTopOf="@+id/localInfoProdutor"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -119,6 +122,7 @@
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:hint="Email"
+                    android:inputType="textEmailAddress"
                     android:textColor="@color/colorAccent"
                     android:textCursorDrawable="@drawable/color_cursor">
 
@@ -145,6 +149,7 @@
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
                     android:hint="Localização"
+                    android:inputType="text"
                     android:textColor="@color/colorAccent"
                     android:textCursorDrawable="@drawable/color_cursor">
 

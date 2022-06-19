@@ -74,8 +74,9 @@
                 <com.google.android.material.textfield.TextInputEditText
                     android:layout_width="240dp"
                     android:layout_height="wrap_content"
-                    android:hint="Identificador"
+                    android:hint="Identificador (login)"
                     android:inputType="text"
+                    android:maxLines="1"
                     android:textColor="@color/colorAccent"
                     android:textCursorDrawable="@drawable/color_cursor">
 
@@ -132,13 +133,13 @@
 
             <ImageView
                 android:id="@+id/imageView2"
-                android:layout_width="109dp"
-                android:layout_height="105dp"
+                android:layout_width="120dp"
+                android:layout_height="120dp"
                 app:layout_constraintBottom_toTopOf="@+id/nomeCadastro"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                tools:srcCompat="@tools:sample/avatars" />
+                android:src="@drawable/e_panc_transp" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

@@ -10,6 +10,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
+        <include
+            android:id="@+id/toolbarCriarReceita"
+            layout="@layout/toolbar"
+            app:titleTextAppearance="@style/ToolbarTextSize"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.0"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.53"
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent" />
+
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/nomeReceita"
             android:layout_width="match_parent"
@@ -20,7 +32,7 @@
             android:hint="Nome"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarCriarReceita"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             app:boxStrokeColor="@color/colorAccent">
 
@@ -52,8 +64,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:maxLines="3">
+                android:inputType="text"
+                android:maxLines="1">
 
             </com.google.android.material.textfield.TextInputEditText>
 
@@ -77,8 +89,8 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:inputType="textMultiLine"
-                android:maxLines="3">
+                android:inputType="text"
+                android:maxLines="1">
 
             </com.google.android.material.textfield.TextInputEditText>
 
@@ -88,11 +100,11 @@
             android:id="@+id/ingredientesReceita"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
-            android:layout_height="108dp"
+            android:layout_height="wrap_content"
+            android:minHeight="105dp"
             android:layout_marginStart="20dp"
             android:layout_marginTop="28dp"
             android:layout_marginEnd="20dp"
-            android:ems="10"
             android:gravity="start"
             android:inputType="textMultiLine|textCapSentences"
             app:boxStrokeColor="@color/colorAccent"
@@ -104,6 +116,7 @@
             <com.google.android.material.textfield.TextInputEditText
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:minHeight="105dp"
                 android:layout_gravity="start"
                 android:gravity="start"
                 android:hint="Ingredientes" />
@@ -113,11 +126,11 @@
             android:id="@+id/modoPreparoReceita"
             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
             android:layout_width="match_parent"
-            android:layout_height="108dp"
+            android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
             android:layout_marginTop="52dp"
             android:layout_marginEnd="20dp"
-            android:ems="10"
+            android:minHeight="105dp"
             android:gravity="start"
             android:inputType="textMultiLine|textCapSentences"
             app:boxStrokeColor="@color/colorAccent"
@@ -129,8 +142,9 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_gravity="start"
+                android:minHeight="105dp"
                 android:gravity="start"
-                android:maxLength="150"
+                android:inputType="textMultiLine"
                 android:hint="Modo de preparo"
                 />
         </com.google.android.material.textfield.TextInputLayout>

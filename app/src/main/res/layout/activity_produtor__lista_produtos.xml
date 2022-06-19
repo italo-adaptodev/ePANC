@@ -7,7 +7,7 @@
     tools:context=".Activities.Produto.Produtor_ListarProdutosActivity">
 
     <include
-        android:id="@+id/toolbar"
+        android:id="@+id/toolbarListaProdutos"
         layout="@layout/toolbar"
         app:layout_constraintBottom_toTopOf="@+id/recyclerViewVitrine"
         app:layout_constraintEnd_toEndOf="parent"
@@ -41,7 +41,7 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
 
-        app:layout_constraintTop_toBottomOf="@+id/toolbar" />
+        app:layout_constraintTop_toBottomOf="@+id/toolbarListaProdutos" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewVitrine"
@@ -50,8 +50,8 @@
         android:visibility="invisible"
         app:layout_constraintBottom_toTopOf="@+id/coordinatorLayout"
         app:layout_constraintEnd_toEndOf="@+id/coordinatorLayout"
-        app:layout_constraintStart_toStartOf="@id/toolbar"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintStart_toStartOf="@id/toolbarListaProdutos"
+        app:layout_constraintTop_toBottomOf="@+id/toolbarListaProdutos"
         tools:listitem="@layout/cardview_vitrine_produto">
 
     </androidx.recyclerview.widget.RecyclerView>
@@ -85,7 +85,7 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.954"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar"
+            app:layout_constraintTop_toBottomOf="@+id/toolbarListaProdutos"
             app:layout_constraintVertical_bias="1.0"
             app:maxImageSize="50dp"
             app:srcCompat="@drawable/ic_add_button"

@@ -39,19 +39,16 @@
         android:id="@+id/scrollView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toTopOf="@+id/constraintLayout"
+        android:fillViewport="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/toolbarDetalharPostagemForum"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintTop_toBottomOf="@id/toolbarDetalharPostagemForum">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/ConstraintLayoutDetalharForum"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:visibility="invisible"
-            android:layout_marginTop="40dp"
-            >
+            android:layout_width="wrap_content"
+            android:layout_height="0dp"
+            android:visibility="invisible">
 
             <ProgressBar
                 android:id="@+id/progress"
@@ -68,8 +65,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:autoSizeTextType="uniform"
-                android:padding="5dp"
                 android:gravity="center"
+                android:padding="5dp"
                 android:textColor="@color/colorAccent"
                 android:textSize="20sp"
                 android:textStyle="bold"
@@ -81,29 +78,32 @@
                 app:layout_constraintVertical_bias="0.024" />
 
             <TextView
+                android:id="@+id/detalhar_forum_texto"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:id="@+id/detalhar_forum_texto"
-                android:textSize="15sp"
+                android:autoLink="all"
+                android:linksClickable="true"
                 android:padding="5dp"
                 android:textColor="@color/colorAccent"
-                app:layout_constraintTop_toBottomOf="@id/detalhar_forum_titulo"
+                android:textColorLink="#0645AD"
+                android:textSize="15sp"
                 app:layout_constraintBottom_toTopOf="@id/linearlayout"
+                app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
+                app:layout_constraintTop_toBottomOf="@id/detalhar_forum_titulo" />
 
             <LinearLayout
                 android:id="@+id/linearlayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="start"
+                android:orientation="horizontal"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintVertical_bias="0.07"
-                android:orientation="horizontal">
+                app:layout_constraintVertical_bias="0.07">
 
                 <androidx.appcompat.widget.LinearLayoutCompat
                     android:id="@+id/linearlayoutimagem"
@@ -123,21 +123,16 @@
 
             </LinearLayout>
 
-
-
             <RelativeLayout
                 android:id="@+id/relative"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="20dp"
-                android:layout_marginEnd="20dp"
                 android:layout_marginTop="5dp"
-                android:layout_marginBottom="5dp"
-                app:layout_constraintBottom_toBottomOf="parent"
+                android:layout_marginEnd="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/linearlayout"
-                app:layout_constraintVertical_bias="0.013">
+                app:layout_constraintTop_toBottomOf="@+id/linearlayout">
 
                 <LinearLayout
                     android:id="@+id/linearforumautor"
@@ -147,16 +142,18 @@
                     android:layout_marginEnd="100dp"
                     android:layout_toStartOf="@+id/lineardetalhar_forum_data"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:gravity="center"
                         android:labelFor="@+id/detalhar_forum_autor"
                         android:text="Postado por"
-                        android:textStyle="bold"
-                        android:gravity="center"
-                        android:textColor="@color/colorAccent">
+                        android:textColor="@color/colorAccent"
+                        android:textStyle="bold">
 
                     </TextView>
+
                     <TextView
                         android:id="@+id/detalhar_forum_autor"
                         android:layout_width="wrap_content"
@@ -182,24 +179,26 @@
                     android:layout_height="wrap_content"
                     android:layout_alignParentEnd="true"
                     android:orientation="vertical">
+
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:gravity="center"
                         android:labelFor="@+id/detalhar_forum_data"
+                        android:text="Postado em"
                         android:textColor="@color/colorAccent"
-                        android:textStyle="bold"
-                        android:text="Postado em">
+                        android:textStyle="bold">
 
                     </TextView>
+
                     <TextView
                         android:id="@+id/detalhar_forum_data"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_gravity="start"
                         android:layout_alignParentBottom="true"
-                        android:padding="3dp"
+                        android:layout_gravity="start"
                         android:gravity="center"
+                        android:padding="3dp"
                         android:textColor="#000"
                         android:textSize="15sp"
                         app:layout_constraintBottom_toBottomOf="parent"
@@ -210,22 +209,18 @@
                 </LinearLayout>
 
 
-
-
-
             </RelativeLayout>
 
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/recyclerview_detalhar_respostas_forum"
                 android:layout_width="match_parent"
-                android:layout_height="440dp"
-                android:layout_marginTop="10dp"
-                app:layout_constraintBottom_toBottomOf="@id/ConstraintLayoutDetalharForum"
+                android:layout_height="wrap_content"
+                app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintHorizontal_bias="0.49"
+                app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@id/relative"
-                app:layout_constraintVertical_bias="1.0"
+                app:layout_constraintTop_toBottomOf="@+id/relative"
+                app:layout_constraintVertical_bias="0.0"
                 tools:listitem="@layout/cardview_resposta_forum" />
 
 

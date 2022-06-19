@@ -6,16 +6,23 @@
     android:layout_height="match_parent"
     tools:context=".Activities.ListarEquipeActivity">
 
+    <include
+        android:id="@+id/toolbarEquipe"
+        layout="@layout/toolbar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerViewEquipe"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0"
+        app:layout_constraintTop_toBottomOf="@id/toolbarEquipe"
         tools:listitem="@layout/cardview_equipe_adminstrativa" />
 
     <com.google.android.material.textview.MaterialTextView
@@ -29,7 +36,7 @@
         app:layout_constraintBottom_toBottomOf="@+id/recyclerViewEquipe"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@+id/recyclerViewEquipe"
-        app:layout_constraintTop_toTopOf="@+id/recyclerViewEquipe">
+        app:layout_constraintTop_toBottomOf="@+id/toolbarEquipe">
 
     </com.google.android.material.textview.MaterialTextView>
 </androidx.constraintlayout.widget.ConstraintLayout>
