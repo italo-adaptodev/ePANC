@@ -2,6 +2,8 @@ package com.adapto.panc.Activities;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -35,6 +37,7 @@ public class ListarEquipeActivity extends AppCompatActivity {
     private View v;
     private FirestoreReferences firestoreReferences = new FirestoreReferences();
     private MaterialTextView textViewRecycler;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +82,16 @@ public class ListarEquipeActivity extends AppCompatActivity {
             }
         };
         recyclerView.setAdapter(adapter);
+
+        //region Toolbar
+        toolbar = findViewById(R.id.toolbarEquipe);
+        toolbar.setTitle("Equipe Administrativa");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
+        //endregion
     }
 
     private String getDadosUsuario(String usuarioID, String indicadoPor, final FirestoreEquipeAdministrativaViewHolder holder) {

@@ -82,7 +82,7 @@ public class DetalharItemBibliotecaPANCActivity extends AppCompatActivity implem
         documentReferenceItemBiblioteca = recuperarItemBiblioteca(itemBibliotecaKey);
 
         //region Toolbar
-        toolbar.setTitle("Detalhar Item Biblioteca");
+        toolbar.setTitle("Sobre o item");
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
         setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);

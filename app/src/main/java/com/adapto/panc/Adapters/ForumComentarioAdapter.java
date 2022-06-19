@@ -113,8 +113,7 @@ public class ForumComentarioAdapter extends RecyclerView.Adapter<ForumComentario
                                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                                     @Override
                                     public void onSuccess(Void aVoid) {
-                                        new SnackBarPersonalizada().showMensagemLonga(view, "Comentário excluído com sucesso!");
-                                        handler.postDelayed(task, 3000);
+                                        handler.postDelayed(task, 10);
 
                                     }
                                 }).addOnFailureListener(new OnFailureListener() {

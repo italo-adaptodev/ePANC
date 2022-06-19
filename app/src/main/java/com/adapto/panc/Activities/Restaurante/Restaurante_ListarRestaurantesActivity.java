@@ -20,7 +20,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.SearchView;
 
-import com.adapto.panc.Activities.ForumDuvida.ForumDuvidasActivity;
+import com.adapto.panc.Activities.TelaInicial.TelaInicial;
 import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Adapters.RestaurantesFiltradosAdapter;
 import com.adapto.panc.Models.Database.Restaurante;
@@ -104,7 +104,7 @@ public class Restaurante_ListarRestaurantesActivity extends AppCompatActivity {
 
         //region Toolbar
         toolbar = findViewById(R.id.toolbar_listar_restaurante);
-        toolbar.setTitle("Restaurantes");
+        toolbar.setTitle("Rede de Restaurantes");
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
         setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -190,7 +190,7 @@ public class Restaurante_ListarRestaurantesActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, ForumDuvidasActivity.class));
+        startActivity(new Intent(this, TelaInicial.class));
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

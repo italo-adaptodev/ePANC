@@ -8,6 +8,7 @@ import android.os.Handler;
 
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -20,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
+                FirebaseFirestore.getInstance().clearPersistence();
                 startActivity(intent);
                 finish();
 

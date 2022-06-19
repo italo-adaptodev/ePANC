@@ -7,7 +7,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
-import com.adapto.panc.Activities.ForumDuvida.ForumDuvidasActivity;
+import com.adapto.panc.Activities.TelaInicial.TelaInicial;
 import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.R;
 import com.adapto.panc.Repository.LoginSharedPreferences;
@@ -48,7 +48,7 @@ public class LoginActivity extends AppCompatActivity {
         loginTextField = findViewById(R.id.loginTextField);
         senhaTexfield = findViewById(R.id.senhaTexfield);
         cadastroIntent = new Intent(this, CadastroActivity.class);
-        telaInicialIntent = new Intent(this, ForumDuvidasActivity.class);
+        telaInicialIntent = new Intent(this, TelaInicial.class);
         snackbar = new SnackBarPersonalizada();
         v = findViewById(android.R.id.content);
         db = FirebaseFirestore.getInstance();
@@ -103,7 +103,7 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void realizarLogin(){
-        Intent i = new Intent(getApplicationContext(), ForumDuvidasActivity.class);
+        Intent i = new Intent(getApplicationContext(), TelaInicial.class);
         i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
         i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         getApplicationContext().startActivity(i);

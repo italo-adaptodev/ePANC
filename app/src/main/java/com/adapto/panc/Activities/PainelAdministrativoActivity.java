@@ -46,7 +46,7 @@ public class PainelAdministrativoActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private SnackBarPersonalizada snackBarPersonalizada;
     private View v;
-    private FirestoreReferences firestoreReferences = new FirestoreReferences();
+    private FirestoreReferences firestoreReferences;
     private MaterialTextView textViewRecycler;
     private String usuarioID;
     private boolean isUsuarioAdminstrador = false;
@@ -55,27 +55,21 @@ public class PainelAdministrativoActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        usuarioID = new LoginSharedPreferences(getApplicationContext()).getIdentifier();
-        getCargosUsuarioSolicitante();
         setContentView(R.layout.activity_painel_administrativo);
+        usuarioID = new LoginSharedPreferences(getApplicationContext()).getIdentifier();
+        firestoreReferences = new FirestoreReferences();
+        db = FirebaseFirestore.getInstance();
+        getCargosUsuarioSolicitante();
         snackBarPersonalizada = new SnackBarPersonalizada();
         v = findViewById(android.R.id.content);
         recyclerView = findViewById(R.id.recyclerViewConvites);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         textViewRecycler = findViewById(R.id.emptyRecyclerViewTXT);
-        db = FirebaseFirestore.getInstance();
 
         query = db
                 .collection(firestoreReferences.getConviteEquipeAdministrativaCOLLECTION()).orderBy("timestamp", Query.Direction.ASCENDING);
 
-        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if(task.getResult().size() < 1){
-                    textViewRecycler.setVisibility(View.VISIBLE);
-                }
-            }
-        });
+        getItemCountRecyclerView();
 
         FirestoreRecyclerOptions<ConviteEquipeAdministrativa> options = new FirestoreRecyclerOptions.Builder<ConviteEquipeAdministrativa>()
                 .setQuery(query, ConviteEquipeAdministrativa.class)
@@ -111,6 +105,17 @@ public class PainelAdministrativoActivity extends AppCompatActivity {
             }
         };
         recyclerView.setAdapter(adapter);
+    }
+
+    private void getItemCountRecyclerView() {
+        query.get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+            @Override
+            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                if(task.getResult().size() < 1){
+                    textViewRecycler.setVisibility(View.VISIBLE);
+                }
+            }
+        });
     }
 
     private void aceitarConvite(final ConviteEquipeAdministrativa model) {
@@ -158,6 +163,7 @@ public class PainelAdministrativoActivity extends AppCompatActivity {
             public void onSuccess(Void aVoid) {
                 if(mensagem != null)
                     new SnackBarPersonalizada().showMensagemLonga(v, mensagem);
+                getItemCountRecyclerView();
             }
         }).addOnFailureListener(new OnFailureListener() {
             @Override

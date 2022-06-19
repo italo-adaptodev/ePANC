@@ -57,13 +57,13 @@ public class ItemBibliotecaPANCAdapter extends RecyclerView.Adapter<ItemBibliote
             holder.setConfigsView(adm, true, context);
         else
             holder.setConfigsView(adm, false, context);
-        String imgID = itemBiblioteca.getImagensID().get(0);
+        String imgID = (itemBiblioteca.getImagensID() == null || itemBiblioteca.getImagensID().isEmpty()) ? null : itemBiblioteca.getImagensID().get(0) ;
         if(imgID != null)
             Glide.with(context)
             .load(imgID)
             .into(holder.itemBibliotecaImagem);
         holder.itemBibliotecaTitulo.setText(itemBiblioteca.getItemBibliotecaTitulo());
-        holder.position = position;
+        holder.position = holder.getAbsoluteAdapterPosition();
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

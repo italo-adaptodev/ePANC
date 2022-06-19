@@ -2,6 +2,8 @@ package com.adapto.panc.Activities.Produto;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -13,7 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
 
-import com.adapto.panc.Activities.ForumDuvida.ForumDuvidasActivity;
+import com.adapto.panc.Activities.TelaInicial.TelaInicial;
 import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Models.Database.Produtor_Produto;
 import com.adapto.panc.Models.ViewHolder.Produtor_VitrineHolder;
@@ -50,6 +52,7 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
     private boolean isUsuarioProdutor = false;
     private boolean isUsuarioDonoProduto = false;
     private MaterialTextView textViewRecycler;
+    private Toolbar toolbar;
 
 
     @Override
@@ -99,6 +102,16 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
             }
         });
 
+
+        //region Toolbar
+        toolbar = findViewById(R.id.toolbarListaProdutos);
+        toolbar.setTitle("Produtos Agrícolas PANC");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
+        //endregion
     }
 
     @Override
@@ -188,7 +201,6 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
             adapter = new FirestoreRecyclerAdapter<Produtor_Produto, Produtor_VitrineHolder>(options) {
                 @Override
                 public void onBindViewHolder(Produtor_VitrineHolder holder, int position, final Produtor_Produto model) {
-
                     holder.setConfigsView(isUsuarioAdminstrador, isUsuarioDonoProduto, getBaseContext());
                     String imgID = model.getImagensID().get(0);
                     if(imgID != null)
@@ -231,7 +243,7 @@ public class Produtor_ListarProdutosActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, ForumDuvidasActivity.class));
+        startActivity(new Intent(this, TelaInicial.class));
     }
 
 

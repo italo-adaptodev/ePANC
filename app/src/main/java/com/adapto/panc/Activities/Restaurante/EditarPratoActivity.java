@@ -58,7 +58,7 @@ public class EditarPratoActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         this.getSupportActionBar().setHomeButtonEnabled(true);
-        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_close_black_24dp);
         //endregion
 
         //region intent

@@ -20,7 +20,7 @@ import androidx.core.view.MenuItemCompat;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.adapto.panc.Activities.ForumDuvida.ForumDuvidasActivity;
+import com.adapto.panc.Activities.TelaInicial.TelaInicial;
 import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Activities.Utils.SnackBarPersonalizada;
 import com.adapto.panc.Adapters.ReceitasFiltradasAdapter;
@@ -80,7 +80,7 @@ public class ListarReceitasActivity extends AppCompatActivity {
         spinner = findViewById(R.id.progressBar1);
         spinner.setVisibility(View.VISIBLE);
         identifier = new LoginSharedPreferences(this).getIdentifier();
-
+        getCargosUsuarioSolicitante();
 
         //region RECYCLER VIEW POSTAGENS
         Query query = db
@@ -119,7 +119,7 @@ public class ListarReceitasActivity extends AppCompatActivity {
 
         //region Toolbar
         toolbar = findViewById(R.id.toolbar_listar_receitas);
-        toolbar.setTitle("Receitas");
+        toolbar.setTitle("Receitas PANC");
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
         setSupportActionBar(toolbar);
         this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -247,7 +247,7 @@ public class ListarReceitasActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, ForumDuvidasActivity.class));
+        startActivity(new Intent(this, TelaInicial.class));
     }
 
     public boolean onCreateOptionsMenu(Menu menu) {

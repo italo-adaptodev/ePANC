@@ -13,8 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -28,6 +26,7 @@ import com.adapto.panc.Activities.PainelAdministrativoActivity;
 import com.adapto.panc.Activities.Produto.Produtor_ListarProdutosActivity;
 import com.adapto.panc.Activities.Restaurante.Restaurante_DetalharRestauranteDONOActivity;
 import com.adapto.panc.Activities.Restaurante.Restaurante_ListarRestaurantesActivity;
+import com.adapto.panc.Activities.TelaInicial.TelaInicial;
 import com.adapto.panc.Activities.Utils.FirestoreReferences;
 import com.adapto.panc.Models.Database.PostagemForumDuvidas;
 import com.adapto.panc.Models.ViewHolder.PostagemForumHolder;
@@ -49,7 +48,7 @@ import com.google.firebase.firestore.Query;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
-public class ForumDuvidasActivity extends AppCompatActivity {
+public class ListarPostagemForumDuvidaActivity extends AppCompatActivity {
 
     private RecyclerView recyclerView;
     private FloatingActionButton criarPostagemFAB;
@@ -59,12 +58,12 @@ public class ForumDuvidasActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private boolean isUsuarioAdminstrador = false;
     private boolean isUsuarioRestaurante = false;
-    private boolean response = false;
+    private final boolean response = false;
     private View v;
     private BottomAppBar bottomAppBar;
     private FirestoreRecyclerOptions<PostagemForumDuvidas> options;
-    private FirestoreReferences firestoreReferences = new FirestoreReferences();
-    private  Handler handler = new Handler();
+    private final FirestoreReferences firestoreReferences = new FirestoreReferences();
+    private final Handler handler = new Handler();
     private ProgressBar spinner;
     private MaterialTextView textViewRecycler;
     private String usuarioID;
@@ -73,6 +72,7 @@ public class ForumDuvidasActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_listar_postagem_forum_duvida);
         db = FirebaseFirestore.getInstance();
         v = findViewById(android.R.id.content);
         usuarioID = new LoginSharedPreferences(this).getIdentifier();
@@ -81,7 +81,6 @@ public class ForumDuvidasActivity extends AppCompatActivity {
             new LoginSharedPreferences(getBaseContext()).logoutUser();
         }
         isUsuarioAtivo();
-        setContentView(R.layout.activity_forum_duvidas);
         recyclerView = findViewById(R.id.feedPrincipalRecV);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
         recyclerView.setVisibility(View.INVISIBLE);
@@ -89,14 +88,20 @@ public class ForumDuvidasActivity extends AppCompatActivity {
         criarPostagemFAB = findViewById(R.id.criarPostagemFAB);
         criarPostagemIntent = new Intent(this.getBaseContext(), CriarPostagemDuvidaActivity.class);
         listarEquipeIntent = new Intent(this.getBaseContext(), ListarEquipeActivity.class);
-        toolbar = findViewById(R.id.toolbar);
-        toolbar.setTitle("Panc - APP");
+        toolbar = findViewById(R.id.toolbarForumDuvida);
         bottomAppBar = findViewById(R.id.bottom_app_bar);
+
+
         toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
-        toolbar.setTitle("Fórum de Dúvidas");
+        toolbar.setTitle("Fórum de Discussão");
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
+
+
         spinner = findViewById(R.id.progressBar1);
         spinner.setVisibility(View.VISIBLE);
-        setSupportActionBar(toolbar);
 
         criarPostagemFAB.setOnClickListener(new View.OnClickListener() {
             @RequiresApi(api = Build.VERSION_CODES.N)
@@ -126,22 +131,22 @@ public class ForumDuvidasActivity extends AppCompatActivity {
                 .build();
 
         //endregion
-        setSupportActionBar(bottomAppBar);
+//        setSupportActionBar(bottomAppBar);
     }
 
     private void excluirPostagem(String postagemID) {
         db.collection(firestoreReferences.getPostagensForumPANCCOLLECTION()).document(postagemID)
                 .delete().addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void aVoid) {
-                new SnackBarPersonalizada().showMensagemLonga(v, "Postagem excluída com sucesso!");
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
-                new SnackBarPersonalizada().showMensagemLonga(v, "Não foi possível excluir esta postagem. ERRO: " + e.getLocalizedMessage());
-            }
-        });
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        new SnackBarPersonalizada().showMensagemLonga(v, "Postagem excluída com sucesso!");
+                    }
+                }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        new SnackBarPersonalizada().showMensagemLonga(v, "Não foi possível excluir esta postagem. ERRO: " + e.getLocalizedMessage());
+                    }
+                });
     }
 
     @Override
@@ -153,25 +158,6 @@ public class ForumDuvidasActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         handler.postDelayed(task, 1000);
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the main_menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main_menu, menu);
-
-        return true;
-    }
-
-    @Override
-    public boolean onMenuOpened(int featureId, Menu menu) {
-
-        if(!isUsuarioAdminstrador) {
-            menu.getItem(7).setVisible(false);
-        }
-        if(!isUsuarioRestaurante)
-            menu.getItem(4).setVisible(false);
-        return super.onMenuOpened(featureId, menu);
     }
 
     private boolean getPermissaoRestaurante() {
@@ -189,52 +175,7 @@ public class ForumDuvidasActivity extends AppCompatActivity {
         return isUsuarioRestaurante;
     }
 
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case R.id.equipe:
-                startActivity(new Intent(this, ListarEquipeActivity.class));
-                break;
 
-            case R.id.exit:
-                new LoginSharedPreferences(this).logoutUser();
-                startActivity(new Intent(this, LoginActivity.class));
-                break;
-
-            case R.id.addProduto:
-                startActivity(new Intent(this, Produtor_ListarProdutosActivity.class));
-                break;
-
-            case R.id.convite:
-                    startActivity(new Intent(this, ConvidarActivity.class));
-                break;
-
-            case R.id.meurestaurante:
-                startActivity(new Intent(this, Restaurante_DetalharRestauranteDONOActivity.class));
-                break;
-
-            case R.id.listarestaurantes:
-                startActivity(new Intent(this, Restaurante_ListarRestaurantesActivity.class));
-                break;
-
-            case R.id.listareceitas:
-                startActivity(new Intent(this, ListarReceitasActivity.class));
-                break;
-
-            case R.id.paineladministrativo:
-                startActivity(new Intent(this, PainelAdministrativoActivity.class));
-                break;
-
-            case R.id.biblioteca:
-                startActivity(new Intent(this, ListarItensBibliotecaPANCActivity.class));
-                break;
-
-            default:
-                break;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     private boolean getCargosUsuarioSolicitante() {
         db.collection(firestoreReferences.getEquipeCOLLECTION())
@@ -278,21 +219,23 @@ public class ForumDuvidasActivity extends AppCompatActivity {
                 });
     }
 
+
+
     @Override
     public void onBackPressed() {
-        finishAffinity();
+        startActivity(new Intent(this, TelaInicial.class));
     }
 
-    private Runnable task = new Runnable() {
+    private final Runnable task = new Runnable() {
         public void run() {
 
             adapter = new FirestoreRecyclerAdapter<PostagemForumDuvidas, PostagemForumHolder>(options) {
                 @Override
                 public void onBindViewHolder(PostagemForumHolder holder, int position, final PostagemForumDuvidas model) {
                     if(usuarioID.equals(model.getUsuarioID()))
-                        holder.setConfigsView(true, getBaseContext());
+                        holder.setConfigsView(isUsuarioAdminstrador, true, getBaseContext());
                     else
-                        holder.setConfigsView(isUsuarioAdminstrador, getBaseContext());
+                        holder.setConfigsView(isUsuarioAdminstrador, false, getBaseContext());
                     String imgID = model.getImagensID().get(0);
                     if(imgID != null)
                         Glide.with(getBaseContext())
@@ -319,7 +262,7 @@ public class ForumDuvidasActivity extends AppCompatActivity {
                 @Override
                 public PostagemForumHolder onCreateViewHolder(ViewGroup group, int i) {
                     View view = LayoutInflater.from(group.getContext())
-                            .inflate(R.layout.cardview_feedprincipal, group, false);
+                            .inflate(R.layout.cardview_forum_duvida, group, false);
                     return new PostagemForumHolder(view);
                 }
 
@@ -329,4 +272,7 @@ public class ForumDuvidasActivity extends AppCompatActivity {
             recyclerView.setVisibility(View.VISIBLE);
         }
     };
+
+
 }
+
