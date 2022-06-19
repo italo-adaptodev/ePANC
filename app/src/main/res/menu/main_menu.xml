@@ -1,21 +1,26 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
+
     <item
         android:id="@+id/exit"
         android:title="Sair"
+        android:tooltipText="Sair"
         android:icon="@drawable/ic__quit"
         android:orderInCategory="1"
+        android:titleCondensed="Sair"
         app:showAsAction="ifRoom"/>
+
 
     <item
         android:id="@+id/equipe"
         android:title="Equipe"
+        android:tooltipText="Equipe Administrativa"
         android:icon="@drawable/ic_administration"
         android:orderInCategory="2"
         app:showAsAction="ifRoom"/>
 
     <item
-        android:id="@+id/addProduto"
+        android:id="@+id/listarprodutos"
         android:title="Listar Produtos"
         android:icon="@drawable/ic_add_button"
         android:orderInCategory="3"
@@ -33,6 +38,7 @@
         android:title="Meu Restaurante"
         android:icon="@drawable/ic_add_button"
         android:orderInCategory="5"
+        android:visible="false"
         />
 
     <item
@@ -54,6 +60,7 @@
         android:title="Painel Administrativo"
         android:icon="@drawable/ic_add_button"
         android:orderInCategory="8"
+        android:visible="false"
         />
 
     <item
