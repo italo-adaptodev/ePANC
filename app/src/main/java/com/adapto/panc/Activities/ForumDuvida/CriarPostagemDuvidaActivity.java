@@ -218,7 +218,8 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
                                     @Override
                                     public void onSuccess(Uri uri) {
                                         imagens.add(uri.toString());
-
+                                        if(imagens.size() == filepaths.size())
+                                            uploadPostagem(imagens);
                                     }
                                 });
 
@@ -248,7 +249,6 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
                                 });
 
         }
-        uploadPostagem(imagens);
     }
 
     private void uploadPostagem(final List<String> imagens) {
@@ -259,7 +259,6 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
                     .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                         @Override
                         public void onSuccess(DocumentReference documentReference) {
-
                             postagemID = documentReference.getId();
                             documentReference
                                     .update("postagemID", documentReference.getId())
@@ -283,7 +282,7 @@ public class CriarPostagemDuvidaActivity extends AppCompatActivity {
                     }).addOnCompleteListener(new OnCompleteListener<DocumentReference>() {
                 @Override
                 public void onComplete(@NonNull Task<DocumentReference> task) {
-                    Intent intent = new Intent(CriarPostagemDuvidaActivity.this, ForumDuvidasActivity.class);
+                    Intent intent = new Intent(CriarPostagemDuvidaActivity.this, ListarPostagemForumDuvidaActivity.class);
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
                     startActivity(intent);
 

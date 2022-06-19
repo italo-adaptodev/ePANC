@@ -2,6 +2,8 @@ package com.adapto.panc.Activities.ForumReceita;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.app.ProgressDialog;
 import android.content.ClipData;
@@ -56,6 +58,7 @@ public class CriarPostagemReceitaActivity extends AppCompatActivity {
     private FirestoreReferences firestoreReferences =  new FirestoreReferences();
     private String usuarioID;
     private String nomeUsuario;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +68,7 @@ public class CriarPostagemReceitaActivity extends AppCompatActivity {
         btnSelect = findViewById(R.id.btnChoose);
         btnUpload = findViewById(R.id.btnUpload);
         v = findViewById(android.R.id.content);
+        toolbar = findViewById(R.id.toolbarCriarReceita);
         nome =  findViewById(R.id.nomeReceita);
         tempoPreparoReceita = findViewById(R.id.tempoPrepatoReceita);
         rendimentoReceita =  findViewById(R.id.rendimentoReceita);
@@ -100,6 +104,15 @@ public class CriarPostagemReceitaActivity extends AppCompatActivity {
                 uploadImages();
             }
         });
+
+        //region Toolbar
+        toolbar.setTitle("Cadastrar Receita");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
+        //endregion
     }
 
     private void addImageviews() {
@@ -121,11 +134,11 @@ public class CriarPostagemReceitaActivity extends AppCompatActivity {
     // Select Image method
     private void SelectImage()
     {
-//        for(int i = 0; i < 6; i++){
-            imageViews.get(0).setImageBitmap(null);
+        for(int i = 0; i < 6; i++){
+            imageViews.get(i).setImageBitmap(null);
             filepaths.clear();
-//        }
-        // Defining Implicit Intent to mobile gallery
+        }
+
         Intent intent = new Intent();
         intent.setType("image/*");
         intent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
@@ -137,18 +150,12 @@ public class CriarPostagemReceitaActivity extends AppCompatActivity {
                 PICK_IMAGE_REQUEST);
     }
 
-    // Override onActivityResult method
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
 
         super.onActivityResult(requestCode, resultCode, data);
 
-        // checking request code and result code
-        // if request code is PICK_IMAGE_REQUEST and
-        // resultCode is RESULT_OK
-        // then set image in the image view
         if (requestCode == PICK_IMAGE_REQUEST && resultCode == RESULT_OK && data != null) {
-            // Get the Uri of data
             ClipData mult = data.getClipData();
             Uri unique = data.getData();
 
@@ -157,7 +164,6 @@ public class CriarPostagemReceitaActivity extends AppCompatActivity {
                     try {
 
                         filepaths.add(position, data.getClipData().getItemAt(position).getUri());
-                        // Setting image on image view using Bitmap
                         Bitmap bitmap = MediaStore
                                 .Images
                                 .Media
@@ -168,9 +174,8 @@ public class CriarPostagemReceitaActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
-            }else{
+            }else if(unique !=  null){
                 filepaths.add(0, unique);
-                // Setting image on image view using Bitmap
                 Bitmap bitmap = null;
                 try {
                     bitmap = MediaStore
@@ -188,8 +193,8 @@ public class CriarPostagemReceitaActivity extends AppCompatActivity {
 
     private void uploadImages() {
         final List<String> imagens = new ArrayList<>();
+        if(filepaths.isEmpty()) snackBarPersonalizada.showMensagemLonga(v, "Selecione ao menos uma imagem!");
         for (int i = 0; i < filepaths.size(); i++){
-            // Code for showing progressDialog while uploading
             final ProgressDialog progressDialog
                     = new ProgressDialog(this);
             progressDialog.setTitle("Upload da imagem");

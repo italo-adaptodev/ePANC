@@ -2,6 +2,8 @@ package com.adapto.panc.Activities.BibliotecaPANC;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import android.app.ProgressDialog;
 import android.content.ClipData;
@@ -28,6 +30,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.Timestamp;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.storage.OnProgressListener;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
@@ -50,13 +53,15 @@ public class CriarItemBibliotecaPANCActivity extends AppCompatActivity {
     private List<Uri> filepaths;
     private String postagemID;
     private FirestoreReferences firestoreReferences;
+    private FirebaseFirestore db;
+    private Toolbar toolbar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState)
     {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_criar_item_biblioteca_panc);
-
+        toolbar  = findViewById(R.id.toolbarCriarItemBiblioteca);
         // initialise views
         btnSelect = findViewById(R.id.btnChoose);
         btnUpload = findViewById(R.id.btnUpload);
@@ -91,6 +96,16 @@ public class CriarItemBibliotecaPANCActivity extends AppCompatActivity {
                 uploadImages();
             }
         });
+
+        //region Toolbar
+        toolbar.setTitle("Cadastrar Item na Biblioteca");
+        toolbar.setTitleTextColor(ContextCompat.getColor(this, R.color.colorAccent));
+        toolbar.setTitleTextAppearance(this, R.style.ToolbarTextSize);
+        setSupportActionBar(toolbar);
+        this.getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        this.getSupportActionBar().setHomeButtonEnabled(true);
+        this.getSupportActionBar().setHomeAsUpIndicator(R.drawable.ic_arrow_left);
+        //endregion
     }
 
     private void addImageviews() {
@@ -180,60 +195,61 @@ public class CriarItemBibliotecaPANCActivity extends AppCompatActivity {
     // UploadImage method
     private void uploadImages() {
         final List<String> imagens = new ArrayList<>();
-        for (int i = 0; i < filepaths.size(); i++){
-            // Code for showing progressDialog while uploading
-            final ProgressDialog progressDialog
-                    = new ProgressDialog(this);
-            progressDialog.setTitle("Upload da imagem");
-            progressDialog.show();
+        if(filepaths.size() > 0) {
+            for (int i = 0; i < filepaths.size(); i++) {
+                // Code for showing progressDialog while uploading
+                final ProgressDialog progressDialog
+                        = new ProgressDialog(this);
+                progressDialog.setTitle("Upload da imagem");
+                progressDialog.show();
 
-            // Defining the child of storageReference
-            String imageREF = UUID.randomUUID().toString();
+                // Defining the child of storageReference
+                String imageREF = UUID.randomUUID().toString();
 
-            final StorageReference ref = storageReference.child("images/" + imageREF);
+                final StorageReference ref = storageReference.child("images/" + imageREF);
 
-            ref.putFile(filepaths.get(i)).addOnSuccessListener(
-                    new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                ref.putFile(filepaths.get(i)).addOnSuccessListener(
+                                new OnSuccessListener<UploadTask.TaskSnapshot>() {
 
-                        @Override
-                        public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                            progressDialog.dismiss();
-                            snackBarPersonalizada.showMensagemLonga(v, "Imagem carregada com sucesso!");
-                            ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                                @Override
-                                public void onSuccess(Uri uri) {
-                                    imagens.add(uri.toString());
+                                    @Override
+                                    public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                        progressDialog.dismiss();
+                                        snackBarPersonalizada.showMensagemLonga(v, "Imagem carregada com sucesso!");
+                                        ref.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
+                                            @Override
+                                            public void onSuccess(Uri uri) {
+                                                imagens.add(uri.toString());
+                                                if(imagens.size() == filepaths.size())
+                                                    uploadPostagem(imagens);
+                                            }
+                                        });
 
-                                }
-                            });
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
 
-                        }
-                    }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e)
-                {
+                                // Error, Image not uploaded
+                                progressDialog.dismiss();
+                                snackBarPersonalizada.showMensagemLonga(v, "Falha ao carregar imagem: " + e.getMessage());
+                            }
+                        })
+                        .addOnProgressListener(
+                                new OnProgressListener<UploadTask.TaskSnapshot>() {
 
-                    // Error, Image not uploaded
-                    progressDialog.dismiss();
-                    snackBarPersonalizada.showMensagemLonga(v, "Falha ao carregar imagem: " + e.getMessage());
-                }
-            })
-                    .addOnProgressListener(
-                            new OnProgressListener<UploadTask.TaskSnapshot>() {
-
-                                // Progress Listener for loading
-                                // percentage on the dialog box
-                                @Override
-                                public void onProgress(
-                                        UploadTask.TaskSnapshot taskSnapshot)
-                                {
-                                    double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
-                                    progressDialog.setMessage("Carregamento " + (int)progress + "%");
-                                }
-                            });
-
+                                    // Progress Listener for loading
+                                    // percentage on the dialog box
+                                    @Override
+                                    public void onProgress(
+                                            UploadTask.TaskSnapshot taskSnapshot) {
+                                        double progress = (100.0 * taskSnapshot.getBytesTransferred() / taskSnapshot.getTotalByteCount());
+                                        progressDialog.setMessage("Carregamento " + (int) progress + "%");
+                                    }
+                                });
+            }
+        }else{
+            uploadPostagem(imagens);
         }
-        uploadPostagem(imagens);
     }
 
     private void uploadPostagem(final List<String> imagens) {
@@ -275,4 +291,6 @@ public class CriarItemBibliotecaPANCActivity extends AppCompatActivity {
             }
         });
     }
+
+
 }
